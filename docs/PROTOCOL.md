@@ -65,7 +65,7 @@ Alle verifiziert gegen die offizielle Navee APK (DeviceAfterFragment.java, Devic
 | 83 | `0x53` | ERS (Rekuperation) | `0x1E`=30, `0x3C`=60, `0x5A`=90 | data[6] | Live + Original-App |
 | 84 | `0x54` | Taillight (Rücklicht) | `0x00`/`0x01` | data[5] | APK |
 | 85 | `0x55` | Mileage Unit | `0x00`=MPH, `0x01`=KM | data[8] | APK |
-| 87 | `0x57` | Auto-Headlight (Lichtsensor) | `0x00`/`0x01` | data[9] | BT-Capture + Live |
+| 87 | `0x57` | Auto-Headlight (Lichtsensor) | `0x00`/`0x01` | data[9] | BT-Capture + Live (siehe [Licht-Verhalten](#licht-verhalten)) |
 | 88 | `0x58` | Speed Mode | `0x03`=ECO, `0x05`=SPORT | data[2] | Live + Original-App |
 | 89 | `0x59` | Reset Vehicle | — | — | APK |
 | 90 | `0x5A` | Tire Maintenance | `0x01` | — | APK |
@@ -213,6 +213,29 @@ val pid = scanRecord[6].toInt() and 0xFF or
 ### Firmware-Limit DE
 
 CMD `0x6E` (Max Speed) wird ACK'd, ändert aber auf PID 23452 **nicht** die Höchstgeschwindigkeit. Byte 26 der Status-Response bleibt bei `0x16` (22 km/h).
+
+---
+
+## Licht-Verhalten
+
+Das Lichtsystem des ST3 Pro hat ein besonderes Verhalten, das aus der offiziellen App bestätigt wurde:
+
+### Automatisches Frontlicht (`0x57`)
+
+- **Front- und Rücklicht werden gemeinsam** über den Helligkeitssensor gesteuert
+- CMD `0x57` aktiviert/deaktiviert den **automatischen Lichtsensor**
+- Bei aktiviertem Sensor schalten sich Front- und Rücklicht je nach Umgebungshelligkeit automatisch ein/aus
+- **Wichtig:** Manuelles Ein-/Ausschalten des Frontlichts (z.B. über den physischen Knopf am Scooter) deaktiviert die Automatikfunktion vorübergehend. Sie wird nach einem **Neustart des Scooters** wieder aktiviert.
+
+### Separates Rücklicht (`0x54`)
+
+- CMD `0x54` steuert das Rücklicht separat (falls verfügbar)
+- Bei den meisten Firmware-Versionen sind Front- und Rücklicht jedoch gekoppelt
+
+### Blinker-Ton (`0x60`)
+
+- CMD `0x60` steuert **nicht** das Rücklicht, sondern den **akustischen Blinker-Sound**
+- Häufiger Fehler: `0x60` wurde in frühen RE-Analysen fälschlich als Taillight identifiziert
 
 ---
 
