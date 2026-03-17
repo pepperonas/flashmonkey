@@ -1,16 +1,21 @@
 package de.pepperonas.navee.ble
 
+import android.content.Context
 import android.util.Log
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec
 
 /**
- * Navee BLE authentication — AES-ECB challenge-response.
- * 5 hardcoded keys from official APK (b4/a.java line 61).
+ * Navee BLE authentication.
+ * Device-ID und Post-Auth-Params werden in SharedPreferences gespeichert,
+ * nicht im Quellcode.
  */
 object NaveeAuth {
 
     private const val TAG = "NaveeAuth"
+    private const val PREFS_NAME = "navee_auth"
+    private const val KEY_DEVICE_ID = "device_id"
+    private const val KEY_POST_AUTH_PARAMS = "post_auth_params"
 
     private val KEYS: Array<ByteArray> = arrayOf(
         byteArrayOf(
@@ -43,125 +48,91 @@ object NaveeAuth {
         ),
     )
 
-    /** Currently selected key index (0-4). */
-    var selectedKeyIndex: Int = 0
+    var selectedKeyIndex: Int = 1
         private set
 
-    /** Device ID extracted from BT capture of official Navee app. */
-    private val DEVICE_ID = byteArrayOf(
-        0x88.toByte(), 0x00, 0x02, 0x77, 0x53, 0xED.toByte()
-    )
+    private var deviceId: ByteArray? = null
+    private var postAuthParams: ByteArray? = null
 
-    /** Params sent by official app right after auth success. */
-    private val POST_AUTH_PARAMS = byteArrayOf(
-        0x06, 0x69, 0xB8.toByte(), 0xA9.toByte(), 0x94.toByte()
-    )
+    /** Load credentials from SharedPreferences. */
+    fun init(context: Context) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        deviceId = prefs.getString(KEY_DEVICE_ID, null)?.hexToByteArray()
+        postAuthParams = prefs.getString(KEY_POST_AUTH_PARAMS, null)?.hexToByteArray()
+        Log.i(TAG, "Loaded credentials: hasDeviceId=${deviceId != null}, hasPostAuth=${postAuthParams != null}")
+    }
 
-    /**
-     * Build AUTH request (0x30) matching official app's exact format.
-     * Key index 1 + device ID from user's Navee account.
-     */
-    fun buildAuthRequest(): ByteArray {
-        selectedKeyIndex = 1  // official app uses key index 1
-        val data = byteArrayOf(selectedKeyIndex.toByte(), 0x00) + DEVICE_ID + byteArrayOf(0x00)
-        Log.i(TAG, "Auth request: keyIndex=$selectedKeyIndex, deviceId=${DEVICE_ID.joinToString(" ") { "%02X".format(it) }}")
+    /** Save credentials to SharedPreferences. */
+    fun saveCredentials(context: Context, deviceIdHex: String, postAuthParamsHex: String) {
+        deviceId = deviceIdHex.hexToByteArray()
+        postAuthParams = postAuthParamsHex.hexToByteArray()
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit()
+            .putString(KEY_DEVICE_ID, deviceIdHex)
+            .putString(KEY_POST_AUTH_PARAMS, postAuthParamsHex)
+            .apply()
+        Log.i(TAG, "Credentials saved")
+    }
+
+    fun hasCredentials(): Boolean = deviceId != null
+
+    fun buildAuthRequest(): ByteArray? {
+        val id = deviceId ?: run {
+            Log.e(TAG, "No device ID configured — set via saveCredentials()")
+            return null
+        }
+        selectedKeyIndex = 1
+        val data = byteArrayOf(selectedKeyIndex.toByte(), 0x00) + id.copyOf(6) + byteArrayOf(0x00)
+        Log.i(TAG, "Auth request: keyIndex=$selectedKeyIndex")
         return NaveeProtocol.buildFrame(NaveeProtocol.CMD_AUTH, data)
     }
 
-    /** Build the SET_PARAMS (0x6F) command sent right after auth. */
-    fun buildPostAuthParams(): ByteArray {
-        Log.i(TAG, "Sending post-auth params")
-        return NaveeProtocol.buildFrame(NaveeProtocol.CMD_SET_PARAMS, POST_AUTH_PARAMS)
+    fun buildPostAuthParams(): ByteArray? {
+        val params = postAuthParams ?: return null
+        return NaveeProtocol.buildFrame(NaveeProtocol.CMD_SET_PARAMS, params)
     }
 
-    /**
-     * Process AUTH response (0x30) from scooter.
-     * Returns the AUTH_KEY frame (0x31) to send back, or null if auth failed.
-     */
     fun processAuthResponse(data: ByteArray): ByteArray? {
-        if (data.isEmpty()) {
-            Log.e(TAG, "Empty auth response")
-            return null
-        }
-
+        if (data.isEmpty()) return null
         val errorCode = data[0].toInt() and 0xFF
         if (errorCode != 0) {
             Log.e(TAG, "Auth error code: $errorCode")
-            // Try with error code as a hint; some firmwares put status here
         }
-
-        // Extract encrypted challenge (everything after error code byte)
         val challenge = data.copyOfRange(1, data.size)
-        if (challenge.isEmpty()) {
-            Log.e(TAG, "No challenge data in auth response")
-            return null
-        }
-
-        Log.i(TAG, "Challenge (${challenge.size} bytes): ${challenge.joinToString(" ") { "%02X".format(it) }}")
-
-        // Decrypt the challenge
-        val decrypted = decryptChallenge(challenge)
-        if (decrypted == null) {
-            Log.e(TAG, "Failed to decrypt challenge")
-            return null
-        }
-
-        Log.i(TAG, "Decrypted: ${decrypted.joinToString(" ") { "%02X".format(it) }}")
-
-        // Echo back decrypted challenge as AUTH_KEY (0x31)
+        if (challenge.isEmpty()) return null
+        val decrypted = decryptChallenge(challenge) ?: return null
         return NaveeProtocol.buildFrame(NaveeProtocol.CMD_AUTH_KEY, decrypted)
-    }
-
-    /**
-     * Check AUTH_KEY response (0x31) from scooter.
-     * Returns true if authentication succeeded.
-     */
-    fun checkAuthKeyResponse(data: ByteArray): Boolean {
-        // Success if first byte is 0x00 or response is empty (ACK)
-        val success = data.isEmpty() || (data[0].toInt() and 0xFF) == 0
-        Log.i(TAG, "Auth key response: success=$success data=${data.joinToString(" ") { "%02X".format(it) }}")
-        return success
     }
 
     private fun decryptChallenge(encrypted: ByteArray): ByteArray? {
         val key = KEYS[selectedKeyIndex]
-
-        // If challenge is 16 bytes (AES block size), direct AES-ECB decrypt
-        if (encrypted.size == 16) {
-            return aesDecrypt(encrypted, key)
-        }
-
-        // If larger: check first byte for mode
-        if (encrypted.size > 16) {
-            return if (encrypted[0] == 0x00.toByte()) {
-                // XOR mode
+        return when {
+            encrypted.size == 16 -> aesDecrypt(encrypted, key)
+            encrypted.size > 16 -> if (encrypted[0] == 0x00.toByte()) {
                 xorDecrypt(encrypted.copyOfRange(1, encrypted.size), key)
             } else {
-                // AES mode on first 16 bytes
                 aesDecrypt(encrypted.copyOf(16), key)
             }
-        }
-
-        // Smaller than 16: pad to 16 and try AES
-        val padded = ByteArray(16)
-        encrypted.copyInto(padded)
-        return aesDecrypt(padded, key)
-    }
-
-    private fun aesDecrypt(data: ByteArray, key: ByteArray): ByteArray? {
-        return try {
-            val cipher = Cipher.getInstance("AES/ECB/NoPadding")
-            cipher.init(Cipher.DECRYPT_MODE, SecretKeySpec(key, "AES"))
-            cipher.doFinal(data)
-        } catch (e: Exception) {
-            Log.e(TAG, "AES decrypt failed: ${e.message}")
-            null
+            else -> {
+                val padded = ByteArray(16)
+                encrypted.copyInto(padded)
+                aesDecrypt(padded, key)
+            }
         }
     }
 
-    private fun xorDecrypt(data: ByteArray, key: ByteArray): ByteArray {
-        return ByteArray(data.size) { i ->
-            (data[i].toInt() xor key[i % key.size].toInt()).toByte()
-        }
+    private fun aesDecrypt(data: ByteArray, key: ByteArray): ByteArray? = try {
+        val cipher = Cipher.getInstance("AES/ECB/NoPadding")
+        cipher.init(Cipher.DECRYPT_MODE, SecretKeySpec(key, "AES"))
+        cipher.doFinal(data)
+    } catch (e: Exception) {
+        Log.e(TAG, "AES decrypt failed: ${e.message}")
+        null
     }
+
+    private fun xorDecrypt(data: ByteArray, key: ByteArray) = ByteArray(data.size) { i ->
+        (data[i].toInt() xor key[i % key.size].toInt()).toByte()
+    }
+
+    private fun String.hexToByteArray(): ByteArray =
+        chunked(2).map { it.toInt(16).toByte() }.toByteArray()
 }

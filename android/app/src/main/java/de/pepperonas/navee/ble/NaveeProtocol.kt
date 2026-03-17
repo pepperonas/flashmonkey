@@ -144,121 +144,67 @@ object NaveeProtocol {
 }
 
 /**
- * Full 39-byte status response from CMD_STATUS (0x70).
- * Byte indices based on official Navee APK decompilation.
+ * Scooter state from CMD_STATUS (0x70) — 37 bytes.
+ * Byte mapping verified against BT HCI capture of official Navee app.
  */
 data class ScooterState(
-    // Byte 0: binding status
-    val bound: Boolean = false,
-    // Byte 1: driving mode (3=ECO, 5=SPORT)
-    val speedMode: Int = 3,
-    // Byte 2: lock status
-    val locked: Boolean = false,
-    // Byte 3: cruise control
-    val cruiseOn: Boolean = false,
-    // Byte 4: tail light
-    val taillightOn: Boolean = false,
-    // Byte 5: ERS/regen level
-    val ersLevel: Int = 3,
-    // Byte 6: mileage algorithm
-    val mileageAlgo: Int = 0,
-    // Byte 7: mileage unit (0=MPH, 1=KM)
-    val mileageUnit: Int = 1,
-    // Byte 8: auto sensor
-    val autoSensor: Boolean = false,
-    // Byte 9: tyre switch
-    val tyreSwitch: Boolean = false,
-    // Byte 10: ambient light
-    val ambientLight: Int = 0,
-    // Byte 11: TCS switch
-    val tcsSwitch: Boolean = false,
-    // Byte 12: turn sound
-    val turnSound: Boolean = false,
-    // Byte 13: proximity key
-    val proximityKey: Boolean = false,
-    // Byte 14: night mode
-    val nightMode: Boolean = false,
-    // Byte 19: startup speed (0-5)
-    val startupSpeed: Int = 3,
-    // Byte 20: speed limit (bit7=enabled, bits0-6=km/h)
+    val speedMode: Int = 3,         // Byte 2: 03=ECO, 05=SPORT
+    val locked: Boolean = false,    // Byte 3: 00=unlocked, 01=locked
+    val cruiseOn: Boolean = false,  // Byte 4
+    val ersLevel: Int = 0,          // Byte 6: ERS/speed percentage
+    val headlightOn: Boolean = false, // Byte 9: verified via BT capture (0x57)
+    val taillightOn: Boolean = false, // Byte 13: verified via BT capture (0x60)
+    val startupSpeed: Int = 3,      // Byte 20
     val speedLimitEnabled: Boolean = false,
     val speedLimitKmh: Int = 0,
-    // Byte 25: max speed (absolute km/h)
-    val maxSpeed: Int = 0,
-    // Byte 26: drive mode via ECU
-    val driveMode: Int = 0,
-    // Headlight — derived from light control, not in 0x70 response
-    val headlightOn: Boolean = false,
+    val maxSpeed: Int = 0,          // Byte 26: firmware cap (0x16=22 for DE)
 )
 
 data class ScooterTelemetry(
-    val battery: Int = 0,
-    val speed: Int = 0,             // raw value, /10 for km/h
-    val temperature: Int = 0,
-    val totalDistance: Int = 0,      // raw, /10 for km
-)
-
-data class BatteryInfo(
-    val voltage: Int = 0,           // mV
-    val current: Int = 0,           // mA
-    val temperature: Int = 0,
-    val cycles: Int = 0,
-    val health: Int = 0,            // %
+    val battery: Int = 0,           // Byte 3: 0-100%
+    val speed: Int = 0,             // Bytes 5-6: little-endian, /10 for km/h
+    val temperature: Int = 0,       // Byte 7
+    val totalDistance: Int = 0,     // Bytes 9-10: little-endian, /10 for km
 )
 
 /**
- * Parse 0x70 status response.
- * Actual data from device (37 bytes after cmd+len):
- *   [0]=00 [1]=01 [2]=05 [3]=01 [4]=00 [5]=00 [6]=5A [7]=00 [8]=01
- *   [9]=00 [10]=00 [11]=00 [12]=00 [13]=00 [14]=02 [15]=00 [16]=01
- *   [17]=00 [18]=00 [19]=00 [20]=03 [21]=00 [22]=00 [23]=00 [24]=00
- *   [25]=00 [26]=16 [27]=00 ...
- *
- * Official APK mapping (b4/a.java):
- *   0=bind, 1=driveMode, 2=lock, 3=CCS, 4=taillight, 5=ERS,
- *   6=mileAlgo, 7=mileUnit, 8=autoSensor, 9=tyreSwitch, 10=ambientLight,
- *   11=TCS, 12=turnSound, 13=proximityKey, 14=nightMode, 15=mileAlgoMode,
- *   16=lightE, 17=lightD, 18=lightS, 19=startSpeed, 20=limitSpeed,
- *   21=volume, 22=reportLang, 23=logoLight, 24=dayRunLight,
- *   25=maxSpeed, 26=driveMode2, ...
+ * Parse 0x70 status response (37 bytes).
+ * Byte mapping verified against BT HCI capture:
+ *   Byte  2 = speedMode (03=ECO, 05=SPORT) — verified: changes with 0x58 command
+ *   Byte  3 = lock (0/1) — verified: changes with 0x51 command
+ *   Byte  4 = cruise — assumed from protocol position
+ *   Byte  6 = ERS/speed setting (3C=60, 5A=90)
+ *   Byte  9 = headlight (0/1) — verified: changes with 0x57 command
+ *   Byte 13 = taillight (0/1) — verified: changes with 0x60 command
+ *   Byte 20 = startup speed (0-5)
+ *   Byte 26 = max speed firmware cap (22 km/h for DE market)
  */
-fun parseStatus(data: ByteArray, previousState: ScooterState = ScooterState()): ScooterState? {
-    if (data.size < 6) return null
+fun parseStatus(data: ByteArray): ScooterState? {
+    if (data.size < 10) return null
     return ScooterState(
-        bound = data[0] != 0x00.toByte(),
-        speedMode = data[1].toInt() and 0xFF,
-        locked = data[2].toInt() and 0xFF != 0,
-        cruiseOn = data[3] == 0x01.toByte(),
-        taillightOn = data[4] == 0x01.toByte(),
-        ersLevel = data[5].toInt() and 0xFF,
-        mileageAlgo = if (data.size > 6) data[6].toInt() and 0xFF else 0,
-        mileageUnit = if (data.size > 7) data[7].toInt() and 0xFF else 1,
-        autoSensor = data.size > 8 && data[8] == 0x01.toByte(),
-        tyreSwitch = data.size > 9 && data[9] == 0x01.toByte(),
-        ambientLight = if (data.size > 10) data[10].toInt() and 0xFF else 0,
-        tcsSwitch = data.size > 11 && data[11] == 0x01.toByte(),
-        turnSound = data.size > 12 && data[12] == 0x01.toByte(),
-        proximityKey = data.size > 13 && data[13] == 0x01.toByte(),
-        nightMode = data.size > 14 && data[14] == 0x01.toByte(),
-        startupSpeed = if (data.size > 19) data[19].toInt() and 0xFF else 3,
+        speedMode = data[2].toInt() and 0xFF,
+        locked = data[3] == 0x01.toByte(),
+        cruiseOn = if (data.size > 4) data[4] == 0x01.toByte() else false,
+        ersLevel = if (data.size > 6) data[6].toInt() and 0xFF else 0,
+        headlightOn = if (data.size > 9) data[9] == 0x01.toByte() else false,
+        taillightOn = if (data.size > 13) data[13] == 0x01.toByte() else false,
+        startupSpeed = if (data.size > 20) data[20].toInt() and 0xFF else 3,
         speedLimitEnabled = data.size > 20 && (data[20].toInt() and 0x80) != 0,
         speedLimitKmh = if (data.size > 20) data[20].toInt() and 0x7F else 0,
-        maxSpeed = if (data.size > 26) data[26].toInt() and 0xFF else
-                   if (data.size > 25) data[25].toInt() and 0xFF else 0,
-        driveMode = if (data.size > 26) data[26].toInt() and 0xFF else 0,
-        headlightOn = previousState.headlightOn,
+        maxSpeed = if (data.size > 26) data[26].toInt() and 0xFF else 0,
     )
 }
 
 /**
- * Parse 0x90 telemetry (15+ bytes).
+ * Parse 0x90 telemetry.
+ * Verified against BT capture: data[3]=battery%, data[5:6]=speed, data[7]=temp, data[9:10]=odo
  */
 fun parseTelemetry(data: ByteArray): ScooterTelemetry? {
     if (data.size < 11) return null
     return ScooterTelemetry(
         battery = data[3].toInt() and 0xFF,
-        speed = ((data[5].toInt() and 0xFF) or ((data[6].toInt() and 0xFF) shl 8)),
+        speed = (data[5].toInt() and 0xFF) or ((data[6].toInt() and 0xFF) shl 8),
         temperature = data[7].toInt() and 0xFF,
-        totalDistance = ((data[9].toInt() and 0xFF) or ((data[10].toInt() and 0xFF) shl 8)),
+        totalDistance = (data[9].toInt() and 0xFF) or ((data[10].toInt() and 0xFF) shl 8),
     )
 }

@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import de.pepperonas.navee.ble.*
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -49,11 +50,15 @@ class ScooterViewModel(app: Application) : AndroidViewModel(app) {
     private val _authenticated = MutableStateFlow(false)
     val authenticated: StateFlow<Boolean> = _authenticated
 
+    private var pollingJob: Job? = null
+
     val maxSpeedOptions: StateFlow<List<Int>> = pid.map { pid ->
         getMaxSpeedOptionsForPID(pid)
     }.stateIn(viewModelScope, SharingStarted.Eagerly, listOf(25, 32, 40))
 
     init {
+        NaveeAuth.init(app.applicationContext)
+
         viewModelScope.launch {
             ble.incomingFrames.collect { frame ->
                 handleFrame(frame)
@@ -65,10 +70,12 @@ class ScooterViewModel(app: Application) : AndroidViewModel(app) {
                 when (connState) {
                     ConnectionState.CONNECTED -> {
                         _authenticated.value = false
+                        pollingJob?.cancel()
                         startAuthThenPoll()
                     }
                     ConnectionState.DISCONNECTED -> {
                         _authenticated.value = false
+                        pollingJob?.cancel()
                         delay(3000)
                         if (ble.connectionState.value == ConnectionState.DISCONNECTED) {
                             ble.startScan()
@@ -95,16 +102,13 @@ class ScooterViewModel(app: Application) : AndroidViewModel(app) {
 
     fun toggleTaillight() {
         val on = !_state.value.taillightOn
-        // 0x60 with 0x01=on, 0x00=off — confirmed from BT capture
         ble.send(NaveeProtocol.buildFrame(0x60, byteArrayOf(if (on) 0x01 else 0x00)))
         requestStatus()
     }
 
     fun toggleHeadlight() {
         val on = !_state.value.headlightOn
-        // 0x57 with 0x01=on, 0x00=off — confirmed from BT capture
         ble.send(NaveeProtocol.buildFrame(0x57, byteArrayOf(if (on) 0x01 else 0x00)))
-        _state.value = _state.value.copy(headlightOn = on)
         requestStatus()
     }
 
@@ -115,7 +119,6 @@ class ScooterViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun setMaxSpeed(kmh: Int) {
-        Log.i(TAG, "Setting max speed to $kmh km/h (authenticated=${_authenticated.value})")
         ble.send(NaveeProtocol.setMaxSpeed(kmh))
         requestStatus()
     }
@@ -144,19 +147,27 @@ class ScooterViewModel(app: Application) : AndroidViewModel(app) {
 
     private fun startAuthThenPoll() {
         viewModelScope.launch {
-            Log.i(TAG, "Starting authentication...")
-            ble.send(NaveeAuth.buildAuthRequest())
-            // Auth response handled in handleFrame
-            delay(5000)
-            if (!_authenticated.value) {
-                Log.w(TAG, "Auth timeout — starting polling without auth")
-                startPolling()
+            if (NaveeAuth.hasCredentials()) {
+                Log.i(TAG, "Starting authentication...")
+                val authFrame = NaveeAuth.buildAuthRequest()
+                if (authFrame != null) {
+                    ble.send(authFrame)
+                    delay(5000)
+                    if (!_authenticated.value) {
+                        Log.w(TAG, "Auth timeout — polling without auth")
+                        startPolling()
+                    }
+                    return@launch
+                }
             }
+            Log.w(TAG, "No auth credentials — polling without auth")
+            startPolling()
         }
     }
 
     private fun startPolling() {
-        viewModelScope.launch {
+        pollingJob?.cancel()
+        pollingJob = viewModelScope.launch {
             ble.send(NaveeProtocol.serialRequest())
             delay(200)
             ble.send(NaveeProtocol.firmwareRequest())
@@ -179,8 +190,8 @@ class ScooterViewModel(app: Application) : AndroidViewModel(app) {
                 val success = frame.data.isNotEmpty() && frame.data[0] == 0x00.toByte()
                 if (success) {
                     _authenticated.value = true
-                    Log.i(TAG, "AUTH SUCCESS — sending post-auth params")
-                    ble.send(NaveeAuth.buildPostAuthParams())
+                    Log.i(TAG, "AUTH SUCCESS")
+                    NaveeAuth.buildPostAuthParams()?.let { ble.send(it) }
                     viewModelScope.launch {
                         delay(200)
                         startPolling()
@@ -191,28 +202,24 @@ class ScooterViewModel(app: Application) : AndroidViewModel(app) {
                 }
             }
             NaveeProtocol.CMD_STATUS -> {
-                parseStatus(frame.data, _state.value)?.let { _state.value = it }
+                parseStatus(frame.data)?.let { _state.value = it }
             }
             NaveeProtocol.CMD_TELEMETRY_90 -> {
                 parseTelemetry(frame.data)?.let { _telemetry.value = it }
             }
             NaveeProtocol.CMD_SERIAL -> {
-                val str = frame.data.drop(1)
+                _serial.value = frame.data.drop(1)
                     .takeWhile { it != 0x00.toByte() }
                     .toByteArray()
                     .toString(Charsets.US_ASCII)
-                _serial.value = str
             }
             NaveeProtocol.CMD_FIRMWARE -> {
-                val str = frame.data.drop(1)
+                _firmware.value = frame.data.drop(1)
                     .takeWhile { it != 0x00.toByte() }
                     .toByteArray()
                     .toString(Charsets.US_ASCII)
-                _firmware.value = str
             }
-            else -> {
-                Log.d(TAG, "Unhandled cmd=%02X data=[${frame.data.joinToString(" ") { "%02X".format(it) }}]".format(frame.cmd))
-            }
+            else -> {}
         }
     }
 
