@@ -10,9 +10,9 @@
 
 ---
 
-Custom Android App, Reverse Engineering & Protokoll-Dokumentation fuer den **Navee ST3 Pro** E-Scooter.
+Custom Android App, Reverse Engineering & Protokoll-Dokumentation für den **Navee ST3 Pro** E-Scooter.
 
-Dieses Projekt dokumentiert das proprietaere BLE-Protokoll des Navee ST3 Pro und stellt eine eigene Android-App bereit, die den Scooter unabhaengig von der offiziellen Navee-App steuert.
+Dieses Projekt dokumentiert das proprietäre BLE-Protokoll des Navee ST3 Pro und stellt eine eigene Android-App bereit, die den Scooter unabhängig von der offiziellen Navee-App steuert.
 
 ---
 
@@ -25,7 +25,7 @@ Dieses Projekt dokumentiert das proprietaere BLE-Protokoll des Navee ST3 Pro und
 - **Echtzeit-Telemetrie** — Geschwindigkeit, Akku, Temperatur, Gesamtstrecke
 - **Fahrzeugeinstellungen** — Licht, Tempomat, ERS/Rekuperation, Geschwindigkeitsmodus
 - **Speed Mode** — Umschalten zwischen ECO (3) und SPORT (5)
-- **Scheinwerfer & Ruecklicht** — Einzeln schaltbar
+- **Scheinwerfer & Rücklicht** — Einzeln schaltbar
 - **Custom Speed Limit** — Benutzerdefinierte Geschwindigkeitsbegrenzung (km/h)
 - **Startup Speed** — Anfahrgeschwindigkeit konfigurierbar (0-5, entspricht 0.0-3.0 m/s)
 - **Batterie-Status** — Detaillierte Akku-Informationen (37 Bytes)
@@ -76,19 +76,19 @@ cd android/
 adb install app/build/outputs/apk/debug/app-debug.apk
 ```
 
-Alternativ: Projekt in Android Studio oeffnen (`android/` Verzeichnis) und ueber Run starten.
+Alternativ: Projekt in Android Studio öffnen (`android/` Verzeichnis) und über Run starten.
 
 ### Berechtigungen
 
-Die App benoetigt folgende Berechtigungen:
+Die App benötigt folgende Berechtigungen:
 - `BLUETOOTH_SCAN` / `BLUETOOTH_CONNECT` — BLE-Kommunikation
-- `ACCESS_FINE_LOCATION` — Erforderlich fuer BLE-Scanning auf Android 12+
+- `ACCESS_FINE_LOCATION` — Erforderlich für BLE-Scanning auf Android 12+
 
 ---
 
-## Protokoll-Uebersicht
+## Protokoll-Übersicht
 
-Der Navee ST3 Pro kommuniziert ueber **Bluetooth Low Energy (BLE)** mit einem proprietaeren Binaerprotokoll:
+Der Navee ST3 Pro kommuniziert über **Bluetooth Low Energy (BLE)** mit einem proprietären Binärprotokoll:
 
 | Element | Wert |
 |---------|------|
@@ -103,15 +103,15 @@ Jeder Frame hat folgendes Format:
 [55 AA] [Flag] [CMD] [LEN] [DATA...] [Checksum] [FE FD]
 ```
 
-Die vollstaendige Protokoll-Dokumentation befindet sich in [`docs/PROTOCOL.md`](docs/PROTOCOL.md).
+Die vollständige Protokoll-Dokumentation befindet sich in [`docs/PROTOCOL.md`](docs/PROTOCOL.md).
 
 ---
 
 ## Rechtlicher Hinweis
 
-> **Geschwindigkeitsbegrenzungen:** Der Navee ST3 Pro unterliegt in Deutschland einer firmware-seitigen Geschwindigkeitsbegrenzung von **22 km/h**. Diese Begrenzung ist im Firmware-Code fest verankert (PID-abhaengig) und kann nicht per BLE-Kommando umgangen werden. Die Nutzung von E-Scootern im oeffentlichen Strassenverkehr unterliegt der eKFV (Elektrokleinstfahrzeuge-Verordnung). Die Manipulation der Hoechstgeschwindigkeit ist **nicht** Ziel dieses Projekts.
+> **Geschwindigkeitsbegrenzungen:** Der Navee ST3 Pro unterliegt in Deutschland einer firmware-seitigen Geschwindigkeitsbegrenzung von **22 km/h**. Diese Begrenzung ist im Firmware-Code fest verankert (PID-abhängig) und kann nicht per BLE-Kommando umgangen werden. Die Nutzung von E-Scootern im öffentlichen Straßenverkehr unterliegt der eKFV (Elektrokleinstfahrzeuge-Verordnung). Die Manipulation der Höchstgeschwindigkeit ist **nicht** Ziel dieses Projekts.
 
-> Dieses Projekt dient ausschliesslich der Forschung, Dokumentation und dem Zugang zu Funktionen, die die offizielle App ebenfalls bietet — unabhaengig von den Navee-Servern.
+> Dieses Projekt dient ausschließlich der Forschung, Dokumentation und dem Zugang zu Funktionen, die die offizielle App ebenfalls bietet — unabhängig von den Navee-Servern.
 
 ---
 

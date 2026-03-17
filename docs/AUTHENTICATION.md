@@ -1,13 +1,13 @@
 # Authentifizierung — Navee ST3 Pro
 
-Dokumentation des BLE-Authentifizierungsablaufs fuer den Navee ST3 Pro E-Scooter.
+Dokumentation des BLE-Authentifizierungsablaufs für den Navee ST3 Pro E-Scooter.
 
 ---
 
 ## Inhaltsverzeichnis
 
-- [Uebersicht](#uebersicht)
-- [AES-128-ECB Schluessel](#aes-128-ecb-schluessel)
+- [Übersicht](#uebersicht)
+- [AES-128-ECB Schlüssel](#aes-128-ecb-schluessel)
 - [Einfache Authentifizierung](#einfache-authentifizierung)
 - [Challenge-Response Authentifizierung](#challenge-response-authentifizierung)
 - [Device ID](#device-id)
@@ -15,17 +15,17 @@ Dokumentation des BLE-Authentifizierungsablaufs fuer den Navee ST3 Pro E-Scooter
 
 ---
 
-## Uebersicht
+## Übersicht
 
-Der Navee ST3 Pro verwendet eine AES-128-ECB basierte Authentifizierung mit 5 fest kodierten Schluesseln. Fuer die meisten Firmware-Versionen (einschliesslich PID 23452 / DE-Markt) genuegt die **einfache Authentifizierung** (CMD `0x30`). Die vollstaendige Challenge-Response Authentifizierung (CMD `0x31`) ist im Firmware-Code vorhanden, wird aber aktuell nicht erzwungen.
+Der Navee ST3 Pro verwendet eine AES-128-ECB basierte Authentifizierung mit 5 fest kodierten Schlüsseln. Für die meisten Firmware-Versionen (einschließlich PID 23452 / DE-Markt) genügt die **einfache Authentifizierung** (CMD `0x30`). Die vollständige Challenge-Response Authentifizierung (CMD `0x31`) ist im Firmware-Code vorhanden, wird aber aktuell nicht erzwungen.
 
 ---
 
-## AES-128-ECB Schluessel
+## AES-128-ECB Schlüssel
 
-Die folgenden 5 Schluessel sind in der offiziellen Navee-APK fest kodiert und werden fuer die Verschluesselung der Auth-Payload verwendet:
+Die folgenden 5 Schlüssel sind in der offiziellen Navee-APK fest kodiert und werden für die Verschlüsselung der Auth-Payload verwendet:
 
-| Index | Schluessel (Hex) |
+| Index | Schlüssel (Hex) |
 |-------|-----------------|
 | 0 | `4E 61 76 65 65 41 55 54 48 4B 45 59 30 30 31 21` |
 | 1 | `4E 61 76 65 65 41 55 54 48 4B 45 59 30 30 32 21` |
@@ -35,7 +35,7 @@ Die folgenden 5 Schluessel sind in der offiziellen Navee-APK fest kodiert und we
 
 Im ASCII-Klartext:
 
-| Index | Schluessel (ASCII) |
+| Index | Schlüssel (ASCII) |
 |-------|-------------------|
 | 0 | `NaveeAUTHKEY001!` |
 | 1 | `NaveeAUTHKEY002!` |
@@ -43,13 +43,13 @@ Im ASCII-Klartext:
 | 3 | `NaveeAUTHKEY004!` |
 | 4 | `NaveeAUTHKEY005!` |
 
-Alle Schluessel sind exakt 16 Bytes lang (128 Bit), passend fuer AES-128.
+Alle Schlüssel sind exakt 16 Bytes lang (128 Bit), passend für AES-128.
 
 ---
 
 ## Einfache Authentifizierung
 
-Die einfache Auth ist der primaere Mechanismus fuer den ST3 Pro (PID 23452). Ablauf:
+Die einfache Auth ist der primäre Mechanismus für den ST3 Pro (PID 23452). Ablauf:
 
 ### Schritt 1: Auth Request senden (CMD `0x30`)
 
@@ -60,14 +60,14 @@ Payload-Aufbau:
  deviceId[3], deviceId[4], deviceId[5], 0x00]
 ```
 
-| Feld | Laenge | Beschreibung |
+| Feld | Länge | Beschreibung |
 |------|--------|--------------|
-| `keyIndex` | 1 Byte | Index des verwendeten AES-Schluessels (0-4) |
+| `keyIndex` | 1 Byte | Index des verwendeten AES-Schlüssels (0-4) |
 | `0x00` | 1 Byte | Padding |
-| `deviceId` | 6 Bytes | Geraete-ID des Nutzers (Navee-Account-ID) |
+| `deviceId` | 6 Bytes | Geräte-ID des Nutzers (Navee-Account-ID) |
 | `0x00` | 1 Byte | Padding |
 
-Gesamtlaenge DATA: **9 Bytes**
+Gesamtlänge DATA: **9 Bytes**
 
 ### Schritt 2: Response auswerten
 
@@ -76,19 +76,19 @@ Die Antwort kommt auf der Notify-Characteristic mit CMD `0x30`:
 | `data[0]` | Bedeutung |
 |-----------|-----------|
 | `0x00` | Erfolg — Authentifizierung akzeptiert |
-| `0x02` | Unbekanntes Geraet — Device ID nicht registriert |
+| `0x02` | Unbekanntes Gerät — Device ID nicht registriert |
 | andere | Fehler |
 
 ### Schritt 3: Post-Auth Parameter senden (CMD `0x6F`)
 
-Nach erfolgreicher Authentifizierung muessen initiale Fahrzeugparameter gesetzt werden:
+Nach erfolgreicher Authentifizierung müssen initiale Fahrzeugparameter gesetzt werden:
 
 ```
 CMD: 0x6F
 DATA: [fahrzeugspezifische Parameter]
 ```
 
-### Vollstaendiger Ablauf
+### Vollständiger Ablauf
 
 ```
 App                              Scooter
@@ -107,27 +107,27 @@ App                              Scooter
 
 ## Challenge-Response Authentifizierung
 
-Die vollstaendige Challenge-Response Auth (CMD `0x31`) ist in der Firmware implementiert, wird aber aktuell auf PID 23452 **nicht erzwungen**. Der Ablauf waere:
+Die vollständige Challenge-Response Auth (CMD `0x31`) ist in der Firmware implementiert, wird aber aktuell auf PID 23452 **nicht erzwungen**. Der Ablauf wäre:
 
 1. App sendet Auth Request (CMD `0x30`)
 2. Scooter antwortet mit Challenge-Daten
-3. App verschluesselt Challenge mit AES-128-ECB
-4. App sendet verschluesselten Response (CMD `0x31`)
-5. Scooter verifiziert und gewaehrt Zugang
+3. App verschlüsselt Challenge mit AES-128-ECB
+4. App sendet verschlüsselten Response (CMD `0x31`)
+5. Scooter verifiziert und gewährt Zugang
 
-Da die einfache Auth fuer den DE-Markt ausreicht, wird die Challenge-Response Auth hier nur der Vollstaendigkeit halber erwaehnt.
+Da die einfache Auth für den DE-Markt ausreicht, wird die Challenge-Response Auth hier nur der Vollständigkeit halber erwähnt.
 
 ---
 
 ## Device ID
 
-Die Device ID ist eine 6 Byte lange Kennung, die den Nutzer identifiziert. Sie entspricht der **Navee-Account-ID** des Benutzers und wird bei der Ersteinrichtung ueber die offizielle Navee-App mit dem Scooter gepaart.
+Die Device ID ist eine 6 Byte lange Kennung, die den Nutzer identifiziert. Sie entspricht der **Navee-Account-ID** des Benutzers und wird bei der Ersteinrichtung über die offizielle Navee-App mit dem Scooter gepaart.
 
-### Quellen fuer die Device ID
+### Quellen für die Device ID
 
 1. **BT-HCI-Capture** — Aus dem Bluetooth-Mitschnitt der offiziellen App extrahierbar (siehe unten)
 2. **Offizielle App-Daten** — In den App-Daten / SharedPreferences der Navee-App gespeichert
-3. **Navee-Server-API** — Ueber die Server-API abrufbar (erfordert Login)
+3. **Navee-Server-API** — Über die Server-API abrufbar (erfordert Login)
 
 ---
 
@@ -135,8 +135,8 @@ Die Device ID ist eine 6 Byte lange Kennung, die den Nutzer identifiziert. Sie e
 
 ### Voraussetzung
 
-- Android-Geraet mit aktiviertem BT-HCI-Logging
-- Wireshark oder aehnliches Analyse-Tool
+- Android-Gerät mit aktiviertem BT-HCI-Logging
+- Wireshark oder ähnliches Analyse-Tool
 
 ### Anleitung
 
@@ -170,5 +170,5 @@ Frame im HCI-Capture:
 
 ## Siehe auch
 
-- [PROTOCOL.md](PROTOCOL.md) — Vollstaendige Protokoll-Referenz
+- [PROTOCOL.md](PROTOCOL.md) — Vollständige Protokoll-Referenz
 - [REVERSE_ENGINEERING.md](REVERSE_ENGINEERING.md) — Reverse-Engineering Ergebnisse

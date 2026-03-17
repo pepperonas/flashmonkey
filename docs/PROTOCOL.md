@@ -1,6 +1,6 @@
 # BLE-Protokoll Dokumentation — Navee ST3 Pro
 
-Vollstaendige Referenz des proprietaeren BLE-Kommunikationsprotokolls des Navee ST3 Pro E-Scooters. Basierend auf APK-Dekompilierung (jadx), BT-HCI-Captures und Live-Tests.
+Vollständige Referenz des proprietären BLE-Kommunikationsprotokolls des Navee ST3 Pro E-Scooters. Basierend auf APK-Dekompilierung (jadx), BT-HCI-Captures und Live-Tests.
 
 ---
 
@@ -8,7 +8,7 @@ Vollstaendige Referenz des proprietaeren BLE-Kommunikationsprotokolls des Navee 
 
 - [BLE UUIDs](#ble-uuids)
 - [Frame-Format](#frame-format)
-- [Kommando-Uebersicht](#kommando-uebersicht)
+- [Kommando-Übersicht](#kommando-uebersicht)
 - [Status-Response (0x70)](#status-response-0x70)
 - [Telemetrie](#telemetrie)
 - [PID (Product ID)](#pid-product-id)
@@ -37,21 +37,21 @@ Der Scooter advertised den Service-UUID nicht immer im Scan-Record. Verbindung a
 └────────┴──────┴─────┴─────┴──────────┴──────────┴────────┘
 ```
 
-| Feld | Laenge | Beschreibung |
+| Feld | Länge | Beschreibung |
 |------|--------|--------------|
 | **Header** | 2 Bytes | Immer `0x55 0xAA` |
-| **Flag** | 1 Byte | `0x00` = unverschluesselt |
+| **Flag** | 1 Byte | `0x00` = unverschlüsselt |
 | **CMD** | 1 Byte | Kommando-Byte |
-| **LEN** | 1 Byte | Laenge des DATA-Feldes |
+| **LEN** | 1 Byte | Länge des DATA-Feldes |
 | **DATA** | 0-n Bytes | Nutzlast |
 | **Checksum** | 1 Byte | Summe aller Bytes (Header bis DATA) mod 256 |
 | **Footer** | 2 Bytes | Immer `0xFE 0xFD` |
 
-**Wichtig:** Die Response-Daten enthalten ein fuehrendes Version/Type-Byte (`data[0]`). Die eigentlichen Nutzdaten beginnen bei `data[1]`. Alle Byte-Indizes in diesem Dokument beziehen sich auf das rohe Data-Array inkl. dieses fuehrenden Bytes.
+**Wichtig:** Die Response-Daten enthalten ein führendes Version/Type-Byte (`data[0]`). Die eigentlichen Nutzdaten beginnen bei `data[1]`. Alle Byte-Indizes in diesem Dokument beziehen sich auf das rohe Data-Array inkl. dieses führenden Bytes.
 
 ---
 
-## Kommando-Uebersicht
+## Kommando-Übersicht
 
 ### Schreib-Kommandos (Einzelbyte)
 
@@ -63,7 +63,7 @@ Alle verifiziert gegen die offizielle Navee APK (DeviceAfterFragment.java, Devic
 | 81 | `0x51` | Lock | `0x00`/`0x01` | data[3] | BT-Capture + Live |
 | 82 | `0x52` | Cruise Control | `0x00`/`0x01` | data[4] | Live |
 | 83 | `0x53` | ERS (Rekuperation) | `0x1E`=30, `0x3C`=60, `0x5A`=90 | data[6] | Live + Original-App |
-| 84 | `0x54` | Taillight (Ruecklicht) | `0x00`/`0x01` | data[5] | APK |
+| 84 | `0x54` | Taillight (Rücklicht) | `0x00`/`0x01` | data[5] | APK |
 | 85 | `0x55` | Mileage Unit | `0x00`=MPH, `0x01`=KM | data[8] | APK |
 | 87 | `0x57` | Auto-Headlight (Lichtsensor) | `0x00`/`0x01` | data[9] | BT-Capture + Live |
 | 88 | `0x58` | Speed Mode | `0x03`=ECO, `0x05`=SPORT | data[2] | Live + Original-App |
@@ -104,7 +104,7 @@ Alle verifiziert gegen die offizielle Navee APK (DeviceAfterFragment.java, Devic
 | CMD | Hex | Name | Beschreibung |
 |-----|-----|------|--------------|
 | 48 | `0x30` | Auth Request | `[keyIndex, 0x00, 6-Byte deviceId, 0x00]` |
-| 49 | `0x31` | Auth Key | Challenge-Response (nicht benoetigt bei PID 23452) |
+| 49 | `0x31` | Auth Key | Challenge-Response (nicht benötigt bei PID 23452) |
 
 ### Telemetrie (unaufgefordert)
 
@@ -125,18 +125,18 @@ Alle verifiziert gegen die offizielle Navee APK (DeviceAfterFragment.java, Devic
 | data[] | Offiziell | Name | Werte | Verifiziert |
 |--------|-----------|------|-------|-------------|
 | 1 | Byte 0 | Binding Status | `0x00`/`0x01` | APK |
-| 2 | Byte 1 | Drive Mode | `0x03`=ECO, `0x05`=SPORT | BT-Capture: 0x58 aendert dieses Byte |
-| 3 | Byte 2 | Lock Status | `0x00`=offen, `0x01`=gesperrt | BT-Capture: 0x51 aendert dieses Byte |
+| 2 | Byte 1 | Drive Mode | `0x03`=ECO, `0x05`=SPORT | BT-Capture: 0x58 ändert dieses Byte |
+| 3 | Byte 2 | Lock Status | `0x00`=offen, `0x01`=gesperrt | BT-Capture: 0x51 ändert dieses Byte |
 | 4 | Byte 3 | CCS (Tempomat) | `0x00`/`0x01` | APK |
 | 5 | Byte 4 | Tail Light | `0x00`/`0x01` | APK |
-| 6 | Byte 5 | ERS Level | `0x1E`=30, `0x3C`=60, `0x5A`=90 | Live: 0x53 aendert dieses Byte |
+| 6 | Byte 5 | ERS Level | `0x1E`=30, `0x3C`=60, `0x5A`=90 | Live: 0x53 ändert dieses Byte |
 | 7 | Byte 6 | Mileage Algorithm | Wert | APK |
 | 8 | Byte 7 | Mileage Unit | `0x00`=MPH, `0x01`=KM | APK |
-| 9 | Byte 8 | Auto Sensor (Licht) | `0x00`/`0x01` | BT-Capture: 0x57 aendert dieses Byte |
+| 9 | Byte 8 | Auto Sensor (Licht) | `0x00`/`0x01` | BT-Capture: 0x57 ändert dieses Byte |
 | 10 | Byte 9 | Tyre Switch | `0x00`/`0x01` | APK |
 | 11 | Byte 10 | Ambient Light | `0x00`/`0x01` | APK |
-| 12 | Byte 11 | TCS Switch | `0x00`/`0x01` | Live: 0x5F aendert dieses Byte |
-| 13 | Byte 12 | Turn Sound | `0x00`/`0x01` | Live: 0x60 aendert dieses Byte |
+| 12 | Byte 11 | TCS Switch | `0x00`/`0x01` | Live: 0x5F ändert dieses Byte |
+| 13 | Byte 12 | Turn Sound | `0x00`/`0x01` | Live: 0x60 ändert dieses Byte |
 | 14 | Byte 13 | Proximity Key | `0x00`/`0x01` | APK |
 | 15 | Byte 14 | Night Mode | `0x00`/`0x01` | APK |
 | 16-19 | Byte 15-18 | Light E/D/S, Algo | Werte | APK |
@@ -176,7 +176,7 @@ Offizielles Parsing aus APK (DeviceSubPageInfo, version=1):
 |--------|-----------|------|--------|
 | 1 | Byte 0 | Battery % | uint8 |
 | 2 | Byte 1 | Driving Status | uint8 |
-| 3-4 | Byte 2-3 | **Speed (raw)** | uint16 LE, **/10 fuer km/h** |
+| 3-4 | Byte 2-3 | **Speed (raw)** | uint16 LE, **/10 für km/h** |
 | 5 | Byte 4 | Remain Range (km) | uint8 |
 | 6-7 | Byte 5-6 | Trip Distance | uint16 LE |
 | 8 | Byte 7 | Trip Duration | uint8 |
@@ -200,7 +200,7 @@ val pid = scanRecord[6].toInt() and 0xFF or
 
 ## Max-Speed Optionen nach PID
 
-| PID | Verfuegbare Geschwindigkeiten (km/h) |
+| PID | Verfügbare Geschwindigkeiten (km/h) |
 |-----|--------------------------------------|
 | 2509 | 25, 30, 35, 40 |
 | 2511, 2516 | 25, 32, 45, 50 |
@@ -208,11 +208,11 @@ val pid = scanRecord[6].toInt() and 0xFF or
 | 2585 | 25, 32, 40, 50, 70 |
 | 2544 | 25, 30, 35, 40, 45, 50, 55, 60 |
 | 2449 | 25, 30, 35, 40, 45, 50, 55, 60, 65 |
-| 23452 (ST3 Pro DE) | **22 km/h Firmware-Limit** (nicht aenderbar) |
+| 23452 (ST3 Pro DE) | **22 km/h Firmware-Limit** (nicht änderbar) |
 
 ### Firmware-Limit DE
 
-CMD `0x6E` (Max Speed) wird ACK'd, aendert aber auf PID 23452 **nicht** die Hoechstgeschwindigkeit. Byte 26 der Status-Response bleibt bei `0x16` (22 km/h).
+CMD `0x6E` (Max Speed) wird ACK'd, ändert aber auf PID 23452 **nicht** die Höchstgeschwindigkeit. Byte 26 der Status-Response bleibt bei `0x16` (22 km/h).
 
 ---
 
