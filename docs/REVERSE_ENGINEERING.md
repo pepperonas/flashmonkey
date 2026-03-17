@@ -117,11 +117,17 @@ Die folgenden Kommandos wurden durch BT-Captures verifiziert:
 
 | Kommando | Capture-Verifizierung |
 |----------|-----------------------|
-| `0x57` Headlight | Gesendet beim Antippen des Licht-Buttons in der offiziellen App |
-| `0x60` Taillight | Gesendet beim Antippen des Rücklicht-Buttons |
+| `0x57` Auto-Headlight | Lichtsensor ein/aus — Front- und Rücklicht gekoppelt |
+| `0x54` Taillight | Separates Rücklicht (bei diesem Modell mit Frontlicht gekoppelt) |
+| `0x60` Turn Sound | **Blinker-Ton**, nicht Rücklicht! (häufiger RE-Fehler) |
+| `0x5F` TCS | Traktionskontrolle ein/aus |
+| `0x53` ERS | Rekuperation — Werte 30/60/90 |
+| `0x58` Speed Mode | ECO (0x03) / SPORT (0x05) |
 | `0x30` Auth | Auth-Sequenz beim App-Start inkl. Device ID |
+| `0x6F` Post-Auth | Parameter-Übertragung direkt nach erfolgreicher Auth |
 | `0x70` Status | Periodisch alle ~2s von der App angefragt |
-| `0x90` Telemetrie | Kontinuierlich vom Scooter gesendet (~1s Intervall) |
+| `0x90` HomePage | Batterie, Restreichweite, Spannung (~1s Intervall) |
+| `0x92` DrivePage | Geschwindigkeit, Distanz, Trip (~1s Intervall) |
 
 ---
 
@@ -193,6 +199,45 @@ Die Firmware-Update-Funktion wurde in der APK identifiziert, wird von diesem Pro
 - Spezieller OTA-Modus wird vor der Übertragung aktiviert
 
 > **Warnung:** Firmware-Updates sind riskant und können den Scooter unbrauchbar machen. Dieses Projekt implementiert **keine** OTA-Update-Funktionalität.
+
+---
+
+## Hardware Reverse Engineering — UART-Schnittstelle
+
+### Dashboard-Stecker Pinbelegung
+
+Am Dashboard-Kabelbaum des ST3 Pro wurde ein Stecker mit 5 Adern identifiziert. Die Spannungsmessung (Multimeter gegen GND) ergab:
+
+| Ader | Farbe | Spannung | Funktion |
+|------|-------|----------|----------|
+| 1 | Schwarz | 0 V | **GND** |
+| 2 | Rot | 53,04 V | VCC Akku (direkt, **nicht anfassen!**) |
+| 3 | Blau | 52,2 V | VCC Akku/Dashboard-Versorgung |
+| 4 | Gelb | 3,76 V (Idle) | **UART Signal** — 3.3V Logik, Idle-High |
+| 5 | Grün | 4,12 V (Idle) | **UART Signal** — 3.3V/5V Logik, Idle-High |
+
+### Interpretation
+
+- **Gelb und Grün** sind UART TX/RX-Kandidaten. Idle-High bei 3,3–4,1 V passt zu Standard-UART-Logikpegeln.
+- **Rot und Blau** führen volle Akkuspannung (~52–53 V). Diese Leitungen **niemals** direkt an Mikrocontroller oder UART-Adapter anschließen!
+- Die genaue Zuordnung TX/RX (welche Leitung sendet, welche empfängt) muss noch ermittelt werden.
+
+### Nächste Schritte
+
+1. **UART-Adapter anschließen:**
+   - GND → Schwarz
+   - RXD am Adapter → Gelb (mithören)
+   - Baudrate testen: 9600, 19200, 38400, 57600, 115200
+   - Scooter einschalten und auf Daten prüfen
+2. **Falls Gelb keine Daten liefert:** RXD → Grün testen
+3. **Protokoll analysieren:** Vermutlich gleiches Frame-Format wie BLE (55 AA ... FE FD)
+4. **Bidirektionale Kommunikation:** Nach Identifikation von TX/RX können Kommandos direkt über UART gesendet werden — **ohne BLE-Authentifizierung**
+
+### Sicherheitshinweise
+
+> **Achtung:** Die Akku-Leitungen (Rot/Blau) führen **53 V DC**. Kurzschluss oder Berührung mit Logik-Bauteilen zerstört sofort den Mikrocontroller und kann zu Bränden führen. Nur die Signalleitungen (Gelb/Grün) und GND (Schwarz) verwenden!
+
+> **UART-Adapter:** Einen 3.3V-kompatiblen USB-UART-Adapter verwenden (z.B. CP2102, FT232RL, CH340). **Keine 5V-Adapter direkt anschließen** falls die Logik 3.3V ist — vorher mit Oszilloskop/Multimeter verifizieren.
 
 ---
 
