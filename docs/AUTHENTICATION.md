@@ -99,7 +99,7 @@ App                              Scooter
  │                                  │
  │─── CMD 0x6F [Post-Auth] ────────→│
  │                                  │
- │←── Telemetrie (0x90, 0x91) ─────│  (ab jetzt kontinuierlich)
+ │←── Telemetrie (0x90, 0x92) ─────│  (ab jetzt kontinuierlich)
  │                                  │
 ```
 
