@@ -385,8 +385,9 @@ class NaveeOTAFlasher:
             name = d.name or ""
             if any(name.upper().startswith(p) for p in SCOOTER_NAME_PREFIXES):
                 found.append(d)
-                print(f"  Found: {name} [{d.address}] RSSI={d.rssi}")
-                self.log.log("scan_found", name=name, address=d.address, rssi=d.rssi)
+                rssi = getattr(d, 'rssi', None) or "?"
+                print(f"  Found: {name} [{d.address}] RSSI={rssi}")
+                self.log.log("scan_found", name=name, address=d.address)
 
         if not found:
             print("  No Navee scooters found.")
@@ -950,7 +951,7 @@ class NaveeOTAFlasher:
             else:
                 print("\n  Multiple scooters found. Select one:")
                 for i, s in enumerate(scooters):
-                    print(f"    {i+1}. {s.name} [{s.address}] RSSI={s.rssi}")
+                    print(f"    {i+1}. {s.name} [{s.address}]")
                 try:
                     choice = int(input("  Enter number: ").strip()) - 1
                     address = scooters[choice].address
