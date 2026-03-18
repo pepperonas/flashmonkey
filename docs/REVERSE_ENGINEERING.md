@@ -222,7 +222,7 @@ Am Dashboard-Kabelbaum des ST3 Pro wurde ein Stecker mit 5 Adern identifiziert. 
 - **Rot und Blau** führen volle Akkuspannung (~52–53 V). Diese Leitungen **niemals** direkt an Mikrocontroller oder UART-Adapter anschließen!
 - Die genaue Zuordnung TX/RX (welche Leitung sendet, welche empfängt) muss noch ermittelt werden.
 
-### Ergebnis der UART-Analyse (18. März 2026)
+### Ergebnis der UART-Analyse
 
 - **Gelb:** Kein UART-Signal — unbekanntes Signal
 - **Grün:** UART TX (Controller → Dashboard), **19200 Baud**, 8N1

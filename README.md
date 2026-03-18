@@ -138,7 +138,7 @@ Die vollständige Protokoll-Dokumentation befindet sich in [`docs/PROTOCOL.md`](
 
 ## Autor
 
-**Martin Pfeffer** — [celox.io](https://celox.io) | [GitHub](https://github.com/pepperonas)
+**Martin Pfeffer** — [GitHub](https://github.com/pepperonas)
 
 ---
 

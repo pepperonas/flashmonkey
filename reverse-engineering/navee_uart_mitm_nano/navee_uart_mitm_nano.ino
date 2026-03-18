@@ -4,8 +4,8 @@
  * ============================================================
  * 
  * Board: Arduino Nano (ATmega328P)
- * Author: Martin Pfeffer | celox.io
- * Date: 18. März 2026
+ * Author: Martin Pfeffer
+ * Version: 1.0
  * 
  * Verkabelung:
  * ============
@@ -33,7 +33,7 @@
  *   '+' = Speed +1
  *   '-' = Speed -1
  * 
- * © 2026 Martin Pfeffer | celox.io
+ * © 2026 Martin Pfeffer
  */
 
 #include <SoftwareSerial.h>

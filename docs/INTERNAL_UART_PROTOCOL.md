@@ -1,7 +1,6 @@
 # Internes UART-Protokoll — Navee ST3 Pro
 
 Dokumentation des internen UART-Kommunikationsprotokolls zwischen Dashboard und Motor-Controller.
-Reverse-Engineered am 18. März 2026, 00:00–02:30 Uhr, Berlin.
 
 ---
 
@@ -223,19 +222,18 @@ Einmalig beobachtet beim Moduswechsel:
 
 ---
 
-## Hardware-Ausstattung
+## Benötigte Hardware
 
-| Gerät | Status | Zweck |
-|-------|--------|-------|
-| USB-UART-Adapter (CP2102) | ✅ vorhanden | Mithören/Debugging |
-| Multimeter (TACK DM01M) | ✅ vorhanden | Spannungsmessung |
-| Krokodilklemmen (Bauhaus) | ✅ vorhanden (zu groß) | Provisorisch |
-| Proster 24-in-1 Messleitungen | 📦 bestellt | Professionelle Probes |
-| Krokodilklemmen-Kabel (fein) | 📦 bestellt | Feine Verbindungen |
-| ESP32 DevKit | ❌ noch bestellen! | MitM-Controller |
-| Lötzinn 0.5mm | ❌ noch kaufen | Permanente Verbindungen |
-| Schrumpfschlauch | ❌ noch kaufen | Isolierung |
+| Gerät | Zweck |
+|-------|-------|
+| USB-UART-Adapter (CP2102, FT232RL, CH340) | UART-Debugging und Protokoll-Analyse |
+| Multimeter | Spannungsmessung der Signalleitungen |
+| Feine Messleitungen/Dupont-Kabel | Präzise Verbindungen zu Signalleitungen |
+| Arduino Nano oder ESP32 DevKit | MitM-Controller für Speed-Manipulation |
+| Lötzinn (0.5-0.8mm) | Permanente Installationen |
+| Schrumpfschlauch | Isolierung der Verbindungen |
+| Logic Level Shifter | Falls 5V ↔ 3.3V Anpassung nötig |
 
 ---
 
-© 2026 Martin Pfeffer | celox.io
+© 2026 Martin Pfeffer

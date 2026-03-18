@@ -264,15 +264,14 @@ uint8_t calcChecksum(uint8_t* data, uint8_t len) {
 
 ## Credits
 
-- **Entwicklung:** Martin Pfeffer | celox.io
-- **Hardware RE:** 18. März 2026, Berlin
+- **Entwicklung:** Martin Pfeffer
 - **Implementierung:** Arduino Nano MitM
 
 ---
 
 ## Changelog
 
-- **v1.0** (18.03.2026): Erste funktionierende Version
+- **v1.0**: Erste funktionierende Version
 - Speed-Limit Manipulation implementiert
 - Anlaufgeschwindigkeits-Bypass hinzugefügt
 - Serial-Interface mit Befehlen
