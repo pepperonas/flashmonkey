@@ -1265,6 +1265,8 @@ WARNING: Flashing firmware can permanently brick your scooter!
                         help="Analyze firmware file and exit (no BLE needed)")
     parser.add_argument("--test-dfu-entry", action="store_true",
                         help="Test DFU mode entry only (no flash, safe abort)")
+    parser.add_argument("--test-key-exchange", action="store_true",
+                        help="Test DFU key exchange with all 5 AES keys + skip option")
 
     args = parser.parse_args()
 
@@ -1315,7 +1317,8 @@ WARNING: Flashing firmware can permanently brick your scooter!
         except ValueError:
             pass
 
-    if device_id is None and (args.read_info or args.firmware or args.test_dfu_entry):
+    if device_id is None and (args.read_info or args.firmware or args.test_dfu_entry
+                              or args.test_key_exchange):
         print("\nDevice ID required for authentication.")
         print("The Device ID is your 6-byte Navee Account ID (from BT-HCI capture).")
         print("Format: 12 hex characters, e.g., AABBCCDDEEFF")
@@ -1465,6 +1468,186 @@ WARNING: Flashing firmware can permanently brick your scooter!
             print("    - Blinkt eine LED?")
             print("  Falls ja → DFU-Entry funktioniert!")
             print("  Scooter aus/ein zum normalen Neustart.")
+            print("=" * 60)
+
+        finally:
+            await flasher.disconnect()
+            flasher.log.save()
+            print(f"\nLog saved: {LOG_FILE}")
+        return
+
+    # --- Test Key Exchange mode ---
+    if args.test_key_exchange:
+        flasher = NaveeOTAFlasher()
+        flasher.log.log("session_start", mode="test_key_exchange")
+
+        address = args.address
+        if not address:
+            scooters = await flasher.scan()
+            if not scooters:
+                print("No scooters found.")
+                return
+            address = scooters[0].address
+            print(f"  Auto-selecting: {scooters[0].name} [{address}]")
+
+        if not await flasher.connect(address):
+            return
+
+        try:
+            if not await flasher.authenticate(device_id):
+                print("Authentication failed.")
+                return
+
+            await asyncio.sleep(0.5)
+
+            from Crypto.Cipher import AES as PyCryptoAES
+
+            print("\n" + "=" * 60)
+            print("  DFU KEY EXCHANGE TEST")
+            print("  Testet alle 5 AES-Keys + Skip-Option systematisch.")
+            print("  Jeder Versuch: dfu_start → ble_rand → ble_key → 0x43?")
+            print("  Scooter startet nach fehlgeschlagenem Versuch neu.")
+            print("=" * 60)
+
+            tests = [
+                ("Skip (kein Key Exchange)", -1),
+                ("AES Key 0", 0),
+                ("AES Key 1", 1),
+                ("AES Key 2", 2),
+                ("AES Key 3", 3),
+                ("AES Key 4", 4),
+                ("Key 1 + Hex-String statt raw", 10),
+                ("Key 1 + Echo raw cipher zurück", 11),
+            ]
+
+            for test_name, key_idx in tests:
+                print(f"\n{'─'*60}")
+                print(f"  Test: {test_name}")
+                print(f"{'─'*60}")
+
+                confirm = input("  Starten? (j/n/q=quit): ").strip().lower()
+                if confirm == "q":
+                    break
+                if confirm != "j":
+                    continue
+
+                # Reconnect falls nötig
+                if not flasher.client or not flasher.client.is_connected:
+                    print("  Reconnecting...")
+                    await asyncio.sleep(3.0)
+                    if not await flasher.connect(address):
+                        print("  Reconnect fehlgeschlagen. Scooter einschalten!")
+                        input("  Enter wenn bereit...")
+                        if not await flasher.connect(address):
+                            continue
+                    if not await flasher.authenticate(device_id):
+                        continue
+
+                # Step 1: DFU Start
+                flasher.last_responses.clear()
+                await asyncio.sleep(0.3)
+                flasher.last_responses.clear()
+
+                print("  [1] dfu_start...")
+                await flasher.client.write_gatt_char(
+                    WRITE_UUID, b"down dfu_start 3\r", response=False)
+                await asyncio.sleep(2.0)
+
+                dfu_ok = any(b"ok" in r for r in flasher.last_responses)
+                if not dfu_ok:
+                    print("  DFU-Start fehlgeschlagen!")
+                    continue
+                print("  DFU OK!")
+
+                if key_idx == -1:
+                    # Skip Key Exchange — direkt auf 0x43 warten
+                    print("  [2] Key Exchange übersprungen")
+                else:
+                    # Step 2: ble_rand
+                    flasher.last_responses.clear()
+                    print("  [2] ble_rand...")
+                    await flasher.client.write_gatt_char(
+                        WRITE_UUID, b"down ble_rand\r", response=False)
+                    await asyncio.sleep(2.0)
+
+                    # Cipher extrahieren
+                    cipher_bytes = None
+                    for resp in flasher.last_responses:
+                        ok_idx = resp.find(b"ok ")
+                        if ok_idx >= 0:
+                            raw = resp[ok_idx + 3:]
+                            if raw.endswith(b"\r"):
+                                raw = raw[:-1]
+                            if len(raw) >= 16:
+                                cipher_bytes = raw[:16]
+                                print(f"  Cipher: {hex_str(cipher_bytes)}")
+                            break
+
+                    if not cipher_bytes:
+                        print("  Kein Cipher empfangen!")
+                        continue
+
+                    # Step 3: ble_key — je nach Test-Variante
+                    if key_idx <= 4:
+                        key = AES_KEYS[key_idx]
+                        aes = PyCryptoAES.new(key, PyCryptoAES.MODE_ECB)
+                        decrypted = aes.decrypt(cipher_bytes)
+                        key_cmd = b"down ble_key " + decrypted + b"\r"
+                        print(f"  [3] ble_key mit AES Key {key_idx} (raw bytes)")
+                    elif key_idx == 10:
+                        key = AES_KEYS[1]
+                        aes = PyCryptoAES.new(key, PyCryptoAES.MODE_ECB)
+                        decrypted = aes.decrypt(cipher_bytes)
+                        key_cmd = ("down ble_key " + decrypted.hex() + "\r").encode("ascii")
+                        print(f"  [3] ble_key mit Key 1 (hex string)")
+                    elif key_idx == 11:
+                        key_cmd = b"down ble_key " + cipher_bytes + b"\r"
+                        print(f"  [3] ble_key echo raw cipher")
+
+                    flasher.last_responses.clear()
+                    await flasher.client.write_gatt_char(
+                        WRITE_UUID, key_cmd, response=False)
+                    await asyncio.sleep(2.0)
+
+                    key_ok = any(b"ok" in r for r in flasher.last_responses)
+                    print(f"  Key Response: {'OK!' if key_ok else 'KEINE ok Response'}")
+                    if flasher.last_responses:
+                        for r in flasher.last_responses[:3]:
+                            print(f"    {hex_str(r)}")
+
+                # Step 4: Warte auf 0x43
+                print("  [4] Warte auf 0x43 (5s)...")
+                flasher.last_responses.clear()
+                got_c = False
+                for _ in range(50):
+                    await asyncio.sleep(0.1)
+                    for resp in flasher.last_responses:
+                        if len(resp) <= 3 and 0x43 in resp:
+                            got_c = True
+                            break
+                    if got_c:
+                        break
+
+                if got_c:
+                    print("  >>> 0x43 EMPFANGEN! XMODEM READY! <<<")
+                    print(f"  >>> Erfolgreicher Key: {test_name} <<<")
+                    flasher.log.log("key_exchange_success", test=test_name, key_idx=key_idx)
+                    break
+                else:
+                    print("  Kein 0x43 — dieser Key funktioniert nicht.")
+                    if flasher.last_responses:
+                        telem = [r for r in flasher.last_responses if b"\x55\xaa" in r]
+                        other = [r for r in flasher.last_responses if b"\x55\xaa" not in r]
+                        if other:
+                            print(f"  Nicht-Telemetrie Responses:")
+                            for r in other[:3]:
+                                print(f"    {hex_str(r)}")
+                    flasher.log.log("key_exchange_fail", test=test_name, key_idx=key_idx)
+                    print("  Scooter startet in 5s neu...")
+                    await asyncio.sleep(5.0)
+
+            print("\n" + "=" * 60)
+            print("  ALLE TESTS ABGESCHLOSSEN")
             print("=" * 60)
 
         finally:
