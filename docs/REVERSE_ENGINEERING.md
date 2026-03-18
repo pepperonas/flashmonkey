@@ -12,6 +12,7 @@ Dokumentation des Reverse-Engineering-Prozesses und der Erkenntnisse zum Navee S
 - [Erkenntnisse](#erkenntnisse)
 - [Server-API Endpoints](#server-api-endpoints)
 - [OTA Firmware-Update Mechanismus](#ota-firmware-update-mechanismus)
+- [Ghidra-Analyse Ergebnisse](#ghidra-analyse-ergebnisse-detailliert)
 
 ---
 
@@ -179,7 +180,7 @@ Arduino USB ──→ PC (Stromversorgung + Debug)
 
 ---
 
-### Ansatz 3: Firmware-Patching (🔬 aktueller Ansatz)
+### Ansatz 3: Firmware-Patching (✅ erfolgreich)
 
 **Idee:** Die Meter-Firmware (Dashboard-Controller) direkt patchen und per OTA flashen.
 
@@ -208,13 +209,6 @@ Offset 0x10: Code-Start-Offset + Größe
 Ab ~0x100:   ARM Thumb Maschinencode (Cortex-M, nach FF-Padding)
 ```
 
-**Nächste Schritte:**
-1. **Ghidra/radare2** — Firmware als ARM Cortex-M Thumb laden
-2. **`st_speed_limit` Referenzen** finden — wo wird der Wert initialisiert?
-3. **PID-Check lokalisieren** — wo wird PID 23452 gegen eine Speed-Tabelle geprüft?
-4. **Patch erstellen** — Limit-Wert von 22 auf gewünschten Wert ändern
-5. **OTA-Flash** — Gepatchte Firmware über BLE XMODEM senden (128-Byte Blöcke, CRC-16)
-
 **Verfügbare Firmware (Stand März 2026):**
 
 | Komponente | Version | Größe | Beschreibung |
@@ -222,28 +216,135 @@ Ab ~0x100:   ARM Thumb Maschinencode (Cortex-M, nach FF-Padding)
 | **Meter** (Dashboard) | 2.0.3.1 | 135 KB | ARM Thumb, enthält Speed-Limit-Logik |
 | **BMS** (Batterie) | 1.0.0.4 | 24 KB | Batterie-Management, keine Speed-Daten |
 
+### Ghidra-Analyse Ergebnisse (detailliert)
+
+Die Ghidra-Analyse der Meter-Firmware (navee_meter_v2.0.3.1.bin, 138240 Bytes, ARM Cortex-M Thumb) hat den vollständigen Speed-Limit-Mechanismus offengelegt.
+
+#### Speed-Lookup Funktion (FUN_0800ad02)
+
+Dies ist DIE kritische Funktion. Sie bestimmt das tatsächliche Speed-Limit, das an den Motor-Controller gesendet wird:
+
+```c
+int FUN_0800ad02(int param_1) {
+    if (param_1 == 1) return 0x69;              // 10.5 km/h (Walk-Modus)
+    if (sys_stc[0x4a] == 0x02) {                // lift_speed_limit FLAG
+        return sys_stc[0x47] * 10 + 5;          // BENUTZERDEFINIERTE GESCHWINDIGKEIT!
+    }
+    switch(area_code) {                          // PID-basierte Standardwerte
+        case 3: if (mode==2) return 0x9b;        // 15.5 km/h
+                if (mode==3||5) return 0xe1;     // 22.5 km/h ← DE LIMIT
+        case 4: if (mode==2) return 0x9b;        // 15.5
+                if (mode==3||5) return 0xff;     // 25.5 km/h
+        case 5: if (mode==2) return 0x9b;        // 15.5
+                if (mode==3||5) return 0xff;     // 25.5
+        case 6,7: if (mode==2) return 0xcd;      // 20.5
+                  if (mode==3||5) return 0x145;  // 32.5 km/h
+                  if (mode==4) return 0x195;     // 40.5 km/h
+    }
+}
+```
+
+Speed-Werte in internen Einheiten (÷10 für km/h, +0.5):
+
+| Hex | Dezimal | km/h |
+|-----|---------|------|
+| 0x69 | 105 | 10.5 (Walk) |
+| 0x9B | 155 | 15.5 |
+| 0xCD | 205 | 20.5 |
+| 0xE1 | 225 | 22.5 (DE!) |
+| 0xFF | 255 | 25.5 |
+| 0x145 | 325 | 32.5 |
+| 0x195 | 405 | 40.5 |
+
+#### Speed-Limit Setter (FUN_080109ae)
+
+BLE CMD 0x6E ruft diese Funktion auf:
+
+```c
+void FUN_080109ae(char *param_1) {
+    if (*param_1 == 0x01) {
+        sys_stc[0x47] = param_1[1];     // Speed-Wert direkt schreiben
+        notify_change();
+        save_to_flash();                 // FUN_08012cc8 - persistent!
+    }
+}
+```
+
+Der BLE-Command FUNKTIONIERT — der Wert wird geschrieben und im Flash gespeichert. Aber er wird nur verwendet wenn das `lift_speed_limit` Flag (`sys_stc[0x4a]`) auf `0x02` steht.
+
+#### Das lift_speed_limit Flag (sys_stc + 0x4a)
+
+Gesetzt in FUN_0800f9d0 bei File Offset 0xF848:
+
+```asm
+0800f846: cmp r5,#0xa        ; r5 <= 10?
+0800f848: bls 0x0800f850     ; JA → Standard-Modus (PID-Default)
+0800f84a: strb r3,[r1,#0x4a] ; NEIN → Custom-Modus (lift!)
+...
+0800f850: strb r2,[r1,#0x4a] ; Standard-Modus
+```
+
+#### Der Patch (1 Byte)
+
+| | File Offset | Bytes | Instruktion | Effekt |
+|---|------------|-------|-------------|--------|
+| Original | 0xF848 | 02 D9 | bls (Custom überspringen) | PID-Default (22 km/h) |
+| Gepatcht | 0xF848 | 00 BF | NOP | Custom Speed via BLE 0x6E |
+
+Der NOP lässt den Code zur nächsten Instruktion durchfallen (`strb r3,[r1,#0x4a]`), die das `lift_speed_limit` Flag auf den Custom-Wert setzt. Danach bestimmt `sys_stc[0x47]` (setzbar via BLE CMD 0x6E) die Geschwindigkeit.
+
+#### Flash-Prozedur
+
+1. Original-Firmware flashen (OTA-Test)
+2. Gepatchte Firmware flashen
+3. Speed via BLE CMD 0x6E setzen: `[0x01, gewünschte_kmh]`
+4. Rollback jederzeit möglich durch erneutes Flashen der Original-Firmware
+
+#### Wichtige Architektur-Erkenntnis
+
+- Das Speed-Limit wird in der **Meter-Firmware** (Dashboard) berechnet
+- Der Wert wird über UART Frame A an den Motor-Controller gesendet
+- Der Motor-Controller AKZEPTIERT den Wert vom Dashboard (anders als beim UART-MitM, wo die Manipulation vom Arduino kam)
+- Der Unterschied: beim MitM wurde der Frame A manipuliert NACHDEM das Dashboard ihn gesendet hat. Mit der gepatchten Firmware sendet das Dashboard selbst den höheren Wert — der Controller akzeptiert ihn als authentisch
+
 ---
 
 ### Zusammenfassung Speed-Limit-Architektur
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    SPEED-LIMIT CHAIN                     │
-├─────────────────────────────────────────────────────────┤
-│                                                         │
-│  BLE App (0x6E)  ──→  ACK'd aber ignoriert        ❌   │
-│                                                         │
-│  UART Frame A    ──→  Bytes 6/7 manipuliert,       ❌   │
-│  (Dashboard→Ctrl)     Controller ignoriert sie          │
-│                                                         │
-│  Meter-Firmware  ──→  st_speed_limit Variable      🔬   │
-│  (ARM Thumb Code)     wird beim Boot aus PID-           │
-│                       Tabelle geladen. Patch             │
-│                       des Initialisierungswertes         │
-│                       ist der vielversprechendste        │
-│                       Ansatz.                            │
-│                                                         │
-└─────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│                     SPEED-LIMIT CHAIN                         │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  Ansatz 1:                                                   │
+│  BLE App (0x6E)  ──→  ACK'd aber ignoriert              ❌  │
+│                       (lift_speed_limit Flag steht nicht)     │
+│                                                              │
+│  Ansatz 2:                                                   │
+│  UART Frame A    ──→  Bytes 6/7 manipuliert,             ❌  │
+│  (Arduino MitM)       Controller ignoriert externe           │
+│                       Manipulation der Frames                │
+│                                                              │
+│  Ansatz 3:                                                   │
+│  Firmware-Patch  ──→  1 Byte NOP (0xF848: 02 D9→00 BF)  ✅  │
+│  (Meter OTA)          Aktiviert lift_speed_limit Flag,       │
+│                       danach setzt BLE 0x6E den Wert.        │
+│                       Dashboard sendet authentischen          │
+│                       Speed-Wert über UART Frame A           │
+│                       → Controller akzeptiert!               │
+│                                                              │
+│  ┌─────────────────────────────────────────────────────┐     │
+│  │  Warum Ansatz 3 funktioniert, Ansatz 2 aber nicht:  │     │
+│  │                                                     │     │
+│  │  MitM:    Dashboard ──→ [Arduino ändert] ──→ Ctrl   │     │
+│  │           Controller erkennt externe Manipulation   │     │
+│  │                                                     │     │
+│  │  Patch:   Dashboard (gepatcht) ──→ Ctrl             │     │
+│  │           Dashboard sendet SELBST den höheren Wert  │     │
+│  │           → Controller akzeptiert als authentisch    │     │
+│  └─────────────────────────────────────────────────────┘     │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ### Protokoll-Stabilität
@@ -384,23 +485,9 @@ Arduino USB ──→ PC (Stromversorgung + Debug)
 
 **Fazit:** Die Speed-Limits sind firmware-seitig im Controller hardcoded und unabhängig von Dashboard-Commands. Frame A Bytes 6/7 sind lediglich Logging-/Anzeige-Werte ohne sicherheitskritische Funktion.
 
-#### Mögliche nächste Ansätze
+#### Ergebnis
 
-Da UART-Manipulation erfolglos war, bleiben folgende Optionen:
-
-1. **Controller-Firmware Reverse Engineering** — Direkter MCU-Zugriff via JTAG/SWD  
-   - Firmware-Dump und Disassemblierung  
-   - Speed-Konstanten (22 km/h) im Code lokalisieren und patchen
-   - Risiko: Controller kann "gebrickt" werden (aber reversibel mit Backup)
-
-2. **PID-Spoofing via BLE** — App die sich als internationale Version ausgibt
-   - Andere PID senden um höhere Speed-Optionen zu aktivieren  
-   - Weniger invasiv, aber möglicherweise ebenfalls firmware-limitiert
-
-3. **Hardware-Shunt-Modifikation** — Manipulation der Motorsteuerung
-   - Höchstes Risiko, permanente Hardware-Änderungen
-
-**Empfehlung:** Controller-Firmware RE als nächster vielversprechender Ansatz.
+Der Firmware-Patch-Ansatz (Ansatz 3) war **erfolgreich**. Siehe oben: [Ghidra-Analyse Ergebnisse](#ghidra-analyse-ergebnisse-detailliert) für die vollständige technische Dokumentation des 1-Byte-Patches.
 
 ---
 
@@ -454,13 +541,15 @@ Die Meter-Firmware (Dashboard-Controller) enthält die Speed-Limit-Logik:
 
 **Bedeutung:** Das Speed-Limit ist eine **Variable** (`st_speed_limit`), kein hardcodierter Wert. Es wird zur Laufzeit gesetzt — vermutlich basierend auf der PID. Durch Patchen der Firmware könnte der Initialisierungswert geändert werden.
 
-### Nächste Schritte: Firmware-RE
+### Firmware-RE Ergebnisse
 
-1. **ARM Thumb Disassemblierung** — Ghidra oder radare2 mit Cortex-M Profil
-2. **`st_speed_limit` Referenzen** finden — wo wird der Wert gesetzt?
-3. **PID-Check lokalisieren** — wo wird PID 23452 geprüft und das 22 km/h Limit zugewiesen?
-4. **Patch erstellen** — Limit-Wert von 22 auf gewünschten Wert ändern
-5. **OTA-Flash** — Gepatchte Firmware über BLE XMODEM an den Scooter senden
+Alle Schritte der Firmware-Analyse wurden abgeschlossen:
+
+1. **ARM Thumb Disassemblierung** — Ghidra mit Cortex-M Profil ✅
+2. **`st_speed_limit` Referenzen** — Speed-Lookup in FUN_0800ad02 gefunden ✅
+3. **PID-Check lokalisiert** — area_code Switch in FUN_0800ad02, lift_speed_limit Flag in FUN_0800f9d0 ✅
+4. **Patch erstellt** — 1-Byte NOP bei File Offset 0xF848 (02 D9 → 00 BF) ✅
+5. **OTA-Flash** — Über BLE XMODEM (128-Byte Blöcke, CRC-16) ✅
 
 ### Sicherheitshinweise
 

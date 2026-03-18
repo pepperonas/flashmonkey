@@ -13,6 +13,7 @@ Vollständige Referenz des proprietären BLE-Kommunikationsprotokolls des Navee 
 - [Telemetrie](#telemetrie)
 - [PID (Product ID)](#pid-product-id)
 - [Max-Speed Optionen nach PID](#max-speed-optionen-nach-pid)
+- [DFU-Protokoll (Firmware-Update)](#dfu-protokoll-firmware-update-über-ble)
 
 ---
 
@@ -236,6 +237,47 @@ Das Lichtsystem des ST3 Pro hat ein besonderes Verhalten, das aus der offizielle
 
 - CMD `0x60` steuert **nicht** das Rücklicht, sondern den **akustischen Blinker-Sound**
 - Häufiger Fehler: `0x60` wurde in frühen RE-Analysen fälschlich als Taillight identifiziert
+
+---
+
+## DFU-Protokoll (Firmware-Update über BLE)
+
+Das Firmware-Update (Device Firmware Update) nutzt das XMODEM-Protokoll über die gleiche BLE-Characteristic wie normale Kommandos.
+
+### Ablauf
+
+1. **DFU-Modus aktivieren** — Spezieller BLE-Befehl versetzt den Scooter in den Update-Modus
+2. **Firmware-Transfer** — Binärdatei wird in 128-Byte-Blöcken via XMODEM übertragen
+3. **CRC-16 Prüfsumme** — Jeder Block wird mit CRC-16 verifiziert
+4. **Verifikation und Neustart** — Nach vollständiger Übertragung verifiziert der Scooter die Integrität und startet neu
+
+### XMODEM-Details
+
+| Parameter | Wert |
+|-----------|------|
+| Blockgröße | 128 Bytes |
+| Prüfsumme | CRC-16 |
+| Characteristic | Gleiche Write-Characteristic wie BLE-Kommandos (`0xb002`) |
+| Firmware-Format | Navee-eigener Header (Modell + Version) + ARM Thumb Code |
+
+### Firmware-Header
+
+```
+Offset 0x00: Modell-String (z.B. "T22020" für Meter, "T24180" für BMS)
+Offset 0x06: Typ-Byte (0x01=Meter, 0x03=BMS)
+Offset 0x07: Version-String (z.B. "00030001" für v2.0.3.1)
+Offset 0x10: Code-Start-Offset + Größe
+Ab ~0x100:   ARM Thumb Maschinencode (Cortex-M, nach FF-Padding)
+```
+
+### Verfügbare Firmware-Komponenten
+
+| Komponente | Version | Größe | Typ-Byte |
+|-----------|---------|-------|----------|
+| **Meter** (Dashboard) | 2.0.3.1 | 138240 Bytes | 0x01 |
+| **BMS** (Batterie) | 1.0.0.4 | ~24 KB | 0x03 |
+
+> **Hinweis:** Rollback ist jederzeit möglich durch erneutes Flashen der Original-Firmware. Detaillierte Analyse der Firmware-Inhalte siehe [REVERSE_ENGINEERING.md](REVERSE_ENGINEERING.md#ghidra-analyse-ergebnisse-detailliert).
 
 ---
 
