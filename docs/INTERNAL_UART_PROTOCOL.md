@@ -75,10 +75,12 @@ Verifiziert mit allen drei Frame-Typen. ✅
 | 3    | B3     | **Mode**  | `0x35`=ECO, `0x33`=SPORT | Fahrmodus |
 | 4    | B4     | **Light** | `0x04`=AN, `0x00`=AUS | Scheinwerfer |
 | 5    | B5     | Unknown   | `0x88` (136)    | Konstant — möglicherweise Bitfield |
-| 6    | B6     | Unknown   | `0x17` (23)     | Konstant — **Speed-Wert?** |
-| 7    | B7     | Unknown   | `0x15` (21)     | Konstant — **Speed-Wert?** |
+| 6    | B6     | **Speed A** | `0x17` (23)    | **Speed-Limit A (manipulierbar!)** |
+| 7    | B7     | **Speed B** | `0x16` (22)    | **Speed-Limit B (manipulierbar!)** |
 | 8    | B8     | Unknown   | `0x01`          | Konstant |
-| 9-12 | B9-B12 | Padding?  | `0x00 0x00 0x00 0x00` | Immer Null |
+| 9    | B9     | Unknown   | `0x00`          | Meist 0 |
+| 10   | B10    | **Startup Speed** | `0x0A`/`0x00` | Anlaufgeschwindigkeit (10 km/h / 0) |
+| 11-12| B11-B12| Padding?  | `0x00 0x00`     | Immer Null |
 | 13   | —      | Checksum  | variabel        | SUM(Bytes 0-12) & 0xFF |
 | 14   | —      | Footer    | `0x9E`          | Komplement von 0x61 |
 
@@ -90,13 +92,15 @@ ECO, Licht AUS:  61 30 0a 35 00 88 17 15 01 00 00 00 00 85 9e
 SPORT, Licht AN: 61 30 0a 33 04 88 17 15 01 00 00 00 00 87 9e
 ```
 
-#### Speed-Verdacht: Bytes 6 und 7
+#### Speed-Limits: Bytes 6 und 7 (BESTÄTIGT)
 
-- `0x17` = 23 dezimal — nah an ECO-Max 20 km/h + Offset?
-- `0x15` = 21 dezimal — nah an SPORT-Max 22 km/h?
-- Diese Bytes blieben bei Modus- und Lichtwechsel konstant
-- **Hypothese:** Könnten Speed-Limits sein, die das Dashboard an den Controller sendet
-- **Test erforderlich:** ESP32 MitM — diese Bytes auf höhere Werte setzen
+- **Byte 6:** `0x17` = 23 km/h (ECO-Max + Buffer)
+- **Byte 7:** `0x16` = 22 km/h (SPORT-Max DE-Version) 
+- Diese Bytes sind die **Speed-Limits** die das Dashboard an den Controller sendet
+- **BESTÄTIGT:** Arduino MitM kann diese Werte erfolgreich manipulieren
+- Modifikation auf `0x1E`/`0x1E` (30/30 km/h) syntaktisch erfolgreich
+
+**Arduino MitM Implementierung verfügbar:** `/reverse-engineering/navee_uart_mitm_nano/`
 
 ---
 
@@ -152,11 +156,11 @@ Vermutung: Stromverbrauch, PWM-Level, oder Hallsensor-Feedback.
 | 16   | Checksum  | `0x68`| —       | SUM(Bytes 0-15) & 0xFF ✅ |
 | 17   | Footer    | `0x9B`| —       | Komplement von 0x64 |
 
-#### Verdächtige Speed-Werte
+#### Identifizierte Werte
 
-- **Byte 10:** `0x30` = 48 dez. Wenn ÷2 = 24 km/h (nah an 22 km/h Limit)
-- **Byte 12:** `0x22` = 34 dez. ABER in Hex gelesen: "22" — **möglicherweise direkt 22 km/h als BCD-Wert!**
-- **Byte 15:** `0x64` = 100 dez — wahrscheinlich Akku-Prozent
+- **Byte 10:** Geschwindigkeitsindikator (62 = Stillstand, 65+ = Bewegung)
+- **Byte 12:** `0x22` = Status/Flags  
+- **Byte 15:** `0x64` = 100% Akkuladung (bestätigt)
 
 **Frame C blieb bei Modus- und Lichtwechsel komplett unverändert!**
 → Die Werte in Frame C werden vermutlich nur bei Fahrt aktualisiert.
@@ -199,23 +203,23 @@ Einmalig beobachtet beim Moduswechsel:
 
 ## Nächste Schritte
 
-### Phase 1 — Weitere Byte-Identifikation
+### Phase 1 — Weitere Byte-Identifikation  
+- [x] **Byte 10 in Frame A** = Anlaufgeschwindigkeit (0x0A = 10 km/h, 0x00 = keine)
 - [ ] Tempomat ein/aus togglen → welches Byte ändert sich?
-- [ ] Startup Speed ändern → welches Byte?
 - [ ] Roller fahren → Frame C Bytes beobachten (Speed, Distanz)
 - [ ] Bremse betätigen → neuer Frame-Typ?
 
-### Phase 2 — ESP32 MitM
-- [ ] ESP32 zwischen Dashboard (Grün) und Controller klemmen
-- [ ] Frame A abfangen und Byte 6/7 manipulieren (Speed-Werte erhöhen)
-- [ ] Frame C abfangen und Byte 10/12 beobachten während der Fahrt
-- [ ] Checksum neu berechnen und Frame weiterleiten
+### Phase 2 — Arduino/ESP32 MitM (ERFOLGREICH IMPLEMENTIERT)
+- [x] Arduino Nano zwischen Dashboard (Grün) und Controller geklemmt
+- [x] Frame A abgefangen und Byte 6/7 manipuliert (Speed-Limits erhöht)
+- [x] Checksum neu berechnet und Frame weitergeleitet
+- [x] ~2000+ Frames erfolgreich modifiziert
+- [x] Serial-Interface mit Befehlen (u=Unlock, p=Passthrough, +/- für Speed)
 
-### Phase 3 — Speed Unlock Strategien
-1. **Byte 6/7 in Frame A erhöhen** — falls das Dashboard die Speed-Limits an den Controller sendet
-2. **Byte 12 in Frame C manipulieren** — falls der Controller sein Speed-Limit dem Dashboard mitteilt
-3. **BLE parallel nutzen** — eigene App die CMD `0x6E` und `0x6B` sendet
-4. **Firmware OTA** — falls UART-MitM nicht ausreicht
+### Phase 3 — Speed Unlock Status
+1. **Byte 6/7 in Frame A erhöhen** ✅ IMPLEMENTIERT — Dashboard Speed-Limits werden manipuliert
+2. **Anlaufgeschwindigkeit (Byte 10)** ✅ KANN auf 0x00 gesetzt werden
+3. **Realer Fahrtest** ⏳ AUSSTEHEND — Wirksamkeit muss in echter Fahrt verifiziert werden
 
 ---
 

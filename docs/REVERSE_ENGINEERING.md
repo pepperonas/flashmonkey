@@ -247,7 +247,38 @@ Am Dashboard-Kabelbaum des ST3 Pro wurde ein Stecker mit 5 Adern identifiziert. 
 
 ### Kritische Erkenntnis: Speed-Limit über UART
 
-Das BLE-Protokoll meldet 22 km/h als unveränderliches Firmware-Limit (CMD `0x6E` wird ACK'd aber ignoriert). Über UART wurde entdeckt, dass das **Dashboard die Speed-Limits aktiv an den Controller sendet** (Frame A, Bytes 6-7). Ein ESP32 als Man-in-the-Middle kann diese Werte abfangen und auf höhere Werte setzen — das umgeht das BLE-Limit auf Hardware-Ebene.
+Das BLE-Protokoll meldet 22 km/h als unveränderliches Firmware-Limit (CMD `0x6E` wird ACK'd aber ignoriert). Über UART wurde entdeckt, dass das **Dashboard die Speed-Limits aktiv an den Controller sendet** (Frame A, Bytes 6-7). Ein Arduino/ESP32 als Man-in-the-Middle kann diese Werte abfangen und modifizieren.
+
+#### UART Man-in-the-Middle Speed Unlock
+
+**Status:** Getestet mit Arduino Nano, funktionsfähige Implementierung vorhanden
+
+**Verkabelung:**
+```
+Dashboard (grüne Ader durchtrennen!)
+    └──→ Arduino D2 (SoftSerial RX)
+         Arduino D3 (SoftSerial TX)
+              └──→ Controller
+
+Scooter GND (schwarz) ──→ Arduino GND
+Arduino USB ──→ PC (Stromversorgung + Debug)
+```
+
+**Funktionsweise:**
+1. Arduino sitzt zwischen Dashboard und Controller auf der UART-Leitung
+2. Frame A wird abgefangen (Header `0x61`, CMD `0x30`)
+3. Bytes 6-7 (Speed-Limits) werden von `0x17`/`0x16` (23/22 km/h) auf z.B. `0x1E`/`0x1E` (30/30 km/h) geändert
+4. Checksum wird neu berechnet
+5. Modifizierter Frame wird an Controller weitergeleitet
+
+**Implementierung:** `/reverse-engineering/navee_uart_mitm_nano/navee_uart_mitm_nano.ino`
+
+**Ergebnis:** 
+- Dashboard sendet kontinuierlich modifizierte Speed-Limits an Controller
+- ~2000+ Frames erfolgreich manipuliert in Tests
+- Controller akzeptiert die neuen Werte syntaktisch (Checksum OK)
+
+**Wichtiger Hinweis:** Die tatsächliche Wirksamkeit (ob der Controller die höheren Limits respektiert) muss in realer Fahrt getestet werden. Beim aufgebockten Test reagierte der Motor nicht auf die Manipulation, was aber an fehlender Last/anderen Sicherheitsmechanismen liegen kann.
 
 ### Sicherheitshinweise
 

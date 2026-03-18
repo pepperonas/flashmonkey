@@ -7,11 +7,20 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Android-brightgreen.svg)](android/)
 [![Language](https://img.shields.io/badge/Language-Kotlin-purple.svg)](https://kotlinlang.org/)
+[![Arduino](https://img.shields.io/badge/Arduino-Nano-00979D.svg)](reverse-engineering/navee_uart_mitm_nano/)
 [![Min SDK](https://img.shields.io/badge/Min%20SDK-26-blue.svg)]()
+[![Target SDK](https://img.shields.io/badge/Target%20SDK-35-blue.svg)]()
+[![Compose](https://img.shields.io/badge/Jetpack-Compose-4285F4.svg)]()
+[![Material3](https://img.shields.io/badge/Material-Design%203-757575.svg)]()
 [![BLE Protocol](https://img.shields.io/badge/BLE-Custom%20Protocol-informational.svg)](docs/PROTOCOL.md)
 [![UART Protocol](https://img.shields.io/badge/UART-19200%20Baud-orange.svg)](docs/INTERNAL_UART_PROTOCOL.md)
+[![Speed Unlock](https://img.shields.io/badge/Speed%20Unlock-UART%20MitM-FF6B6B.svg)](docs/UART_MITM_GUIDE.md)
+[![Auth](https://img.shields.io/badge/Auth-AES--128--ECB-9C27B0.svg)](docs/AUTHENTICATION.md)
+[![Reverse Engineering](https://img.shields.io/badge/RE-APK%20%2B%20Hardware-FFA726.svg)](docs/REVERSE_ENGINEERING.md)
 [![Status](https://img.shields.io/badge/Status-Active%20Development-yellow.svg)]()
+[![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)]()
 [![Made with](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red.svg)]()
+[![Germany](https://img.shields.io/badge/Region-DE-000000.svg)]()
 
 ---
 
