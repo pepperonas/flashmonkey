@@ -293,12 +293,46 @@ Gesetzt in FUN_0800f9d0 bei File Offset 0xF848:
 
 Der NOP lässt den Code zur nächsten Instruktion durchfallen (`strb r3,[r1,#0x4a]`), die das `lift_speed_limit` Flag auf den Custom-Wert setzt. Danach bestimmt `sys_stc[0x47]` (setzbar via BLE CMD 0x6E) die Geschwindigkeit.
 
-#### Flash-Prozedur
+#### Flash-Prozedur — Status
 
-1. Original-Firmware flashen (OTA-Test)
-2. Gepatchte Firmware flashen
-3. Speed via BLE CMD 0x6E setzen: `[0x01, gewünschte_kmh]`
-4. Rollback jederzeit möglich durch erneutes Flashen der Original-Firmware
+**OTA-Flasher verifizierte Schritte:**
+- ✅ BLE-Verbindung + Auth
+- ✅ Scooter-Info lesen (Firmware, Serial, Settings)
+- ✅ DFU-Entry: `"down dfu_start 3\r"` → `"ok\r"` (3x reproduzierbar bestätigt)
+- ❌ Key Exchange: `"down ble_rand\r"` + `"down ble_key <decrypted>\r"` — scheitert
+
+**Key Exchange Testergebnisse (18. März 2026):**
+
+Alle 8 Varianten systematisch getestet, keine lieferte 0x43 (XMODEM Ready):
+
+| Test | Ergebnis | Details |
+|------|----------|---------|
+| Skip (kein Key Exchange) | ❌ | Kein 0x43 nach 5s |
+| AES Key 0 (raw decrypt) | ❌ | Keine "ok" Response |
+| AES Key 1 (raw decrypt) | ❌ | Keine "ok" Response |
+| AES Key 2 (raw decrypt) | ❌ | Keine "ok" Response |
+| AES Key 3 (raw decrypt) | ❌ | Keine "ok" Response |
+| AES Key 4 (raw decrypt) | ❌ | Keine "ok" Response |
+| Key 1 + Hex-String | ❌ | Keine "ok" Response |
+| Key 1 + Echo raw cipher | ❌ | Keine "ok" Response |
+
+**Wichtige Beobachtung:** Jeder Cipher beginnt mit `0x00` — vermutlich ein Status/Typ-Byte, nicht Teil des 16-Byte-Ciphertexts. Die Entschlüsselung wurde möglicherweise mit falschem Offset durchgeführt (`[0:16]` statt `[1:17]`).
+
+**Scooter-Verhalten während Tests:** Normal — nach fehlgeschlagenem Key Exchange sendet er weiter Telemetrie (0x90, 0x92) und startet bei Timeout normal neu. Kein Brick-Risiko bei den bisherigen Tests.
+
+#### Offene Probleme für OTA-Flash
+
+1. **Cipher-Offset:** Erstes Byte `0x00` in der ble_rand Response könnte ein Typ-Byte sein → Cipher ist `response[4:20]` statt `response[3:19]`
+2. **Re-Encryption:** APK-Code könnte den entschlüsselten Wert re-encrypten bevor er gesendet wird
+3. **Key-Auswahl:** Die APK nutzt möglicherweise den Area-Code (nicht Key-Index 0-4) zur Key-Auswahl
+4. **Alternativer DFU-Pfad:** Die offizielle App könnte einen anderen DFU-Flow nutzen als den in DFUProcessor.java
+
+#### Nächste Schritte
+
+1. **APK DFUProcessor.java nochmal genau analysieren** — exakten Byte-Offset für Cipher-Extraktion finden
+2. **BT-HCI Capture eines echten OTA-Updates** — offizielle App ein Update durchführen lassen und den Traffic mitschneiden
+3. **Cipher-Offset [1:17] testen** — das erste `0x00` Byte überspringen
+4. **Re-Encryption testen** — decrypt → re-encrypt → senden
 
 #### Wichtige Architektur-Erkenntnis
 
