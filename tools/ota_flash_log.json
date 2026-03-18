@@ -24096,5 +24096,1708 @@
         "event": "flash_complete_warnings"
       }
     ]
+  },
+  {
+    "session_start": "2026-03-19T00:09:17.201061",
+    "session_end": "2026-03-19T00:09:47.172632",
+    "total_events": 25,
+    "events": [
+      {
+        "ts": "2026-03-19T00:09:17.201088",
+        "elapsed_s": 0.0,
+        "event": "session_start",
+        "mode": "flash",
+        "dry_run": false,
+        "firmware": "firmware/navee_meter_v2.0.3.1_PATCHED.bin"
+      },
+      {
+        "ts": "2026-03-19T00:09:17.298113",
+        "elapsed_s": 0.1,
+        "event": "firmware_analyzed",
+        "path": "firmware/navee_meter_v2.0.3.1_PATCHED.bin",
+        "filename": "navee_meter_v2.0.3.1_PATCHED.bin",
+        "size": 138240,
+        "size_kb": 135.0,
+        "md5": "6f4f300a0fd42d9e81ce6a9fb653cd53",
+        "sha256": "fe29b31b9c17c5aff00a46323bcce9a45517dc87f0a5d7fc611cfd468f920d43",
+        "crc16": 58203,
+        "blocks": 1080,
+        "model_string": "T2202",
+        "type_byte": 1,
+        "type_name": "Meter (Dashboard)",
+        "version_string": "00030001",
+        "version_readable": "Build 3.1 (v2.0.3.1)"
+      },
+      {
+        "ts": "2026-03-19T00:09:17.298143",
+        "elapsed_s": 0.1,
+        "event": "scan_start",
+        "timeout": 15.0
+      },
+      {
+        "ts": "2026-03-19T00:09:32.443827",
+        "elapsed_s": 15.24,
+        "event": "scan_found",
+        "name": "NAVEE",
+        "address": "7B25177C-2D70-1F95-68E2-056E946F9418"
+      },
+      {
+        "ts": "2026-03-19T00:09:32.445174",
+        "elapsed_s": 15.24,
+        "event": "connect_start",
+        "address": "7B25177C-2D70-1F95-68E2-056E946F9418"
+      },
+      {
+        "ts": "2026-03-19T00:09:35.468258",
+        "elapsed_s": 18.27,
+        "event": "connect_ok",
+        "address": "7B25177C-2D70-1F95-68E2-056E946F9418"
+      },
+      {
+        "ts": "2026-03-19T00:09:35.527082",
+        "elapsed_s": 18.33,
+        "event": "auth_start",
+        "device_id": "88 00 02 77 53 ED"
+      },
+      {
+        "ts": "2026-03-19T00:09:35.527143",
+        "elapsed_s": 18.33,
+        "event": "ble_write",
+        "data": "55 AA 00 30 09 01 00 88 00 02 77 53 ED 00 7A FE FD"
+      },
+      {
+        "ts": "2026-03-19T00:09:35.587437",
+        "elapsed_s": 18.39,
+        "event": "ble_notify",
+        "cmd": "0x30",
+        "data": "00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:09:35.587572",
+        "elapsed_s": 18.39,
+        "event": "auth_ok"
+      },
+      {
+        "ts": "2026-03-19T00:09:36.069000",
+        "elapsed_s": 18.87,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 28 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:09:36.589265",
+        "elapsed_s": 19.39,
+        "event": "ble_write",
+        "data": "55 AA 00 73 00 72 FE FD"
+      },
+      {
+        "ts": "2026-03-19T00:09:36.759544",
+        "elapsed_s": 19.56,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:09:36.787870",
+        "elapsed_s": 19.59,
+        "event": "ble_notify",
+        "cmd": "0x73",
+        "data": "00 32 30 33 31 30 30 31 35 31 30 30 34",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:09:36.788377",
+        "elapsed_s": 19.59,
+        "event": "firmware_version",
+        "version": "203100151004"
+      },
+      {
+        "ts": "2026-03-19T00:09:36.788503",
+        "elapsed_s": 19.59,
+        "event": "ble_write",
+        "data": "55 AA 00 74 00 73 FE FD"
+      },
+      {
+        "ts": "2026-03-19T00:09:36.848564",
+        "elapsed_s": 19.65,
+        "event": "ble_notify",
+        "cmd": "0x74",
+        "data": "00 54 32 33 34 35 35 34 52 44 45 34 4A 30 30 36 33 38 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:09:36.848880",
+        "elapsed_s": 19.65,
+        "event": "serial_number",
+        "serial": "T234554RDE4J00638"
+      },
+      {
+        "ts": "2026-03-19T00:09:36.848938",
+        "elapsed_s": 19.65,
+        "event": "ble_write",
+        "data": "55 AA 00 70 00 6F FE FD"
+      },
+      {
+        "ts": "2026-03-19T00:09:36.909019",
+        "elapsed_s": 19.71,
+        "event": "ble_notify",
+        "cmd": "0x70",
+        "data": "00 01 05 00 00 00 1E 00 01 01 00 01 00 00 02 00 01 00 00 00 03 00 00 00 00 00 16 00 00 00 00 00 00 00 00 01 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:09:36.909542",
+        "elapsed_s": 19.71,
+        "event": "vehicle_settings",
+        "settings": {
+          "drive_mode": "SPORT",
+          "lock_status": "UNLOCKED",
+          "cruise_control": false,
+          "tail_light": false,
+          "ers_level": 30,
+          "mileage_unit": "KM",
+          "auto_headlight": true,
+          "tcs": false,
+          "turn_sound": false,
+          "max_speed_kmh": 22
+        }
+      },
+      {
+        "ts": "2026-03-19T00:09:46.870670",
+        "elapsed_s": 29.67,
+        "event": "dfu_enter_start",
+        "mcu_type": 1
+      },
+      {
+        "ts": "2026-03-19T00:09:46.871075",
+        "elapsed_s": 29.67,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 28 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:09:46.871204",
+        "elapsed_s": 29.67,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:09:47.172357",
+        "elapsed_s": 29.97,
+        "event": "dfu_enter_send_error",
+        "error": "Service Discovery has not been performed yet"
+      }
+    ]
+  },
+  {
+    "session_start": "2026-03-19T00:10:37.480190",
+    "session_end": "2026-03-19T00:11:25.112473",
+    "total_events": 63,
+    "events": [
+      {
+        "ts": "2026-03-19T00:10:37.480206",
+        "elapsed_s": 0.0,
+        "event": "session_start",
+        "mode": "flash",
+        "dry_run": false,
+        "firmware": "firmware/navee_meter_v2.0.3.1_PATCHED.bin"
+      },
+      {
+        "ts": "2026-03-19T00:10:37.577156",
+        "elapsed_s": 0.1,
+        "event": "firmware_analyzed",
+        "path": "firmware/navee_meter_v2.0.3.1_PATCHED.bin",
+        "filename": "navee_meter_v2.0.3.1_PATCHED.bin",
+        "size": 138240,
+        "size_kb": 135.0,
+        "md5": "6f4f300a0fd42d9e81ce6a9fb653cd53",
+        "sha256": "fe29b31b9c17c5aff00a46323bcce9a45517dc87f0a5d7fc611cfd468f920d43",
+        "crc16": 58203,
+        "blocks": 1080,
+        "model_string": "T2202",
+        "type_byte": 1,
+        "type_name": "Meter (Dashboard)",
+        "version_string": "00030001",
+        "version_readable": "Build 3.1 (v2.0.3.1)"
+      },
+      {
+        "ts": "2026-03-19T00:10:37.577186",
+        "elapsed_s": 0.1,
+        "event": "scan_start",
+        "timeout": 15.0
+      },
+      {
+        "ts": "2026-03-19T00:10:52.719807",
+        "elapsed_s": 15.24,
+        "event": "scan_found",
+        "name": "NAVEE",
+        "address": "7B25177C-2D70-1F95-68E2-056E946F9418"
+      },
+      {
+        "ts": "2026-03-19T00:10:52.720515",
+        "elapsed_s": 15.24,
+        "event": "connect_start",
+        "address": "7B25177C-2D70-1F95-68E2-056E946F9418"
+      },
+      {
+        "ts": "2026-03-19T00:11:00.523253",
+        "elapsed_s": 23.04,
+        "event": "connect_ok",
+        "address": "7B25177C-2D70-1F95-68E2-056E946F9418"
+      },
+      {
+        "ts": "2026-03-19T00:11:00.638516",
+        "elapsed_s": 23.16,
+        "event": "auth_start",
+        "device_id": "88 00 02 77 53 ED"
+      },
+      {
+        "ts": "2026-03-19T00:11:00.638558",
+        "elapsed_s": 23.16,
+        "event": "ble_write",
+        "data": "55 AA 00 30 09 01 00 88 00 02 77 53 ED 00 7A FE FD"
+      },
+      {
+        "ts": "2026-03-19T00:11:00.758587",
+        "elapsed_s": 23.28,
+        "event": "ble_notify",
+        "cmd": "0x30",
+        "data": "00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:00.758735",
+        "elapsed_s": 23.28,
+        "event": "auth_ok"
+      },
+      {
+        "ts": "2026-03-19T00:11:01.241126",
+        "elapsed_s": 23.76,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:01.720729",
+        "elapsed_s": 24.24,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:01.760239",
+        "elapsed_s": 24.28,
+        "event": "ble_write",
+        "data": "55 AA 00 73 00 72 FE FD"
+      },
+      {
+        "ts": "2026-03-19T00:11:01.839813",
+        "elapsed_s": 24.36,
+        "event": "ble_notify",
+        "cmd": "0x73",
+        "data": "00 32 30 33 31 30 30 31 35 31 30 30 34",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:01.840089",
+        "elapsed_s": 24.36,
+        "event": "firmware_version",
+        "version": "203100151004"
+      },
+      {
+        "ts": "2026-03-19T00:11:01.840139",
+        "elapsed_s": 24.36,
+        "event": "ble_write",
+        "data": "55 AA 00 74 00 73 FE FD"
+      },
+      {
+        "ts": "2026-03-19T00:11:01.959735",
+        "elapsed_s": 24.48,
+        "event": "ble_notify",
+        "cmd": "0x74",
+        "data": "00 54 32 33 34 35 35 34 52 44 45 34 4A 30 30 36 33 38 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:01.960306",
+        "elapsed_s": 24.48,
+        "event": "serial_number",
+        "serial": "T234554RDE4J00638"
+      },
+      {
+        "ts": "2026-03-19T00:11:01.960429",
+        "elapsed_s": 24.48,
+        "event": "ble_write",
+        "data": "55 AA 00 70 00 6F FE FD"
+      },
+      {
+        "ts": "2026-03-19T00:11:02.080277",
+        "elapsed_s": 24.6,
+        "event": "ble_notify",
+        "cmd": "0x70",
+        "data": "00 01 05 00 00 00 1E 00 01 01 00 01 00 00 02 00 01 00 00 00 03 00 00 00 00 00 16 00 00 00 00 00 00 00 00 01 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:02.080959",
+        "elapsed_s": 24.6,
+        "event": "vehicle_settings",
+        "settings": {
+          "drive_mode": "SPORT",
+          "lock_status": "UNLOCKED",
+          "cruise_control": false,
+          "tail_light": false,
+          "ers_level": 30,
+          "mileage_unit": "KM",
+          "auto_headlight": true,
+          "tcs": false,
+          "turn_sound": false,
+          "max_speed_kmh": 22
+        }
+      },
+      {
+        "ts": "2026-03-19T00:11:12.494802",
+        "elapsed_s": 35.01,
+        "event": "dfu_enter_start",
+        "mcu_type": 1
+      },
+      {
+        "ts": "2026-03-19T00:11:12.495172",
+        "elapsed_s": 35.01,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.495473",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.495595",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.495658",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.495710",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.495768",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.495816",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.495866",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.495910",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.495958",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.496001",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.496050",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.496093",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.496140",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.496182",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.496228",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.496272",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.496319",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.496359",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.496406",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.496447",
+        "elapsed_s": 35.02,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.699920",
+        "elapsed_s": 35.22,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:12.796860",
+        "elapsed_s": 35.32,
+        "event": "dfu_enter_sent",
+        "cmd": "down dfu_start 1"
+      },
+      {
+        "ts": "2026-03-19T00:11:13.001354",
+        "elapsed_s": 35.52,
+        "event": "dfu_enter_ok"
+      },
+      {
+        "ts": "2026-03-19T00:11:14.013285",
+        "elapsed_s": 36.53,
+        "event": "dfu_ble_rand_sent"
+      },
+      {
+        "ts": "2026-03-19T00:11:16.015073",
+        "elapsed_s": 38.53,
+        "event": "dfu_cipher_received",
+        "status": "0x00",
+        "length": 16,
+        "hex": "41 25 51 20 13 0A 66 13 F7 A8 97 60 74 52 64 74"
+      },
+      {
+        "ts": "2026-03-19T00:11:16.017296",
+        "elapsed_s": 38.54,
+        "event": "dfu_ble_key_sent",
+        "method": "XOR"
+      },
+      {
+        "ts": "2026-03-19T00:11:18.018810",
+        "elapsed_s": 40.54,
+        "event": "dfu_key_exchange_ok"
+      },
+      {
+        "ts": "2026-03-19T00:11:18.120164",
+        "elapsed_s": 40.64,
+        "event": "xmodem_ready"
+      },
+      {
+        "ts": "2026-03-19T00:11:18.122025",
+        "elapsed_s": 40.64,
+        "event": "flash_start",
+        "blocks": 1080,
+        "size": 138240,
+        "dry_run": false
+      },
+      {
+        "ts": "2026-03-19T00:11:19.481974",
+        "elapsed_s": 42.0,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:19.960333",
+        "elapsed_s": 42.48,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:20.500334",
+        "elapsed_s": 43.02,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:20.980558",
+        "elapsed_s": 43.5,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:21.521893",
+        "elapsed_s": 44.04,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:22.001996",
+        "elapsed_s": 44.52,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:22.480569",
+        "elapsed_s": 45.0,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:22.962356",
+        "elapsed_s": 45.48,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:23.502383",
+        "elapsed_s": 46.02,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:23.981154",
+        "elapsed_s": 46.5,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:11:25.112383",
+        "elapsed_s": 47.63,
+        "event": "flash_failed"
+      }
+    ]
+  },
+  {
+    "session_start": "2026-03-19T00:14:02.499601",
+    "session_end": "2026-03-19T00:15:35.893600",
+    "total_events": 131,
+    "events": [
+      {
+        "ts": "2026-03-19T00:14:02.499624",
+        "elapsed_s": 0.0,
+        "event": "session_start",
+        "mode": "flash",
+        "dry_run": false,
+        "firmware": "firmware/navee_meter_v2.0.3.1_PATCHED.bin"
+      },
+      {
+        "ts": "2026-03-19T00:14:02.597362",
+        "elapsed_s": 0.1,
+        "event": "firmware_analyzed",
+        "path": "firmware/navee_meter_v2.0.3.1_PATCHED.bin",
+        "filename": "navee_meter_v2.0.3.1_PATCHED.bin",
+        "size": 138240,
+        "size_kb": 135.0,
+        "md5": "6f4f300a0fd42d9e81ce6a9fb653cd53",
+        "sha256": "fe29b31b9c17c5aff00a46323bcce9a45517dc87f0a5d7fc611cfd468f920d43",
+        "crc16": 58203,
+        "blocks": 1080,
+        "model_string": "T2202",
+        "type_byte": 1,
+        "type_name": "Meter (Dashboard)",
+        "version_string": "00030001",
+        "version_readable": "Build 3.1 (v2.0.3.1)"
+      },
+      {
+        "ts": "2026-03-19T00:14:02.597389",
+        "elapsed_s": 0.1,
+        "event": "scan_start",
+        "timeout": 15.0
+      },
+      {
+        "ts": "2026-03-19T00:14:17.742827",
+        "elapsed_s": 15.24,
+        "event": "scan_found",
+        "name": "NAVEE",
+        "address": "7B25177C-2D70-1F95-68E2-056E946F9418"
+      },
+      {
+        "ts": "2026-03-19T00:14:17.744101",
+        "elapsed_s": 15.24,
+        "event": "connect_start",
+        "address": "7B25177C-2D70-1F95-68E2-056E946F9418"
+      },
+      {
+        "ts": "2026-03-19T00:14:29.773457",
+        "elapsed_s": 27.27,
+        "event": "connect_ok",
+        "address": "7B25177C-2D70-1F95-68E2-056E946F9418"
+      },
+      {
+        "ts": "2026-03-19T00:14:29.890821",
+        "elapsed_s": 27.39,
+        "event": "auth_start",
+        "device_id": "88 00 02 77 53 ED"
+      },
+      {
+        "ts": "2026-03-19T00:14:29.890869",
+        "elapsed_s": 27.39,
+        "event": "ble_write",
+        "data": "55 AA 00 30 09 01 00 88 00 02 77 53 ED 00 7A FE FD"
+      },
+      {
+        "ts": "2026-03-19T00:14:30.012142",
+        "elapsed_s": 27.51,
+        "event": "ble_notify",
+        "cmd": "0x30",
+        "data": "00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:30.012345",
+        "elapsed_s": 27.51,
+        "event": "auth_ok"
+      },
+      {
+        "ts": "2026-03-19T00:14:30.490919",
+        "elapsed_s": 27.99,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 28 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:30.971396",
+        "elapsed_s": 28.47,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:31.013758",
+        "elapsed_s": 28.51,
+        "event": "ble_write",
+        "data": "55 AA 00 73 00 72 FE FD"
+      },
+      {
+        "ts": "2026-03-19T00:14:31.090707",
+        "elapsed_s": 28.59,
+        "event": "ble_notify",
+        "cmd": "0x73",
+        "data": "00 32 30 33 31 30 30 31 35 31 30 30 34",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:31.090968",
+        "elapsed_s": 28.59,
+        "event": "firmware_version",
+        "version": "203100151004"
+      },
+      {
+        "ts": "2026-03-19T00:14:31.091105",
+        "elapsed_s": 28.59,
+        "event": "ble_write",
+        "data": "55 AA 00 74 00 73 FE FD"
+      },
+      {
+        "ts": "2026-03-19T00:14:31.211588",
+        "elapsed_s": 28.71,
+        "event": "ble_notify",
+        "cmd": "0x74",
+        "data": "00 54 32 33 34 35 35 34 52 44 45 34 4A 30 30 36 33 38 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:31.212200",
+        "elapsed_s": 28.71,
+        "event": "serial_number",
+        "serial": "T234554RDE4J00638"
+      },
+      {
+        "ts": "2026-03-19T00:14:31.212335",
+        "elapsed_s": 28.71,
+        "event": "ble_write",
+        "data": "55 AA 00 70 00 6F FE FD"
+      },
+      {
+        "ts": "2026-03-19T00:14:31.332010",
+        "elapsed_s": 28.83,
+        "event": "ble_notify",
+        "cmd": "0x70",
+        "data": "00 01 05 00 00 00 1E 00 01 01 00 01 00 00 02 00 01 00 00 00 03 00 00 00 00 00 16 00 00 00 00 00 00 00 00 01 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:31.332829",
+        "elapsed_s": 28.83,
+        "event": "vehicle_settings",
+        "settings": {
+          "drive_mode": "SPORT",
+          "lock_status": "UNLOCKED",
+          "cruise_control": false,
+          "tail_light": false,
+          "ers_level": 30,
+          "mileage_unit": "KM",
+          "auto_headlight": true,
+          "tcs": false,
+          "turn_sound": false,
+          "max_speed_kmh": 22
+        }
+      },
+      {
+        "ts": "2026-03-19T00:14:33.986376",
+        "elapsed_s": 31.49,
+        "event": "dfu_enter_start",
+        "mcu_type": 1
+      },
+      {
+        "ts": "2026-03-19T00:14:33.986711",
+        "elapsed_s": 31.49,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:33.986826",
+        "elapsed_s": 31.49,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:33.986884",
+        "elapsed_s": 31.49,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:33.986940",
+        "elapsed_s": 31.49,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:33.986991",
+        "elapsed_s": 31.49,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:33.987049",
+        "elapsed_s": 31.49,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:34.289155",
+        "elapsed_s": 31.79,
+        "event": "dfu_enter_sent",
+        "cmd": "down dfu_start 1"
+      },
+      {
+        "ts": "2026-03-19T00:14:34.492120",
+        "elapsed_s": 31.99,
+        "event": "dfu_enter_ok"
+      },
+      {
+        "ts": "2026-03-19T00:14:35.493530",
+        "elapsed_s": 32.99,
+        "event": "dfu_ble_rand_sent"
+      },
+      {
+        "ts": "2026-03-19T00:14:37.495455",
+        "elapsed_s": 35.0,
+        "event": "dfu_cipher_received",
+        "status": "0x00",
+        "length": 16,
+        "hex": "F9 6E CA 66 DF DE 5A 6F C8 46 66 26 1F E5 DB 52"
+      },
+      {
+        "ts": "2026-03-19T00:14:37.496311",
+        "elapsed_s": 35.0,
+        "event": "dfu_ble_key_sent",
+        "method": "XOR"
+      },
+      {
+        "ts": "2026-03-19T00:14:39.497775",
+        "elapsed_s": 37.0,
+        "event": "dfu_key_exchange_ok"
+      },
+      {
+        "ts": "2026-03-19T00:14:39.599136",
+        "elapsed_s": 37.1,
+        "event": "xmodem_ready"
+      },
+      {
+        "ts": "2026-03-19T00:14:39.600211",
+        "elapsed_s": 37.1,
+        "event": "flash_start",
+        "blocks": 1080,
+        "size": 138240,
+        "dry_run": false
+      },
+      {
+        "ts": "2026-03-19T00:14:40.900437",
+        "elapsed_s": 38.4,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 28 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:41.382287",
+        "elapsed_s": 38.88,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:41.924112",
+        "elapsed_s": 39.42,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:42.402800",
+        "elapsed_s": 39.9,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:42.883632",
+        "elapsed_s": 40.38,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:43.422221",
+        "elapsed_s": 40.92,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:43.908996",
+        "elapsed_s": 41.41,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:44.382884",
+        "elapsed_s": 41.88,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:44.921993",
+        "elapsed_s": 42.42,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:45.401415",
+        "elapsed_s": 42.9,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:45.881954",
+        "elapsed_s": 43.38,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:46.423313",
+        "elapsed_s": 43.92,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:46.903773",
+        "elapsed_s": 44.4,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:47.382072",
+        "elapsed_s": 44.88,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:47.921915",
+        "elapsed_s": 45.42,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 28 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:48.401957",
+        "elapsed_s": 45.9,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:48.883856",
+        "elapsed_s": 46.38,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:49.422170",
+        "elapsed_s": 46.92,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:49.902895",
+        "elapsed_s": 47.4,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:50.382366",
+        "elapsed_s": 47.88,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:50.922227",
+        "elapsed_s": 48.42,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 28 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:51.402057",
+        "elapsed_s": 48.9,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:51.881690",
+        "elapsed_s": 49.38,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:52.421883",
+        "elapsed_s": 49.92,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:52.901956",
+        "elapsed_s": 50.4,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:53.383254",
+        "elapsed_s": 50.88,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:53.922393",
+        "elapsed_s": 51.42,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:54.402124",
+        "elapsed_s": 51.9,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:54.882653",
+        "elapsed_s": 52.38,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:55.362231",
+        "elapsed_s": 52.86,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:55.901979",
+        "elapsed_s": 53.4,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:56.382210",
+        "elapsed_s": 53.88,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:56.864350",
+        "elapsed_s": 54.36,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 28 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:57.400926",
+        "elapsed_s": 54.9,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:57.882159",
+        "elapsed_s": 55.38,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 28 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:58.364073",
+        "elapsed_s": 55.86,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:58.902376",
+        "elapsed_s": 56.4,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:59.384267",
+        "elapsed_s": 56.88,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:14:59.863959",
+        "elapsed_s": 57.36,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:00.402168",
+        "elapsed_s": 57.9,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:00.972554",
+        "elapsed_s": 58.47,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 28 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:01.362248",
+        "elapsed_s": 58.86,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:01.872295",
+        "elapsed_s": 59.37,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 28 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:02.412427",
+        "elapsed_s": 59.91,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:02.893780",
+        "elapsed_s": 60.39,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:03.372453",
+        "elapsed_s": 60.87,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:03.912600",
+        "elapsed_s": 61.41,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:04.392916",
+        "elapsed_s": 61.89,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:04.872179",
+        "elapsed_s": 62.37,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:05.412414",
+        "elapsed_s": 62.91,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:05.891226",
+        "elapsed_s": 63.39,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:06.372280",
+        "elapsed_s": 63.87,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:06.912170",
+        "elapsed_s": 64.41,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:07.392637",
+        "elapsed_s": 64.89,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:07.872415",
+        "elapsed_s": 65.37,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:08.412383",
+        "elapsed_s": 65.91,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:08.892732",
+        "elapsed_s": 66.39,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:09.372486",
+        "elapsed_s": 66.87,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:09.912497",
+        "elapsed_s": 67.41,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:10.391620",
+        "elapsed_s": 67.89,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:10.872328",
+        "elapsed_s": 68.37,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:11.413029",
+        "elapsed_s": 68.91,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:11.953552",
+        "elapsed_s": 69.45,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:12.372572",
+        "elapsed_s": 69.87,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:12.911894",
+        "elapsed_s": 70.41,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:13.392637",
+        "elapsed_s": 70.89,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:13.727581",
+        "elapsed_s": 34.1,
+        "event": "transfer_complete",
+        "successful": 1080,
+        "failed": 0,
+        "total": 1080,
+        "rate_bps": 4051.0
+      },
+      {
+        "ts": "2026-03-19T00:15:13.727796",
+        "elapsed_s": 71.23,
+        "event": "eot_sent",
+        "attempt": 0
+      },
+      {
+        "ts": "2026-03-19T00:15:13.871763",
+        "elapsed_s": 71.37,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:14.411004",
+        "elapsed_s": 71.91,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:14.892852",
+        "elapsed_s": 72.39,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:15.370952",
+        "elapsed_s": 72.87,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:15.912033",
+        "elapsed_s": 73.41,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:16.395124",
+        "elapsed_s": 73.9,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:16.766747",
+        "elapsed_s": 74.27,
+        "event": "eot_sent",
+        "attempt": 1
+      },
+      {
+        "ts": "2026-03-19T00:15:16.870762",
+        "elapsed_s": 74.37,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:17.413116",
+        "elapsed_s": 74.91,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:17.892708",
+        "elapsed_s": 75.39,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:18.372320",
+        "elapsed_s": 75.87,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:18.912116",
+        "elapsed_s": 76.41,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:19.392462",
+        "elapsed_s": 76.89,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:19.808218",
+        "elapsed_s": 77.31,
+        "event": "eot_sent",
+        "attempt": 2
+      },
+      {
+        "ts": "2026-03-19T00:15:19.871017",
+        "elapsed_s": 77.37,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:20.411143",
+        "elapsed_s": 77.91,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:20.893215",
+        "elapsed_s": 78.39,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:21.761753",
+        "elapsed_s": 79.26,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:21.882214",
+        "elapsed_s": 79.38,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 28 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:22.848780",
+        "elapsed_s": 80.35,
+        "event": "eot_sent",
+        "attempt": 3
+      },
+      {
+        "ts": "2026-03-19T00:15:23.022291",
+        "elapsed_s": 80.52,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:23.022434",
+        "elapsed_s": 80.52,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:23.382272",
+        "elapsed_s": 80.88,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:24.282144",
+        "elapsed_s": 81.78,
+        "event": "ble_notify",
+        "cmd": "0x90",
+        "data": "00 00 03 55 00 00 00 40 01 F0 C9 00 00 1E 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:24.372308",
+        "elapsed_s": 81.87,
+        "event": "ble_notify",
+        "cmd": "0x92",
+        "data": "00 55 00 00 00 40 00 00 00 00 00 00 00 00 00 72 00 00 00 00 00 00 00 00 00 00 00 00 00",
+        "valid": true
+      },
+      {
+        "ts": "2026-03-19T00:15:25.890648",
+        "elapsed_s": 83.39,
+        "event": "dfu_no_result"
+      },
+      {
+        "ts": "2026-03-19T00:15:25.890890",
+        "elapsed_s": 83.39,
+        "event": "verify_start",
+        "expected": "Build 3.1 (v2.0.3.1)"
+      }
+    ]
   }
 ]
