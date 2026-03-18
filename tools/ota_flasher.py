@@ -564,59 +564,59 @@ class NaveeOTAFlasher:
 
     # --- OTA Firmware Flash ---
 
-    async def enter_ota_mode(self) -> bool:
-        """Enter OTA/DFU mode on the scooter.
+    async def enter_ota_mode(self, mcu_type: int = 3) -> bool:
+        """Enter DFU mode using verified text command from APK.
 
-        TODO: The exact OTA entry command needs to be confirmed.
-        Candidates from APK analysis (f2/a.java):
-          - CMD 0x40 with specific payload
-          - Possibly a command in 0xF0-0xFF range
-          - Might require a specific data payload (e.g., firmware type byte)
+        Sends "down dfu_start <mcu_type>\r" and waits for "ok\r" response.
+        MCU types: 1=BMS, 2=BLDC, 3=Meter, 4=Screen
 
-        This is the first thing to test: send candidate commands and
-        observe scooter behavior (screen changes, LED patterns, etc.)
+        Verified working via --test-dfu-entry (Response: 6F 6B 0D = "ok\r").
         """
-        print("\nEntering OTA mode...")
-        self.log.log("ota_enter_start")
+        print("\nEntering DFU mode...")
+        self.log.log("dfu_enter_start", mcu_type=mcu_type)
 
         if self.dry_run:
-            print("  [DRY RUN] Would send OTA mode command")
-            self.log.log("dry_run_ota_enter")
+            print("  [DRY RUN] Would send: down dfu_start %d" % mcu_type)
+            self.log.log("dry_run_dfu_enter")
             return True
 
-        # TODO: Try these commands in sequence during testing:
-        # 1. CMD_OTA_START (0x40) with empty data
-        # 2. CMD_OTA_START with firmware type byte [0x01] for Meter
-        # 3. CMD_OTA_START with firmware size as 4-byte LE
-        # 4. Check 0xF0-0xFF range commands
-        #
-        # Test procedure:
-        #   - Connect + auth
-        #   - Send candidate command
-        #   - Observe: does the scooter screen change? Does it enter a special mode?
-        #   - Check response for ACK/NAK
+        # Leere alte Responses
+        self.last_responses.clear()
+        await asyncio.sleep(0.3)
+        self.last_responses.clear()
 
-        # Attempt: CMD 0x40 with firmware type indicator
-        resp = await self._send_cmd(CMD_OTA_START, bytes([0x01]))  # 0x01 = Meter type
-        if resp:
-            status = resp["data"][0] if resp["data"] else 0xFF
-            if status == 0x00:
-                print("  OTA mode entered!")
-                self.log.log("ota_enter_ok")
-                return True
-            else:
-                print(f"  OTA mode response: 0x{status:02X}")
-                self.log.log("ota_enter_response", status=f"0x{status:02X}",
-                             data=hex_str(resp["data"]))
-                # Even non-zero might indicate OTA mode on some firmware versions
-                # TODO: Interpret response codes
-                return False
-        else:
-            print("  WARNING: No response to OTA mode command")
-            self.log.log("ota_enter_no_response")
-            # The scooter might have entered OTA mode silently
-            # TODO: Check if BLE connection is still alive
+        # Sende den verifizierten Text-Command
+        dfu_cmd = f"down dfu_start {mcu_type}\r".encode("ascii")
+        print(f"  TX: {dfu_cmd!r}")
+        try:
+            await self.client.write_gatt_char(WRITE_UUID, dfu_cmd, response=False)
+        except Exception as e:
+            print(f"  FEHLER beim Senden: {e}")
+            self.log.log("dfu_enter_send_error", error=str(e))
             return False
+
+        self.log.log("dfu_enter_sent", cmd=dfu_cmd.decode("ascii").strip())
+
+        # Warte auf "ok\r" Response (max 5 Sekunden)
+        print("  Warte auf 'ok' Response...")
+        for _ in range(50):
+            await asyncio.sleep(0.1)
+            for resp in self.last_responses:
+                if b"ok" in resp:
+                    print("  DFU-Modus aktiv! (Response: 'ok')")
+                    self.log.log("dfu_enter_ok")
+                    return True
+
+        # Keine "ok" Response
+        if self.last_responses:
+            for resp in self.last_responses:
+                print(f"  Unerwartete Response: {' '.join(f'{b:02X}' for b in resp)}")
+            self.log.log("dfu_enter_unexpected", responses=len(self.last_responses))
+        else:
+            print("  Keine Response empfangen.")
+            self.log.log("dfu_enter_no_response")
+
+        return False
 
     async def send_firmware_header(self, fw_info: dict) -> bool:
         """Send firmware header information to scooter before data transfer.
@@ -1026,16 +1026,31 @@ class NaveeOTAFlasher:
             else:
                 print("\n  [DRY RUN] Skipping confirmation prompt")
 
-            # --- Step 5: Enter OTA mode ---
-            print("\n[Step 5] Entering OTA mode...")
-            ota_ok = await self.enter_ota_mode()
-            if not ota_ok:
-                print("  WARNING: OTA mode entry may have failed.")
-                if not self.dry_run:
-                    resp = input("  Continue anyway? (y/N): ").strip().lower()
-                    if resp != "y":
-                        print("  Aborted.")
-                        return False
+            # --- Step 5: Enter DFU mode ---
+            print("\n[Step 5] Entering DFU mode...")
+            dfu_ok = await self.enter_ota_mode(mcu_type=3)  # 3 = Meter
+            if not dfu_ok:
+                print("  DFU-Modus konnte nicht aktiviert werden.")
+                print("  Abbruch — Scooter ist unverändert.")
+                return False
+
+            # Nach DFU-Entry: Scooter trennt BLE und startet DFU-Bootloader
+            # Wir müssen neu verbinden
+            print("\n  Scooter wechselt in DFU-Modus...")
+            print("  Warte auf Reconnect (10s)...")
+            await asyncio.sleep(3.0)
+
+            # Reconnect
+            if not self.client.is_connected:
+                print("  BLE getrennt (erwartet). Reconnecting...")
+                try:
+                    await self.connect(self.device_address)
+                    print("  Reconnect OK!")
+                except Exception as e:
+                    print(f"  Reconnect fehlgeschlagen: {e}")
+                    print("  Der Scooter ist vermutlich noch im DFU-Modus.")
+                    print("  Scooter aus/ein und nochmal versuchen.")
+                    return False
 
             # --- Step 6: Send firmware header ---
             print("\n[Step 6] Sending firmware header...")
