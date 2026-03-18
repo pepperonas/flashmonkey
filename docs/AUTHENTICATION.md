@@ -91,16 +91,16 @@ DATA: [fahrzeugspezifische Parameter]
 ### Vollständiger Ablauf
 
 ```
-App                              Scooter
- │                                  │
- │─── CMD 0x30 [keyIdx, devId] ───→│
- │                                  │
- │←── CMD 0x30 [0x00 = OK] ────────│
- │                                  │
- │─── CMD 0x6F [Post-Auth] ────────→│
- │                                  │
- │←── Telemetrie (0x90, 0x92) ─────│  (ab jetzt kontinuierlich)
- │                                  │
+App                                Scooter
+ │                                    │
+ │─── CMD 0x30 [keyIdx, devId] ─────→│
+ │                                    │
+ │←─── CMD 0x30 [0x00 = OK] ─────────│
+ │                                    │
+ │─── CMD 0x6F [Post-Auth] ─────────→│
+ │                                    │
+ │←─── Telemetrie (0x90, 0x92) ──────│  (ab jetzt kontinuierlich)
+ │                                    │
 ```
 
 ---
