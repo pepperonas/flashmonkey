@@ -298,41 +298,41 @@ Der NOP lässt den Code zur nächsten Instruktion durchfallen (`strb r3,[r1,#0x4
 **OTA-Flasher verifizierte Schritte:**
 - ✅ BLE-Verbindung + Auth
 - ✅ Scooter-Info lesen (Firmware, Serial, Settings)
-- ✅ DFU-Entry: `"down dfu_start 3\r"` → `"ok\r"` (3x reproduzierbar bestätigt)
-- ❌ Key Exchange: `"down ble_rand\r"` + `"down ble_key <decrypted>\r"` — scheitert
+- ✅ DFU-Entry: `"down dfu_start 3\r"` → `"ok\r"`
+- ✅ Key Exchange: `"down ble_rand\r"` → XOR decrypt → `"down ble_key <decrypted>\r"` → `"ok\r"`
+- ✅ XMODEM Ready: `0x43` ('C') empfangen
+- ⏳ XMODEM Transfer: noch nicht live getestet
 
-**Key Exchange Testergebnisse (18. März 2026):**
+**Key Exchange — Lösung gefunden (18. März 2026):**
 
-Alle 8 Varianten systematisch getestet, keine lieferte 0x43 (XMODEM Ready):
+Nach 16 fehlgeschlagenen Versuchen (8 Varianten × 2 Runden) wurde die korrekte Kombination gefunden:
 
-| Test | Ergebnis | Details |
-|------|----------|---------|
-| Skip (kein Key Exchange) | ❌ | Kein 0x43 nach 5s |
-| AES Key 0 (raw decrypt) | ❌ | Keine "ok" Response |
-| AES Key 1 (raw decrypt) | ❌ | Keine "ok" Response |
-| AES Key 2 (raw decrypt) | ❌ | Keine "ok" Response |
-| AES Key 3 (raw decrypt) | ❌ | Keine "ok" Response |
-| AES Key 4 (raw decrypt) | ❌ | Keine "ok" Response |
-| Key 1 + Hex-String | ❌ | Keine "ok" Response |
-| Key 1 + Echo raw cipher | ❌ | Keine "ok" Response |
+**Das Problem waren zwei gleichzeitige Fehler:**
 
-**Wichtige Beobachtung:** Jeder Cipher beginnt mit `0x00` — vermutlich ein Status/Typ-Byte, nicht Teil des 16-Byte-Ciphertexts. Die Entschlüsselung wurde möglicherweise mit falschem Offset durchgeführt (`[0:16]` statt `[1:17]`).
+1. **Falscher Cipher-Offset:** Die `ble_rand` Response hat das Format `"ok " + [Status-Byte] + [16-Byte-Cipher] + "\r"`. Das Status-Byte `0x00` wurde fälschlich als Teil des Ciphers behandelt.
 
-**Scooter-Verhalten während Tests:** Normal — nach fehlgeschlagenem Key Exchange sendet er weiter Telemetrie (0x90, 0x92) und startet bei Timeout normal neu. Kein Brick-Risiko bei den bisherigen Tests.
+2. **Falsche Entschlüsselung:** Status-Byte `0x00` bedeutet **XOR-Entschlüsselung**, nicht AES. Der APK-Code (DFUProcessor.java Zeile 416-434) prüft explizit:
+   ```java
+   byte b7 = bArr[3];  // Status-Byte
+   bArrG = b7 == 0
+       ? f.g(cipher, key)   // 0x00 → XOR!
+       : f.f(cipher, key);  // sonst → AES
+   ```
 
-#### Offene Probleme für OTA-Flash
+**Funktionierende Kombination:**
+- Status-Byte `0x00` überspringen → Cipher ab Byte 4
+- **XOR-Entschlüsselung** mit **AES_KEYS[1]** (`446d10726dbe05f662dfaaf01327303f`)
+- Entschlüsselte 16 Bytes als raw in `"down ble_key "` + bytes + `"\r"` senden
 
-1. **Cipher-Offset:** Erstes Byte `0x00` in der ble_rand Response könnte ein Typ-Byte sein → Cipher ist `response[4:20]` statt `response[3:19]`
-2. **Re-Encryption:** APK-Code könnte den entschlüsselten Wert re-encrypten bevor er gesendet wird
-3. **Key-Auswahl:** Die APK nutzt möglicherweise den Area-Code (nicht Key-Index 0-4) zur Key-Auswahl
-4. **Alternativer DFU-Pfad:** Die offizielle App könnte einen anderen DFU-Flow nutzen als den in DFUProcessor.java
-
-#### Nächste Schritte
-
-1. **APK DFUProcessor.java nochmal genau analysieren** — exakten Byte-Offset für Cipher-Extraktion finden
-2. **BT-HCI Capture eines echten OTA-Updates** — offizielle App ein Update durchführen lassen und den Traffic mitschneiden
-3. **Cipher-Offset [1:17] testen** — das erste `0x00` Byte überspringen
-4. **Re-Encryption testen** — decrypt → re-encrypt → senden
+**Verifiziertes Ergebnis:**
+```
+ble_rand Response: "ok " + 0x00 + [16 cipher bytes] + "\r"
+Status: 0x00 (XOR)
+Cipher: E1 17 A6 11 E8 1A 22 0B DB 1D 58 2A E9 C9 AC 71
+XOR mit Key 1 → Decrypted bytes
+ble_key Response: "ok\r" ← ERFOLG!
+XMODEM Ready: 0x43 0x43 ← BEREIT FÜR TRANSFER!
+```
 
 #### Wichtige Architektur-Erkenntnis
 
