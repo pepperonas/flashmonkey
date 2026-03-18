@@ -278,7 +278,27 @@ Arduino USB ──→ PC (Stromversorgung + Debug)
 - ~2000+ Frames erfolgreich manipuliert in Tests
 - Controller akzeptiert die neuen Werte syntaktisch (Checksum OK)
 
-**Wichtiger Hinweis:** Die tatsächliche Wirksamkeit (ob der Controller die höheren Limits respektiert) muss in realer Fahrt getestet werden. Beim aufgebockten Test reagierte der Motor nicht auf die Manipulation, was aber an fehlender Last/anderen Sicherheitsmechanismen liegen kann.
+**Testergebnis (März 2026):** Nach realem Fahrtest mit über 1000 erfolgreich manipulierten Frames stellte sich heraus, dass **der Controller die UART-Speed-Limits komplett ignoriert**. Die Geschwindigkeit blieb trotz erfolgreicher Manipulation bei 22 km/h. 
+
+**Fazit:** Die Speed-Limits sind firmware-seitig im Controller hardcoded und unabhängig von Dashboard-Commands. Frame A Bytes 6/7 sind lediglich Logging-/Anzeige-Werte ohne sicherheitskritische Funktion.
+
+#### Mögliche nächste Ansätze
+
+Da UART-Manipulation erfolglos war, bleiben folgende Optionen:
+
+1. **Controller-Firmware Reverse Engineering** — Direkter MCU-Zugriff via JTAG/SWD  
+   - Firmware-Dump und Disassemblierung  
+   - Speed-Konstanten (22 km/h) im Code lokalisieren und patchen
+   - Risiko: Controller kann "gebrickt" werden (aber reversibel mit Backup)
+
+2. **PID-Spoofing via BLE** — App die sich als internationale Version ausgibt
+   - Andere PID senden um höhere Speed-Optionen zu aktivieren  
+   - Weniger invasiv, aber möglicherweise ebenfalls firmware-limitiert
+
+3. **Hardware-Shunt-Modifikation** — Manipulation der Motorsteuerung
+   - Höchstes Risiko, permanente Hardware-Änderungen
+
+**Empfehlung:** Controller-Firmware RE als nächster vielversprechender Ansatz.
 
 ### Sicherheitshinweise
 

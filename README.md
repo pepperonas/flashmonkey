@@ -14,7 +14,7 @@
 [![Material3](https://img.shields.io/badge/Material-Design%203-757575.svg)]()
 [![BLE Protocol](https://img.shields.io/badge/BLE-Custom%20Protocol-informational.svg)](docs/PROTOCOL.md)
 [![UART Protocol](https://img.shields.io/badge/UART-19200%20Baud-orange.svg)](docs/INTERNAL_UART_PROTOCOL.md)
-[![Speed Unlock](https://img.shields.io/badge/Speed%20Unlock-UART%20MitM-FF6B6B.svg)](docs/UART_MITM_GUIDE.md)
+[![Speed Unlock](https://img.shields.io/badge/Speed%20Unlock-Failed%20Attempt-red.svg)](docs/UART_MITM_GUIDE.md)
 [![Auth](https://img.shields.io/badge/Auth-AES--128--ECB-9C27B0.svg)](docs/AUTHENTICATION.md)
 [![Reverse Engineering](https://img.shields.io/badge/RE-APK%20%2B%20Hardware-FFA726.svg)](docs/REVERSE_ENGINEERING.md)
 [![Status](https://img.shields.io/badge/Status-Active%20Development-yellow.svg)]()
@@ -48,9 +48,9 @@ Dieses Projekt dokumentiert das proprietäre BLE- und UART-Protokoll des Navee S
 ### Hardware Reverse Engineering
 
 - **UART-Protokoll** zwischen Dashboard und Controller entschlüsselt (19200 Baud, 8N1)
-- **Drei Frame-Typen** identifiziert (Dashboard-Status, Telemetrie, Controller-Telemetrie)
-- **Speed-Limit-Kandidaten** in Frame A gefunden — Dashboard sendet Limits an Controller
-- **ESP32 MitM** als nächster Schritt für Hardware-Tuning
+- **Drei Frame-Typen** identifiziert (Dashboard-Status, Telemetrie, Controller-Telemetrie)  
+- **Speed-Limits** in Frame A lokalisiert — aber Controller ignoriert diese Werte
+- **Arduino MitM** implementiert und getestet — **erfolglos** (Limits firmware-seitig hardcoded)
 
 ---
 
@@ -130,9 +130,9 @@ Die vollständige Protokoll-Dokumentation befindet sich in [`docs/PROTOCOL.md`](
 
 ## Rechtlicher Hinweis
 
-> **Geschwindigkeitsbegrenzungen:** Der Navee ST3 Pro unterliegt in Deutschland einer firmware-seitigen Geschwindigkeitsbegrenzung von **22 km/h**. Diese Begrenzung ist im Firmware-Code fest verankert (PID-abhängig) und kann nicht per BLE-Kommando umgangen werden. Die Nutzung von E-Scootern im öffentlichen Straßenverkehr unterliegt der eKFV (Elektrokleinstfahrzeuge-Verordnung). Die Manipulation der Höchstgeschwindigkeit ist **nicht** Ziel dieses Projekts.
+> **Geschwindigkeitsbegrenzungen:** Der Navee ST3 Pro unterliegt in Deutschland einer firmware-seitigen Geschwindigkeitsbegrenzung von **22 km/h**. Diese Begrenzung ist im Controller-Firmware-Code fest verankert (PID-abhängig) und kann **nicht** per BLE- oder UART-Manipulation umgangen werden. Tests mit UART-MitM zeigten, dass der Controller Dashboard-Speed-Limits komplett ignoriert.
 
-> Dieses Projekt dient ausschließlich der Forschung, Dokumentation und dem Zugang zu Funktionen, die die offizielle App ebenfalls bietet — unabhängig von den Navee-Servern.
+> Dieses Projekt dient ausschließlich der Forschung, Protokoll-Dokumentation und dem Zugang zu Funktionen, die die offizielle App ebenfalls bietet — unabhängig von den Navee-Servern.
 
 ---
 

@@ -1,10 +1,13 @@
 # UART Man-in-the-Middle Speed Unlock Guide
 
+> ⚠️ **WICHTIGER HINWEIS - METHODE ERFOLGLOS**  
+> Diese Methode wurde implementiert und getestet, ist aber **nicht wirksam**. Der Controller ignoriert UART-Speed-Limits komplett und bleibt bei 22 km/h. Diese Dokumentation verbleibt zur Referenz und um anderen die gleiche erfolglose Arbeit zu ersparen.
+
 ## Übersicht
 
-Diese Anleitung beschreibt, wie der Navee ST3 Pro (DE-Version) mittels UART Man-in-the-Middle modifiziert werden kann, um die 22 km/h Geschwindigkeitsbegrenzung zu umgehen.
+Diese Anleitung beschreibt eine **gescheiterte** Methode zur Speed-Unlock des Navee ST3 Pro (DE-Version) mittels UART Man-in-the-Middle.
 
-**Status:** Funktionsfähige Implementierung, realer Fahrtest ausstehend
+**Status:** ❌ **Funktional implementiert, aber unwirksam** ❌
 
 ---
 

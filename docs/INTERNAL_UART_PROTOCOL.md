@@ -217,8 +217,14 @@ Einmalig beobachtet beim Moduswechsel:
 
 ### Phase 3 — Speed Unlock Status
 1. **Byte 6/7 in Frame A erhöhen** ✅ IMPLEMENTIERT — Dashboard Speed-Limits werden manipuliert
-2. **Anlaufgeschwindigkeit (Byte 10)** ✅ KANN auf 0x00 gesetzt werden
-3. **Realer Fahrtest** ⏳ AUSSTEHEND — Wirksamkeit muss in echter Fahrt verifiziert werden
+2. **Anlaufgeschwindigkeit (Byte 10)** ✅ KANN auf 0x00 gesetzt werden  
+3. **Realer Fahrtest** ❌ **ERFOLGLOS** — Controller ignoriert UART-Manipulation komplett
+
+#### Testergebnis
+
+**Getestet:** Über 1000 Frames erfolgreich von 24/22 auf 30/30 km/h manipuliert
+**Ergebnis:** Controller bleibt bei 22 km/h — **UART-Limits werden ignoriert**
+**Fazit:** Speed-Limits sind firmware-seitig im Controller hardcoded (PID 23452)
 
 ---
 
