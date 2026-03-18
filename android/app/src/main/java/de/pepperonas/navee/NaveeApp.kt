@@ -8,19 +8,9 @@ class NaveeApp : Application() {
         super.onCreate()
         NaveeAuth.init(this)
 
-        // Seed credentials on first run (extracted from BT capture)
-        if (!NaveeAuth.hasCredentials()) {
-            NaveeAuth.saveCredentials(
-                context = this,
-                deviceIdHex = "REDACTED_DEVICE_ID",
-                postAuthParamsHex = "REDACTED_POST_AUTH"
-            )
-        }
-
-        // Seed last known MAC for direct connect
-        val blePrefs = getSharedPreferences("navee_ble", MODE_PRIVATE)
-        if (blePrefs.getString("last_mac", null) == null) {
-            blePrefs.edit().putString("last_mac", "XX:XX:XX:XX:XX:XX").apply()
-        }
+        // Credentials müssen beim ersten Start manuell gesetzt werden.
+        // Device-ID und Post-Auth-Params aus BT-Capture extrahieren
+        // und über die App-Einstellungen oder ein Setup-Screen eingeben.
+        // Siehe docs/AUTHENTICATION.md für Details.
     }
 }

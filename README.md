@@ -75,7 +75,7 @@ navee/
 │   └── REVERSE_ENGINEERING.md ← Reverse-Engineering Ergebnisse
 ├── reverse-engineering/       ← Tools und Skripte zur Analyse
 │   └── README.md
-└── microcontroller/           ← ESP32/Arduino Implementierungen (geplant)
+└── tools/                     ← Firmware-Grabber und Analyse-Scripts
     └── README.md
 ```
 
