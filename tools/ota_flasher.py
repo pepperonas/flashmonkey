@@ -1077,48 +1077,56 @@ class NaveeOTAFlasher:
                         break
 
                 if rand_response and len(rand_response) > 4:
-                    # Response: "ok <ciphertext>\r" — extrahiere ciphertext
-                    text = rand_response.decode('ascii', errors='replace').strip()
-                    parts = text.split(" ", 1)
-                    if len(parts) > 1:
-                        cipher_hex = parts[1].strip()
-                        print(f"  Cipher: {cipher_hex[:40]}...")
+                    # Response: b"ok " + 16 raw cipher bytes + b"\r"
+                    # Finde "ok " prefix und extrahiere die Cipher-Bytes danach
+                    ok_idx = rand_response.find(b"ok ")
+                    if ok_idx >= 0:
+                        cipher_bytes = rand_response[ok_idx + 3:]
+                        # Entferne trailing \r
+                        if cipher_bytes.endswith(b"\r"):
+                            cipher_bytes = cipher_bytes[:-1]
+                        print(f"  Cipher ({len(cipher_bytes)} Bytes): {hex_str(cipher_bytes[:16])}")
+                        self.log.log("dfu_cipher_received", length=len(cipher_bytes),
+                                     hex=hex_str(cipher_bytes[:16]))
 
-                        # Schritt 6b: Verschlüsselten Key senden
-                        # Für den Moment: Key-Index 1 verwenden
-                        key = AES_KEYS[1]
-                        try:
+                        if len(cipher_bytes) >= 16:
+                            # AES-128-ECB Entschlüsselung
                             from Crypto.Cipher import AES as PyCryptoAES
-                            cipher = PyCryptoAES.new(key, PyCryptoAES.MODE_ECB)
-                            # Entschlüssle den Random und sende ihn zurück
-                            encrypted = bytes.fromhex(cipher_hex)
-                            decrypted = cipher.decrypt(encrypted[:16])
-                            re_encrypted = cipher.encrypt(decrypted)
-                            key_cmd = f"down ble_key {re_encrypted.hex()}\r".encode('ascii')
-                        except ImportError:
-                            # Ohne pycryptodome: Sende den raw cipher zurück
-                            key_cmd = f"down ble_key {cipher_hex}\r".encode('ascii')
+                            key = AES_KEYS[1]
+                            aes = PyCryptoAES.new(key, PyCryptoAES.MODE_ECB)
+                            decrypted = aes.decrypt(cipher_bytes[:16])
+                            print(f"  Decrypted: {hex_str(decrypted)}")
 
-                        self.last_responses.clear()
-                        print(f"  TX: 'down ble_key ...'")
-                        await self.client.write_gatt_char(
-                            WRITE_UUID, key_cmd, response=False)
-                        self.log.log("dfu_ble_key_sent")
-                        await asyncio.sleep(2.0)
+                            # Sende entschlüsselten Wert als "down ble_key" zurück
+                            # Format: b"down ble_key " + raw_decrypted_bytes + b"\r"
+                            key_cmd = b"down ble_key " + decrypted + b"\r"
 
-                        for resp in self.last_responses:
-                            text = resp.decode('ascii', errors='replace')
-                            if "ok" in text.lower():
-                                print(f"  Key Exchange OK!")
-                                self.log.log("dfu_key_exchange_ok")
-                                break
+                            self.last_responses.clear()
+                            print(f"  TX: 'down ble_key <{len(decrypted)} bytes>'")
+                            await self.client.write_gatt_char(
+                                WRITE_UUID, key_cmd, response=False)
+                            self.log.log("dfu_ble_key_sent")
+                            await asyncio.sleep(2.0)
+
+                            key_ok = False
+                            for resp in self.last_responses:
+                                if b"ok" in resp:
+                                    print(f"  Key Exchange OK!")
+                                    self.log.log("dfu_key_exchange_ok")
+                                    key_ok = True
+                                    break
+                            if not key_ok:
+                                print("  Key Exchange: keine 'ok' Response")
+                                self.log.log("dfu_key_exchange_no_ok")
+                        else:
+                            print(f"  Cipher zu kurz ({len(cipher_bytes)} < 16)")
                     else:
-                        print("  ble_rand Response ohne Cipher — überspringe Key Exchange")
+                        print("  ble_rand Response ohne 'ok' prefix")
                 elif rand_response:
-                    print(f"  ble_rand Response: {rand_response!r}")
-                    print("  Kein Cipher — Key Exchange möglicherweise nicht erforderlich")
+                    print(f"  ble_rand Response: {hex_str(rand_response)}")
+                    print("  Key Exchange möglicherweise nicht erforderlich")
                 else:
-                    print("  Keine Response auf ble_rand — überspringe Key Exchange")
+                    print("  Keine Response auf ble_rand")
                     self.log.log("dfu_ble_rand_no_response")
 
             # --- Step 7: Warte auf XMODEM Ready Signal (0x43 = 'C') ---
