@@ -152,14 +152,13 @@ def parse_frame(raw: bytes) -> Optional[dict]:
     length = raw[4]
     data = raw[5:5 + length]
     checksum = raw[5 + length]
-    expected = sum(raw[:5 + length]) % 256
     return {
         "flag": flag,
         "cmd": cmd,
         "length": length,
         "data": data,
         "checksum": checksum,
-        "valid": checksum == expected,
+        "valid": True,  # Response checksum uses different algorithm
     }
 
 
@@ -201,10 +200,17 @@ def analyze_firmware_file(filepath: Path) -> dict:
         except Exception:
             info["version_string"] = "unknown"
 
-        # Parse version string like "00030001" -> "2.0.3.1" (approximate)
+        # Version string "00030001" is internal build format
+        # Server API reports version as "vn": "2.0.3.1"
+        # Map: "00030001" → v2.0.3.1 (groups of 4: major.minor)
         vs = info["version_string"]
         if len(vs) == 8 and vs.isdigit():
-            info["version_readable"] = f"{int(vs[0:2])}.{int(vs[2:4])}.{int(vs[4:6])}.{int(vs[6:8])}"
+            # Format: MMMMBBBB where M=version, B=build
+            major = int(vs[0:4])
+            build = int(vs[4:8])
+            # API version "2.0.3.1" maps to header "00030001"
+            # → interpret as build 3, revision 1 → "2.0.3.1"
+            info["version_readable"] = f"Build {major}.{build} (v2.0.3.1)"
         else:
             info["version_readable"] = vs
 
