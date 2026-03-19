@@ -301,8 +301,9 @@ Der NOP lässt den Code zur nächsten Instruktion durchfallen (`strb r3,[r1,#0x4
 - ✅ DFU-Entry: `"down dfu_start 1\r"` → `"ok\r"` (MCU-Typ 1 = Meter)
 - ✅ Key Exchange: XOR mit AES_KEYS[1], Status-Byte Skip → `"ok\r"` + `0x43`
 - ✅ XMODEM Transfer: 1080/1080 Blöcke, 0 Fehler, ~34-68s
-- ✅ EOT: ACK (0x06) empfangen
-- ❌ Firmware-Installation: `rsq dfu_ok` wird nicht empfangen, Firmware wird NICHT angewendet
+- ✅ EOT + `rsq dfu_ok`: **Funktioniert mit APK-exakter State Machine** (asyncio.Event, ACK Block-Validierung)
+- ✅ **Original-Firmware wird installiert** (2/2 Versuche erfolgreich, `rsq dfu_ok` nach EOT #3)
+- ❌ **Gepatchte Firmware wird abgelehnt** — Bootloader-Integritätsprüfung verhindert Installation
 
 **MCU-Typ-Zuordnung (aus DFUProcessor.java Enum-Ordinals):**
 
@@ -313,30 +314,55 @@ Der NOP lässt den Code zur nächsten Instruktion durchfallen (`strb r3,[r1,#0x4
 | meter | 2 | `dfu_start 1` | Dashboard |
 | screen | 3 | `dfu_start 4` | Display |
 
-**XMODEM Transfer-Ergebnisse:**
+**XMODEM State Machine (APK-exakt, 19. März 2026):**
 
-| Modus | Blöcke | Zeit | Ergebnis |
-|-------|--------|------|----------|
-| ACK pro Block (500ms) | 568/1080 | ~55s | BLE-Disconnect (macOS Timeout) |
-| Fire-and-Forget (30ms) | 1080/1080 | ~34s | EOT ACK, aber kein `rsq dfu_ok`, Telemetrie kehrt zurück |
-| ACK pro Block (5ms Poll) | 1080/1080 | ~68s | EOT ACK, aber kein `rsq dfu_ok` |
+Die offizielle APK (DFUProcessor.java) verwendet eine strikte State Machine die repliziert werden musste:
+- `f11641h` Flag synchronisiert Block-Send mit ACK-Empfang
+- ACK Block-Validierung: `(bArr[1] + 1) % 256 == expected_seq`
+- 500ms Timeout pro Block (v()-Timer)
+- EOT: 4 Sendungen im 3s-Intervall (E()-Timer)
+- `asyncio.Event` statt Polling in der Python-Implementierung
 
-**Einmalig `rsq dfu_ok` empfangen (test_eot.py):**
-- Einmal wurde `rsq dfu_ok` empfangen (4× wiederholt), Scooter rebootete
-- Konnte NICHT reproduziert werden in nachfolgenden Versuchen
-- Möglicherweise ein Timing-Sonderfall
+**OTA Flash-Ergebnisse (chronologisch):**
 
-**Firmware-Verifizierung gescheitert:**
-- VERIFY_25kmh.bin (Speed-Wert 0xE1→0xFF) geflasht → Scooter fährt weiterhin 22 km/h
-- CMD 0x6E nach Flash → Status-Byte 26 bleibt bei 0x16 (22)
-- Roher Status-Dump: KEINE Byte-Änderung nach CMD 0x6E
-- **Schlussfolgerung: Die Firmware wird transferiert aber NICHT im Flash des Meter-MCU installiert**
+| # | Firmware | Transfer | `rsq dfu_ok` | Installiert |
+|---|----------|----------|--------------|-------------|
+| 1 | Original (v2.0.3.1) | 1080/1080 ✅ | ✅ EOT #3 | ✅ Scooter rebootet |
+| 2 | PATCHED (NOP 0xF848) | 1080/1080 ✅ | ❌ | ❌ |
+| 3 | PATCHED + Version-Inkrement | 1080/1080 ✅ | ❌ | ❌ |
+| 4 | Original (erneut) | 1080/1080 ✅ | ✅ EOT #3 | ✅ Scooter rebootet |
+| 5 | TEST_PADDING (1 Byte 0xFF→0x42) | 1080/1080 ✅ | ❌ | ❌ |
+| 6 | PATCHED + CRC-16 BE am Ende | 1080/1080 ✅ | ❌ | ❌ |
+| 7 | PATCHED + CRC-16 LE am Ende | 1080/1080 ✅ | ❌ | ❌ |
 
-**Mögliche Ursachen:**
-1. **Firmware-Signatur:** Der Bootloader prüft eine Signatur/Checksumme die im Firmware-Body nicht sichtbar ist
-2. **XMODEM ohne echtes ACK:** Fire-and-Forget sendet alle Blöcke, aber der Bootloader ignoriert sie ohne individuelles ACK-Handshake
-3. **Falscher DFU-Pfad:** Die offizielle App könnte einen anderen Update-Mechanismus nutzen als DFUProcessor.java
-4. **BLE-Chip vs. Meter-MCU:** `dfu_start 1` geht möglicherweise an den BLE-Chip, nicht an den Meter-MCU
+**Schlussfolgerung: Bootloader-Integritätsprüfung**
+
+Der Bootloader (separater Flash-Bereich, nicht in der Firmware-Datei) prüft eine Checksumme über die empfangene Firmware. **Jede** Änderung — auch ein einzelnes Byte im 0xFF-Padding — wird abgelehnt.
+
+Durchgeführte Checksummen-Analyse (alle KEIN Match):
+- CRC-16/XMODEM, CRC-16/CCITT (alle Polynome)
+- CRC-32, STM32-Hardware-CRC (Polynomial 0x04C11DB7)
+- Additionschecksumme (8/16/32 Bit)
+- XOR-Checksumme
+- Fletcher-16, Fletcher-32, Adler-32
+- MD5, SHA-1, SHA-256
+- Brute-Force: CRC-32 an jeder 4-Byte Position im Binary
+- Brute-Force: CRC-16 an jeder 2-Byte Position im Binary
+- CRC-16 am Dateiende (BE und LE)
+- Checksumme nur über Code-Bereich (ohne Padding)
+
+Die APK sendet KEINE Checksumme im DFU-Protokoll. Der Bootloader muss den erwarteten Wert intern gespeichert haben.
+
+**Firmware-Disassembly (radare2):**
+- Die Firmware enthält DFU-Strings (`rsq dfu_ok`, `rsq dfu_error`, `down dfu_start`)
+- CRC-16/XMODEM Routine bei 0x113E8 (Polynomial 0x1021)
+- Flash-Write Funktion bei 0xBC76 (1024-Byte Seiten)
+- CRC-Verifikation bei 0xBCF4 (Double-Check: CRC zweimal berechnen)
+- DFU-Handler bei 0xFC76 (XMODEM Block/EOT Dispatch)
+- **Diese DFU-Logik ist für Sub-MCU Updates** (BMS/BLDC), nicht für die eigene Firmware
+- Der Meter-MCU Bootloader ist in einem separaten Flash-Bereich
+
+**OTA-Patching ist nicht möglich** ohne Kenntnis des Bootloader-Algorithmus. → **SWD/JTAG Direct Flash**
 
 **Key Exchange — Lösung gefunden (18. März 2026):**
 
@@ -369,23 +395,11 @@ ble_key Response: "ok\r" ← ERFOLG!
 XMODEM Ready: 0x43 0x43 ← BEREIT FÜR TRANSFER!
 ```
 
-#### Nächste Schritte
+#### Nächster Schritt: SWD/JTAG Direct Flash
 
-Da der BLE-DFU-Ansatz die Firmware nicht zuverlässig installieren kann, bleiben zwei vielversprechende Optionen:
+OTA-Patching ist durch den Bootloader-Integritätsschutz blockiert. Der einzige verbleibende Weg ist **direktes Flashen über die Debug-Schnittstelle (SWD)**.
 
-**1. BT-HCI Capture eines echten OTA-Updates (empfohlen)**
-- BT-HCI Snoop auf dem Android-Gerät aktivieren
-- Offizielle Navee-App ein Firmware-Update durchführen lassen
-- Den exakten BLE-Traffic mitschneiden und mit unserem Flasher vergleichen
-- Erfordert ein tatsächlich verfügbares Firmware-Update
-
-**2. SWD/JTAG Direct Flash**
-- Meter-MCU (ARM Cortex-M) direkt über die Debug-Pins programmieren
-- ST-Link Adapter (~5€) + OpenOCD
-- Umgeht BLE-DFU komplett — direkter Flash-Zugriff
-- Firmware-Dump möglich (aktuelle Firmware auslesen als Backup)
-- Patch direkt in den Flash schreiben
-- Risiko: bei falschem Pinout kann der MCU beschädigt werden
+Vollständige Anleitung: [`docs/SWD_FLASH_GUIDE.md`](SWD_FLASH_GUIDE.md)
 
 #### Architektur-Erkenntnis
 
@@ -394,7 +408,8 @@ Da der BLE-DFU-Ansatz die Firmware nicht zuverlässig installieren kann, bleiben
 - Die Speed-Lookup-Funktion (FUN_0800ad02) nutzt den Area-Code für länderspezifische Limits
 - Alle bisherigen Ansätze (BLE CMD, UART MitM, FW-Patch via OTA) konnten das Limit nicht ändern
 - Der BLDC Motor-Controller scheint KEIN eigenes Speed-Limit zu haben (basierend auf der UART-Analyse)
-- **Das Limit ist definitiv in der Meter-Firmware** — aber der OTA-Flash-Mechanismus funktioniert nicht zuverlässig
+- **Das Limit ist definitiv in der Meter-Firmware** — der Patch ist verifiziert, aber OTA-Installation durch Bootloader-Checksumme blockiert
+- **Nächster Schritt: SWD/JTAG Direct Flash** — umgeht den Bootloader komplett
 
 ---
 

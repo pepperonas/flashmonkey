@@ -25,17 +25,18 @@ Dieses Projekt hat das proprietäre BLE-Protokoll vollständig reverse-engineere
 
 ## Highlights
 
-### OTA-Flash — Transfer funktioniert, Installation offen
+### OTA-Flash — Transfer verifiziert, Bootloader blockiert Patch
 - **1080/1080 Blöcke** erfolgreich übertragen (135 KB, 34-68 Sekunden)
-- Vollständiger DFU-Flow: `dfu_start` → XOR Key Exchange → XMODEM Transfer → EOT
-- XMODEM-Blöcke werden ACK'd, EOT wird ACK'd
-- **Problem:** `rsq dfu_ok` wird nicht zuverlässig empfangen, Firmware wird nicht im Flash installiert
-- **Nächster Schritt:** BT-HCI Capture eines echten Updates ODER SWD/JTAG Direct Flash
+- Vollständiger DFU-Flow: `dfu_start` → XOR Key Exchange → XMODEM Transfer → EOT → `rsq dfu_ok`
+- **Original-Firmware wird installiert** (2/2 Versuche erfolgreich)
+- **Gepatchte Firmware wird abgelehnt** — Bootloader-Integritätsprüfung (auch 1 Byte im Padding reicht)
+- **Nächster Schritt:** SWD/JTAG Direct Flash (umgeht Bootloader)
 
 ### 1-Byte Firmware-Patch
 - **File Offset `0xF848`**: `02 D9` (bls) → `00 BF` (NOP)
 - Aktiviert das eingebaute `lift_speed_limit`-Flag im Dashboard-Controller
 - Geschwindigkeit danach frei setzbar via BLE CMD `0x6E [0x01, km/h]`
+- **Patch verifiziert**, aber nur per SWD/JTAG installierbar (nicht per OTA)
 
 ### Android Controller-App
 - BLE Auto-Connect, AES-128 Auth, Echtzeit-Telemetrie
@@ -48,7 +49,8 @@ Dieses Projekt hat das proprietäre BLE-Protokoll vollständig reverse-engineere
 | 1 | BLE CMD `0x6E` (Max Speed) | ❌ ACK'd aber ignoriert |
 | 2 | UART MitM (Arduino Nano) | ❌ Controller ignoriert externe Frame-Manipulation |
 | 3 | **Firmware-Patch (Ghidra)** | ✅ **1-Byte NOP aktiviert Custom-Speed-Modus** |
-| 4 | **OTA-Flash (macOS)** | ⚠️ Transfer OK (1080/1080), Installation scheitert |
+| 4 | OTA-Flash (macOS) | ⚠️ Transfer OK, Bootloader-Checksumme blockiert Patch |
+| 5 | **SWD/JTAG Direct Flash** | ⏳ **Nächster Schritt** — umgeht Bootloader |
 
 ---
 
@@ -64,7 +66,8 @@ navee/
 ├── docs/
 │   ├── PROTOCOL.md              ← BLE-Protokoll (Commands, Status, Telemetrie, DFU)
 │   ├── AUTHENTICATION.md        ← AES-128 Auth-Flow
-│   └── REVERSE_ENGINEERING.md   ← Ghidra-Analyse, Patch-Details, alle 3 Ansätze
+│   ├── REVERSE_ENGINEERING.md   ← Ghidra-Analyse, Patch-Details, alle 5 Ansätze
+│   └── SWD_FLASH_GUIDE.md       ← SWD/JTAG Direct Flash Anleitung
 ├── tools/
 │   ├── firmware/
 │   │   ├── navee_meter_v2.0.3.1_ORIGINAL.bin  ← Original-Firmware (135 KB)

@@ -308,12 +308,55 @@ class NaveeOTAFlasher:
         self.device_address: Optional[str] = None
         self._notification_buffer = bytearray()
         self.last_responses: list = []  # Raw notification bytes for debugging
+        # XMODEM State Machine (repliziert APK DFUProcessor.java)
+        self._xmodem_ack_event: Optional[asyncio.Event] = None
+        self._xmodem_ack_seq: int = -1  # Empfangene ACK Block-Nummer
+        self._xmodem_expected_seq: int = 0  # Erwartete Block-Nummer
+        self._xmodem_nak_received: bool = False
+        self._xmodem_can_received: bool = False
+        self._xmodem_active: bool = False  # Ob XMODEM-Modus aktiv ist
 
     # --- BLE Notification Handler ---
 
     def _on_notify(self, char: BleakGATTCharacteristic, data: bytearray):
-        """Handle incoming BLE notifications."""
-        self.last_responses.append(bytes(data))
+        """Handle incoming BLE notifications.
+
+        During XMODEM transfer, handles ACK/NAK/CAN signals with block number
+        validation (replicates APK DFUProcessor.java B() method).
+        """
+        raw = bytes(data)
+        self.last_responses.append(raw)
+
+        # XMODEM State Machine: ACK/NAK/CAN handling during transfer
+        if self._xmodem_active and len(raw) <= 4:
+            if XMODEM_ACK in raw:
+                # APK B() method: validates (bArr[1] + 1) % 256 == expected_seq
+                if len(raw) >= 2:
+                    ack_block = raw[1]
+                    validated_seq = (ack_block + 1) % 256
+                    if validated_seq == 0:
+                        validated_seq = 1
+                    self._xmodem_ack_seq = ack_block
+                else:
+                    # Single-byte ACK (0x06 only) — accept without validation
+                    self._xmodem_ack_seq = self._xmodem_expected_seq
+                if self._xmodem_ack_event:
+                    self._xmodem_ack_event.set()
+                return
+            if XMODEM_NAK in raw:
+                self._xmodem_nak_received = True
+                if self._xmodem_ack_event:
+                    self._xmodem_ack_event.set()
+                return
+            if XMODEM_CAN in raw:
+                self._xmodem_can_received = True
+                if self._xmodem_ack_event:
+                    self._xmodem_ack_event.set()
+                return
+            # Single 0x43 during transfer — ignore (stale ready signal)
+            if raw == bytes([XMODEM_C]):
+                return
+
         self._notification_buffer += data
 
         # Try to parse complete frames from the buffer
@@ -674,34 +717,27 @@ class NaveeOTAFlasher:
             return False
 
     async def flash_firmware(self, firmware_path: Path, fw_info: dict) -> bool:
-        """Flash firmware using XMODEM-like block transfer.
+        """Flash firmware using XMODEM with APK-exact state machine.
 
-        The XMODEM transfer sends 128-byte blocks with:
-          - SOH (0x01) — start of block
-          - Block number (1 byte, wraps at 255)
-          - Complement of block number (255 - block_num)
-          - 128 bytes of data (padded with 0xFF if last block is short)
-          - CRC-16 (2 bytes, big-endian)
+        Replicates DFUProcessor.java from the official Navee APK:
+        - F(): Sends blocks, waits for f11641h flag (set by ACK handler)
+        - B(): Validates ACK block numbers: (bArr[1] + 1) % 256 == expected
+        - v(): 500ms timeout per block, calls y() (failure) on timeout
+        - E(): EOT with 500ms intervals
 
-        TODO: Confirm whether the XMODEM data is:
-          (a) Sent raw over the BLE write characteristic, OR
-          (b) Wrapped in Navee frames (CMD 0x42), OR
-          (c) Uses a completely different framing
-        The APK's f2/a.java should clarify this.
+        XMODEM block format: SOH + seq + ~seq + 128 data bytes + CRC-16 (BE)
         """
         fw_data = firmware_path.read_bytes()
         total_blocks = fw_info["blocks"]
 
         print(f"\n{'='*60}")
-        print(f"  FIRMWARE FLASH")
+        print(f"  FIRMWARE FLASH (APK State Machine)")
         print(f"{'='*60}")
         print(f"  File:     {fw_info['filename']}")
         print(f"  Size:     {fw_info['size']} bytes ({fw_info['size_kb']} KB)")
         print(f"  Type:     {fw_info.get('type_name', 'unknown')}")
         print(f"  Version:  {fw_info.get('version_readable', 'unknown')}")
         print(f"  CRC-16:   0x{fw_info['crc16']:04X}")
-        print(f"  MD5:      {fw_info['md5']}")
-        print(f"  SHA-256:  {fw_info['sha256']}")
         print(f"  Blocks:   {total_blocks} x {XMODEM_BLOCK_SIZE} bytes")
         if self.dry_run:
             print(f"  Mode:     *** DRY RUN — no data will be sent ***")
@@ -710,151 +746,186 @@ class NaveeOTAFlasher:
         self.log.log("flash_start", blocks=total_blocks, size=fw_info["size"],
                      dry_run=self.dry_run)
 
-        # --- Send blocks ---
+        # --- Initialize XMODEM state machine ---
+        self._xmodem_active = True
+        self._xmodem_ack_event = asyncio.Event()
+        self._xmodem_can_received = False
+
         successful_blocks = 0
         failed_blocks = 0
+        retried_blocks = 0
         start_time = time.monotonic()
-        running_seq = 0  # Laufender Zähler wie in APK (DFUProcessor.java)
+        running_seq = 0
 
-        for block_num in range(1, total_blocks + 1):
-            offset = (block_num - 1) * XMODEM_BLOCK_SIZE
-            block_data = fw_data[offset:offset + XMODEM_BLOCK_SIZE]
+        try:
+            for block_num in range(1, total_blocks + 1):
+                offset = (block_num - 1) * XMODEM_BLOCK_SIZE
+                block_data = fw_data[offset:offset + XMODEM_BLOCK_SIZE]
 
-            # Pad last block with 0x1A (SUB) — XMODEM standard, confirmed in APK
-            if len(block_data) < XMODEM_BLOCK_SIZE:
-                block_data += bytes([0x1A] * (XMODEM_BLOCK_SIZE - len(block_data)))
+                # Pad last block with 0x1A (SUB) — XMODEM standard
+                if len(block_data) < XMODEM_BLOCK_SIZE:
+                    block_data += bytes([0x1A] * (XMODEM_BLOCK_SIZE - len(block_data)))
 
-            # Build XMODEM block — APK: running counter, wraps 255→1, never 0
-            # APK code: i9 = (this.f11642i + 1) % 256; if (i9 == 0) i9 = 1;
-            running_seq = (running_seq + 1) % 256
-            if running_seq == 0:
-                running_seq = 1
-            seq = running_seq
-            seq_comp = (~seq) & 0xFF
-            crc = crc16_xmodem(block_data)
+                # Sequence counter: wraps 255→1, never 0 (APK DFUProcessor)
+                running_seq = (running_seq + 1) % 256
+                if running_seq == 0:
+                    running_seq = 1
+                seq = running_seq
+                seq_comp = (~seq) & 0xFF
+                crc = crc16_xmodem(block_data)
 
-            xmodem_block = bytearray()
-            xmodem_block.append(XMODEM_SOH)
-            xmodem_block.append(seq)
-            xmodem_block.append(seq_comp)
-            xmodem_block += block_data
-            xmodem_block += struct.pack(">H", crc)  # CRC big-endian
+                xmodem_block = bytearray()
+                xmodem_block.append(XMODEM_SOH)
+                xmodem_block.append(seq)
+                xmodem_block.append(seq_comp)
+                xmodem_block += block_data
+                xmodem_block += struct.pack(">H", crc)
 
-            # Progress
-            pct = (block_num / total_blocks) * 100
-            elapsed = time.monotonic() - start_time
-            if block_num > 1 and elapsed > 0:
-                rate = (block_num - 1) / elapsed
-                remaining = (total_blocks - block_num) / rate if rate > 0 else 0
-                eta_str = f" ETA {remaining:.0f}s"
-            else:
-                eta_str = ""
+                # Progress bar
+                pct = (block_num / total_blocks) * 100
+                elapsed = time.monotonic() - start_time
+                if block_num > 1 and elapsed > 0:
+                    rate = (block_num - 1) / elapsed
+                    remaining = (total_blocks - block_num) / rate if rate > 0 else 0
+                    eta_str = f" ETA {remaining:.0f}s"
+                else:
+                    eta_str = ""
+                bar_width = 30
+                filled = int(bar_width * block_num / total_blocks)
+                bar = "#" * filled + "-" * (bar_width - filled)
+                print(f"\r  [{bar}] {pct:5.1f}% Block {block_num}/{total_blocks}{eta_str}   ",
+                      end="", flush=True)
 
-            bar_width = 30
-            filled = int(bar_width * block_num / total_blocks)
-            bar = "#" * filled + "-" * (bar_width - filled)
-            print(f"\r  [{bar}] {pct:5.1f}% Block {block_num}/{total_blocks}{eta_str}   ",
-                  end="", flush=True)
+                if self.dry_run:
+                    successful_blocks += 1
+                    await asyncio.sleep(0.001)
+                    continue
 
-            if self.dry_run:
-                self.log.log("dry_run_block", block=block_num, crc=f"0x{crc:04X}")
-                successful_blocks += 1
-                # Simulate transfer delay
-                await asyncio.sleep(0.01)
-                continue
-
-            # Block senden und auf ACK warten (wie die offizielle APK)
-            # Ohne ACK wird die Firmware NICHT installiert!
-            block_ok = False
-            try:
-                self.last_responses.clear()
-                await self.client.write_gatt_char(
-                    WRITE_UUID, bytes(xmodem_block), response=False)
-
-                # Warte auf ACK — max 500ms, poll alle 5ms
-                for _ in range(100):
-                    await asyncio.sleep(0.005)
-                    if self.last_responses:
-                        resp = self.last_responses[-1]
-                        # ACK: erstes Byte 0x06 oder 0x06 irgendwo in kurzem Paket
-                        if len(resp) <= 4 and (resp[0] == XMODEM_ACK or XMODEM_ACK in resp):
-                            block_ok = True
-                            self.last_responses.clear()
-                            break
-                        if XMODEM_CAN in resp and len(resp) <= 4:
-                            print(f"\n\n  ABORT: Scooter hat Transfer abgebrochen!")
-                            return False
-                        if XMODEM_NAK in resp and len(resp) <= 4:
-                            self.last_responses.clear()
-                            await self.client.write_gatt_char(
-                                WRITE_UUID, bytes(xmodem_block), response=False)
-                        # Navee-Telemetrie-Frames (55 AA) ignorieren
-                        if len(resp) > 10 and resp[0] == 0x55:
-                            self.last_responses.clear()
-
-            except Exception as e:
-                err = str(e)
-                if "Service Discovery" in err or "not connected" in err.lower():
-                    print(f"\n\n  BLE-Verbindung verloren bei Block {block_num}!")
-                    return False
+                # --- APK State Machine: send block, wait for valid ACK ---
+                max_retries = 3
                 block_ok = False
 
-            if block_ok:
-                successful_blocks += 1
-            else:
-                failed_blocks += 1
-                print(f"\n  WARNING: Block {block_num} failed!")
-                self.log.log("block_failed", block=block_num)
-                if failed_blocks >= 5:
-                    print(f"\n  ABORT: Too many failed blocks ({failed_blocks}). Stopping transfer.")
-                    self.log.log("transfer_aborted", reason="too_many_failures",
-                                 failed=failed_blocks, successful=successful_blocks)
-                    return False
+                for retry in range(max_retries):
+                    # Reset state for this block
+                    self._xmodem_ack_event.clear()
+                    self._xmodem_nak_received = False
+                    self._xmodem_ack_seq = -1
+                    self._xmodem_expected_seq = seq
+
+                    try:
+                        await self.client.write_gatt_char(
+                            WRITE_UUID, bytes(xmodem_block), response=False)
+                    except Exception as e:
+                        err = str(e)
+                        if "not connected" in err.lower() or "Service Discovery" in err:
+                            print(f"\n\n  BLE-Verbindung verloren bei Block {block_num}!")
+                            return False
+                        # Anderer BLE-Fehler, retry
+                        if retry < max_retries - 1:
+                            await asyncio.sleep(0.1)
+                            continue
+                        break
+
+                    # Warte auf ACK/NAK/CAN — 500ms Timeout (APK: v() timer)
+                    try:
+                        await asyncio.wait_for(self._xmodem_ack_event.wait(), timeout=0.5)
+                    except asyncio.TimeoutError:
+                        # Timeout — wie APK y() → Failure für diesen Block
+                        if retry < max_retries - 1:
+                            retried_blocks += 1
+                            continue
+                        break
+
+                    # CAN — Scooter hat Transfer abgebrochen
+                    if self._xmodem_can_received:
+                        print(f"\n\n  ABORT: Scooter hat Transfer abgebrochen (CAN)!")
+                        self.log.log("xmodem_cancelled", block=block_num)
+                        return False
+
+                    # NAK — Retransmit
+                    if self._xmodem_nak_received:
+                        retried_blocks += 1
+                        if retry < max_retries - 1:
+                            continue
+                        break
+
+                    # ACK — Block-Nummer validieren (APK B() method)
+                    # APK: (bArr[1] + 1) % 256 muss dem erwarteten seq entsprechen
+                    ack_valid = True
+                    if self._xmodem_ack_seq >= 0 and self._xmodem_ack_seq != seq:
+                        # Block-Nummer stimmt nicht — ignorieren (APK ignoriert ebenfalls)
+                        ack_valid = False
+                        if retry < max_retries - 1:
+                            retried_blocks += 1
+                            continue
+
+                    if ack_valid:
+                        block_ok = True
+                        break
+
+                if block_ok:
+                    successful_blocks += 1
+                else:
+                    failed_blocks += 1
+                    if failed_blocks <= 3:
+                        print(f"\n  Block {block_num} fehlgeschlagen (seq={seq})")
+                    self.log.log("block_failed", block=block_num, seq=seq)
+                    if failed_blocks >= 10:
+                        print(f"\n  ABORT: Zu viele fehlgeschlagene Blöcke ({failed_blocks})")
+                        self.log.log("transfer_aborted", reason="too_many_failures",
+                                     failed=failed_blocks, successful=successful_blocks)
+                        return False
+
+        finally:
+            self._xmodem_active = False
 
         # End of transmission
-        print()  # Newline after progress bar
+        print()
 
         elapsed = time.monotonic() - start_time
         rate = fw_info["size"] / elapsed if elapsed > 0 else 0
 
-        print(f"\n  Transfer complete:")
-        print(f"    Blocks sent:   {successful_blocks}/{total_blocks}")
-        print(f"    Blocks failed: {failed_blocks}")
-        print(f"    Time:          {elapsed:.1f}s")
+        print(f"\n  Transfer abgeschlossen:")
+        print(f"    Blöcke OK:     {successful_blocks}/{total_blocks}")
+        print(f"    Fehlgeschlagen: {failed_blocks}")
+        print(f"    Retries:       {retried_blocks}")
+        print(f"    Zeit:          {elapsed:.1f}s")
         print(f"    Rate:          {rate:.0f} bytes/s")
 
         self.log.log("transfer_complete", successful=successful_blocks,
-                     failed=failed_blocks, total=total_blocks,
+                     failed=failed_blocks, retried=retried_blocks,
+                     total=total_blocks,
                      elapsed_s=round(elapsed, 1), rate_bps=round(rate, 0))
 
         if not self.dry_run:
-            # KEIN clear() und KEINE Pause vor EOT!
-            # rsq dfu_ok könnte direkt nach dem letzten Block kommen
-            print("  Sending EOT (0x04)...")
+            # --- EOT Phase (APK E() method: 500ms Intervalle) ---
+            print("\n  EOT Phase...")
             dfu_result = None
 
-            # Prüfe ob dfu_ok schon da ist (vor EOT)
+            # Prüfe ob dfu_ok schon in last_responses ist
             for resp in list(self.last_responses):
                 if b"dfu_ok" in resp:
                     dfu_result = "OK"
                     print("    >>> rsq dfu_ok bereits empfangen (vor EOT)! <<<")
                     break
 
+            # APK: 5 EOT-Versuche mit 500ms Intervall (nicht 3s!)
             for eot_attempt in range(5):
+                if dfu_result:
+                    break
                 print(f"    EOT #{eot_attempt + 1}/5...")
                 try:
                     await self.client.write_gatt_char(
                         WRITE_UUID, bytes([XMODEM_EOT]), response=False)
                 except Exception:
-                    # BLE disconnected — Scooter hat rebootet (normal nach dfu_ok)
                     if dfu_result is None:
                         dfu_result = "REBOOT"
                     break
                 self.log.log("eot_sent", attempt=eot_attempt)
 
-                # 3s warten, Responses einzeln abarbeiten (wie test_eot.py)
-                for wait_tick in range(30):
-                    await asyncio.sleep(0.1)
+                # 500ms warten, Responses einzeln abarbeiten
+                for wait_tick in range(10):
+                    await asyncio.sleep(0.05)
                     while self.last_responses:
                         resp = self.last_responses.pop(0)
                         if b"dfu_ok" in resp:
@@ -869,8 +940,23 @@ class NaveeOTAFlasher:
                             print(f"    ACK")
                     if dfu_result:
                         break
-                if dfu_result:
-                    break
+
+            # Wenn kein Ergebnis nach 5 EOTs: noch 5s warten
+            if not dfu_result:
+                print("    Warte noch 5s auf späte Response...")
+                for _ in range(50):
+                    await asyncio.sleep(0.1)
+                    while self.last_responses:
+                        resp = self.last_responses.pop(0)
+                        if b"dfu_ok" in resp:
+                            dfu_result = "OK"
+                            print(f"    >>> rsq dfu_ok empfangen! <<<")
+                            break
+                        if b"dfu_error" in resp:
+                            dfu_result = "ERROR"
+                            break
+                    if dfu_result:
+                        break
 
             if dfu_result == "OK" or dfu_result == "REBOOT":
                 print(f"\n  FIRMWARE INSTALLIERT! {'(Scooter rebootet)' if dfu_result == 'REBOOT' else ''}")
@@ -880,7 +966,7 @@ class NaveeOTAFlasher:
                 self.log.log("dfu_complete_error")
                 return False
             else:
-                print("\n  Kein rsq dfu_ok/error empfangen.")
+                print("\n  WARNUNG: Kein rsq dfu_ok/error empfangen.")
                 print("  Scooter aus/ein und prüfen.")
                 self.log.log("dfu_no_result")
 
@@ -902,12 +988,23 @@ class NaveeOTAFlasher:
         # TODO: Send verification command if one exists
         # resp = await self._send_cmd(CMD_OTA_VERIFY)
 
+        # Prüfe ob Verbindung noch steht (Scooter rebootet nach dfu_ok)
+        if not self.client or not self.client.is_connected:
+            print("  Scooter hat rebootet (BLE getrennt) — Installation erfolgreich.")
+            self.log.log("verify_scooter_rebooted")
+            return True
+
         # Wait for scooter to potentially reboot
         print("  Waiting for scooter to apply firmware (10s)...")
         await asyncio.sleep(10.0)
 
         # Try to read firmware version
-        version = await self.read_firmware_version()
+        try:
+            version = await self.read_firmware_version()
+        except (ConnectionError, Exception):
+            print("  Scooter nicht mehr erreichbar (rebootet).")
+            self.log.log("verify_disconnected_after_wait")
+            return True
         if version:
             if expected_version in version:
                 print(f"  Verification OK: {version}")

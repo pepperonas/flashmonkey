@@ -24,6 +24,8 @@ __pycache__/
 # Logs & Captures
 tools/*.log
 tools/navee_api_log.json
+tools/ota_flash_log.json
+tools/ota_config.json
+tools/firmware_backups/
 *.pcap
 *.btsnoop
-__pycache__/
