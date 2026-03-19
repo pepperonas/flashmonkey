@@ -298,10 +298,45 @@ Der NOP lässt den Code zur nächsten Instruktion durchfallen (`strb r3,[r1,#0x4
 **OTA-Flasher verifizierte Schritte:**
 - ✅ BLE-Verbindung + Auth
 - ✅ Scooter-Info lesen (Firmware, Serial, Settings)
-- ✅ DFU-Entry: `"down dfu_start 3\r"` → `"ok\r"`
-- ✅ Key Exchange: `"down ble_rand\r"` → XOR decrypt → `"down ble_key <decrypted>\r"` → `"ok\r"`
-- ✅ XMODEM Ready: `0x43` ('C') empfangen
-- ⏳ XMODEM Transfer: noch nicht live getestet
+- ✅ DFU-Entry: `"down dfu_start 1\r"` → `"ok\r"` (MCU-Typ 1 = Meter)
+- ✅ Key Exchange: XOR mit AES_KEYS[1], Status-Byte Skip → `"ok\r"` + `0x43`
+- ✅ XMODEM Transfer: 1080/1080 Blöcke, 0 Fehler, ~34-68s
+- ✅ EOT: ACK (0x06) empfangen
+- ❌ Firmware-Installation: `rsq dfu_ok` wird nicht empfangen, Firmware wird NICHT angewendet
+
+**MCU-Typ-Zuordnung (aus DFUProcessor.java Enum-Ordinals):**
+
+| Enum | Ordinal | DFU-Command | MCU |
+|------|---------|-------------|-----|
+| bms | 0 | `dfu_start 3` | Batterie |
+| bldc | 1 | `dfu_start 2` | Motor |
+| meter | 2 | `dfu_start 1` | Dashboard |
+| screen | 3 | `dfu_start 4` | Display |
+
+**XMODEM Transfer-Ergebnisse:**
+
+| Modus | Blöcke | Zeit | Ergebnis |
+|-------|--------|------|----------|
+| ACK pro Block (500ms) | 568/1080 | ~55s | BLE-Disconnect (macOS Timeout) |
+| Fire-and-Forget (30ms) | 1080/1080 | ~34s | EOT ACK, aber kein `rsq dfu_ok`, Telemetrie kehrt zurück |
+| ACK pro Block (5ms Poll) | 1080/1080 | ~68s | EOT ACK, aber kein `rsq dfu_ok` |
+
+**Einmalig `rsq dfu_ok` empfangen (test_eot.py):**
+- Einmal wurde `rsq dfu_ok` empfangen (4× wiederholt), Scooter rebootete
+- Konnte NICHT reproduziert werden in nachfolgenden Versuchen
+- Möglicherweise ein Timing-Sonderfall
+
+**Firmware-Verifizierung gescheitert:**
+- VERIFY_25kmh.bin (Speed-Wert 0xE1→0xFF) geflasht → Scooter fährt weiterhin 22 km/h
+- CMD 0x6E nach Flash → Status-Byte 26 bleibt bei 0x16 (22)
+- Roher Status-Dump: KEINE Byte-Änderung nach CMD 0x6E
+- **Schlussfolgerung: Die Firmware wird transferiert aber NICHT im Flash des Meter-MCU installiert**
+
+**Mögliche Ursachen:**
+1. **Firmware-Signatur:** Der Bootloader prüft eine Signatur/Checksumme die im Firmware-Body nicht sichtbar ist
+2. **XMODEM ohne echtes ACK:** Fire-and-Forget sendet alle Blöcke, aber der Bootloader ignoriert sie ohne individuelles ACK-Handshake
+3. **Falscher DFU-Pfad:** Die offizielle App könnte einen anderen Update-Mechanismus nutzen als DFUProcessor.java
+4. **BLE-Chip vs. Meter-MCU:** `dfu_start 1` geht möglicherweise an den BLE-Chip, nicht an den Meter-MCU
 
 **Key Exchange — Lösung gefunden (18. März 2026):**
 
@@ -334,12 +369,32 @@ ble_key Response: "ok\r" ← ERFOLG!
 XMODEM Ready: 0x43 0x43 ← BEREIT FÜR TRANSFER!
 ```
 
-#### Wichtige Architektur-Erkenntnis
+#### Nächste Schritte
+
+Da der BLE-DFU-Ansatz die Firmware nicht zuverlässig installieren kann, bleiben zwei vielversprechende Optionen:
+
+**1. BT-HCI Capture eines echten OTA-Updates (empfohlen)**
+- BT-HCI Snoop auf dem Android-Gerät aktivieren
+- Offizielle Navee-App ein Firmware-Update durchführen lassen
+- Den exakten BLE-Traffic mitschneiden und mit unserem Flasher vergleichen
+- Erfordert ein tatsächlich verfügbares Firmware-Update
+
+**2. SWD/JTAG Direct Flash**
+- Meter-MCU (ARM Cortex-M) direkt über die Debug-Pins programmieren
+- ST-Link Adapter (~5€) + OpenOCD
+- Umgeht BLE-DFU komplett — direkter Flash-Zugriff
+- Firmware-Dump möglich (aktuelle Firmware auslesen als Backup)
+- Patch direkt in den Flash schreiben
+- Risiko: bei falschem Pinout kann der MCU beschädigt werden
+
+#### Architektur-Erkenntnis
 
 - Das Speed-Limit wird in der **Meter-Firmware** (Dashboard) berechnet
 - Der Wert wird über UART Frame A an den Motor-Controller gesendet
-- Der Motor-Controller AKZEPTIERT den Wert vom Dashboard (anders als beim UART-MitM, wo die Manipulation vom Arduino kam)
-- Der Unterschied: beim MitM wurde der Frame A manipuliert NACHDEM das Dashboard ihn gesendet hat. Mit der gepatchten Firmware sendet das Dashboard selbst den höheren Wert — der Controller akzeptiert ihn als authentisch
+- Die Speed-Lookup-Funktion (FUN_0800ad02) nutzt den Area-Code für länderspezifische Limits
+- Alle bisherigen Ansätze (BLE CMD, UART MitM, FW-Patch via OTA) konnten das Limit nicht ändern
+- Der BLDC Motor-Controller scheint KEIN eigenes Speed-Limit zu haben (basierend auf der UART-Analyse)
+- **Das Limit ist definitiv in der Meter-Firmware** — aber der OTA-Flash-Mechanismus funktioniert nicht zuverlässig
 
 ---
 

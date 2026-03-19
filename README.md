@@ -9,7 +9,7 @@
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.1-purple.svg)](https://kotlinlang.org/)
 [![Compose](https://img.shields.io/badge/Jetpack-Compose-4285F4.svg)]()
 [![BLE](https://img.shields.io/badge/BLE-Custom%20Protocol-informational.svg)](docs/PROTOCOL.md)
-[![OTA Flash](https://img.shields.io/badge/OTA-Verified%20✓-00C853.svg)](tools/ota_flasher.py)
+[![OTA Flash](https://img.shields.io/badge/OTA-Transfer%20OK-FFA726.svg)](tools/ota_flasher.py)
 [![Firmware](https://img.shields.io/badge/Firmware-1--Byte%20Patch-00C853.svg)](docs/REVERSE_ENGINEERING.md#der-patch-1-byte)
 [![Ghidra](https://img.shields.io/badge/Ghidra-ARM%20Cortex--M-FFA726.svg)](tools/ghidra_analysis/)
 [![Auth](https://img.shields.io/badge/Auth-AES--128--ECB-9C27B0.svg)](docs/AUTHENTICATION.md)
@@ -25,11 +25,12 @@ Dieses Projekt hat das proprietäre BLE-Protokoll vollständig reverse-engineere
 
 ## Highlights
 
-### OTA-Flash — Verifiziert ✓
-- **1080/1080 Blöcke** erfolgreich übertragen (Original-Firmware, 135 KB, 34 Sekunden)
+### OTA-Flash — Transfer funktioniert, Installation offen
+- **1080/1080 Blöcke** erfolgreich übertragen (135 KB, 34-68 Sekunden)
 - Vollständiger DFU-Flow: `dfu_start` → XOR Key Exchange → XMODEM Transfer → EOT
-- Scooter startet nach Flash normal — Rollback jederzeit möglich
-- Flashbar über **macOS** (Python/bleak) — kein Root, kein Kabel
+- XMODEM-Blöcke werden ACK'd, EOT wird ACK'd
+- **Problem:** `rsq dfu_ok` wird nicht zuverlässig empfangen, Firmware wird nicht im Flash installiert
+- **Nächster Schritt:** BT-HCI Capture eines echten Updates ODER SWD/JTAG Direct Flash
 
 ### 1-Byte Firmware-Patch
 - **File Offset `0xF848`**: `02 D9` (bls) → `00 BF` (NOP)
@@ -47,7 +48,7 @@ Dieses Projekt hat das proprietäre BLE-Protokoll vollständig reverse-engineere
 | 1 | BLE CMD `0x6E` (Max Speed) | ❌ ACK'd aber ignoriert |
 | 2 | UART MitM (Arduino Nano) | ❌ Controller ignoriert externe Frame-Manipulation |
 | 3 | **Firmware-Patch (Ghidra)** | ✅ **1-Byte NOP aktiviert Custom-Speed-Modus** |
-| 4 | **OTA-Flash (macOS)** | ✅ **1080/1080 Blöcke, 0 Fehler, 34s** |
+| 4 | **OTA-Flash (macOS)** | ⚠️ Transfer OK (1080/1080), Installation scheitert |
 
 ---
 
