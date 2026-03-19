@@ -30,7 +30,8 @@ Dieses Projekt hat das proprietäre BLE-Protokoll vollständig reverse-engineere
 - Vollständiger DFU-Flow: `dfu_start` → XOR Key Exchange → XMODEM Transfer → EOT → `rsq dfu_ok`
 - **Original-Firmware wird installiert** (2/2 Versuche erfolgreich)
 - **Gepatchte Firmware wird abgelehnt** — Bootloader-Integritätsprüfung (auch 1 Byte im Padding reicht)
-- **Nächster Schritt:** SWD/JTAG Direct Flash (umgeht Bootloader)
+- **MCU:** Realtek RTL8762C BLE SoC (Modul RB8762-35A1) mit externem SPI Flash
+- **Nächster Schritt:** UART Direct Flash via rtltool (P0_3 Download-Modus, umgeht Bootloader)
 
 ### 1-Byte Firmware-Patch
 - **File Offset `0xF848`**: `02 D9` (bls) → `00 BF` (NOP)
@@ -50,7 +51,7 @@ Dieses Projekt hat das proprietäre BLE-Protokoll vollständig reverse-engineere
 | 2 | UART MitM (Arduino Nano) | ❌ Controller ignoriert externe Frame-Manipulation |
 | 3 | **Firmware-Patch (Ghidra)** | ✅ **1-Byte NOP aktiviert Custom-Speed-Modus** |
 | 4 | OTA-Flash (macOS) | ⚠️ Transfer OK, Bootloader-Checksumme blockiert Patch |
-| 5 | **SWD/JTAG Direct Flash** | ⏳ **Nächster Schritt** — umgeht Bootloader |
+| 5 | **UART Direct Flash (rtltool)** | ⏳ **Nächster Schritt** — RTL8762C Download-Modus |
 
 ---
 
@@ -67,7 +68,7 @@ navee/
 │   ├── PROTOCOL.md              ← BLE-Protokoll (Commands, Status, Telemetrie, DFU)
 │   ├── AUTHENTICATION.md        ← AES-128 Auth-Flow
 │   ├── REVERSE_ENGINEERING.md   ← Ghidra-Analyse, Patch-Details, alle 5 Ansätze
-│   └── SWD_FLASH_GUIDE.md       ← SWD/JTAG Direct Flash Anleitung
+│   └── SWD_FLASH_GUIDE.md       ← Direct Flash Anleitung (RTL8762C/rtltool)
 ├── tools/
 │   ├── firmware/
 │   │   ├── navee_meter_v2.0.3.1_ORIGINAL.bin  ← Original-Firmware (135 KB)

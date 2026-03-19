@@ -1,8 +1,41 @@
-# SWD/JTAG Direct Flash — Navee ST3 Pro Meter-MCU
+# Direct Flash — Navee ST3 Pro (RTL8762C)
 
-Anleitung zum direkten Flashen der Meter-Firmware über die SWD-Debug-Schnittstelle.
+Anleitung zum direkten Flashen der Meter-Firmware über UART Download-Modus.
 
-**Warum SWD?** Der OTA-Bootloader hat eine Integritätsprüfung die jede modifizierte Firmware ablehnt (verifiziert mit 7 verschiedenen Binaries, davon 2× Original erfolgreich). Die Checksumme ist intern im Bootloader gespeichert und kann nicht über OTA umgangen werden. SWD umgeht den Bootloader komplett.
+**MCU:** Realtek RTL8762C BLE SoC (Modul: RB8762-35A1)
+**Flash:** Externer SPI Flash, Memory-Mapped ab 0x00800000
+**Tool:** [rtltool](https://github.com/cyber-murmel/rtltool) (Python, Open Source)
+
+**Warum direkt flashen?** Der OTA-Bootloader hat eine Integritätsprüfung die jede modifizierte Firmware ablehnt (verifiziert mit 10 verschiedenen Binaries inkl. XOR/SUM/CRC-Ausgleich, davon 2× Original erfolgreich). Die Prüfung ist kryptographisch oder proprietär und kann nicht über OTA umgangen werden.
+
+---
+
+## Architektur
+
+```
+┌─────────────────────────────────────────────────────┐
+│              RTL8762C BLE SoC (RB8762-35A1)          │
+│                                                     │
+│  ┌───────────┐  ┌──────────┐  ┌──────────────────┐  │
+│  │ ARM       │  │ BLE      │  │ SPI Flash        │  │
+│  │ Cortex-M4 │  │ Radio    │  │ (extern, 512KB+) │  │
+│  │           │  │ 2.4 GHz  │  │                  │  │
+│  └─────┬─────┘  └────┬─────┘  └────────┬─────────┘  │
+│        │             │                 │             │
+│        │   UART0 (0x40011000)          │             │
+│        │   ← 19200 Baud (normal)       │             │
+│        │   ← 115200 Baud (download)    │             │
+│        │                               │             │
+│  P0_3: LOW beim Boot → Download-Modus  │             │
+└────────┼───────────────────────────────┼─────────────┘
+         │                               │
+    UART TX/RX                      SPI Flash
+    (grüne Ader                     Memory Map:
+     vom Stecker)                   0x800000 - Bootloader
+                                    0x820000 - App FW ←── HIER PATCHEN
+                                    0x80E000 - FTL Data
+                                    0x80E400 - Config
+```
 
 ---
 
@@ -10,278 +43,209 @@ Anleitung zum direkten Flashen der Meter-Firmware über die SWD-Debug-Schnittste
 
 ### Benötigte Teile
 
-| Teil | Preis | Bezugsquelle |
-|------|-------|--------------|
-| ST-Link V2 (oder Clone) | ~5€ | Amazon, AliExpress |
-| Dupont-Kabel (Female-Female) | ~2€ | Amazon |
-| Multimeter | vorhanden | - |
-| Lötkolben + Lötzinn (optional) | vorhanden | - |
+| Teil | Preis | Zweck |
+|------|-------|-------|
+| USB-UART Adapter (3.3V!) | ~3€ | FTDI, CP2102 oder CH340 |
+| Dupont-Kabel | ~2€ | Verbindung zum PCB |
+| Dünner Draht / Jumper | ~1€ | P0_3 auf GND brücken |
 
-**Alternativ:** J-Link EDU Mini (~20€) oder CMSIS-DAP Adapter.
+> **WICHTIG:** Der RTL8762C arbeitet mit **3.3V Logik**! Keinen 5V UART-Adapter verwenden!
 
-### Pinout (3 Verbindungen nötig)
+### Pinout am Dashboard-PCB
 
-| Signal | ST-Link Pin | Meter-PCB | Beschreibung |
-|--------|-------------|-----------|--------------|
-| SWDIO | Pin 7 (oder beschriftet) | TBD | Daten (bidirektional) |
-| SWCLK | Pin 9 (oder beschriftet) | TBD | Takt |
-| GND | Pin 20 (oder beschriftet) | TBD | Masse |
+Beim Öffnen des Dashboards suche:
 
-> **WICHTIG:** Die SWD-Pads auf dem Meter-PCB müssen noch identifiziert werden!
-> Typisch sind beschriftete Test-Pads (CLK, DIO, RST, GND) oder ein
-> unbelegter 4/5-Pin Header auf dem Board.
+1. **UART-Pads:** Die grüne Ader vom internen Stecker ist TX (19200 Baud normal). Daneben sollte RX liegen.
+2. **P0_3 Pad:** Muss beim Einschalten auf GND liegen um den Download-Modus zu aktivieren. Oft als Test-Pad beschriftet.
+3. **GND:** Schwarze Ader oder Massefläche auf dem PCB.
+4. **3.3V / VCC:** Für Stromversorgung (wird normal über den Scooter-Akku bereitgestellt).
 
-### SWD-Pads finden
+### Verbindung
 
-1. Scooter ausschalten und Akku abklemmen
-2. Dashboard-Gehäuse öffnen (Schrauben an der Unterseite)
-3. Meter-PCB freilegen
-4. Suche nach:
-   - Unbelegtem Pin-Header (4-5 Pins in Reihe)
-   - Beschriftete Test-Pads: `CLK`, `DIO`, `SWD`, `RST`, `GND`, `3V3`
-   - Runde Lötpads mit Beschriftung
-5. Fotos machen und MCU-Bezeichnung notieren (z.B. "STM32F103", "GD32F303", etc.)
+```
+USB-UART Adapter          Dashboard PCB
+─────────────────         ──────────────
+TX  ──────────────────→   RX (UART Input)
+RX  ←─────────────────   TX (grüne Ader)
+GND ──────────────────→   GND (schwarze Ader)
 
-### MCU identifizieren
+Zusätzlich beim Boot:
+GND ──── Jumper ──────→   P0_3 (Download-Mode Pin)
+```
 
-Die MCU-Bezeichnung auf dem Chip bestimmt:
-- Flash-Größe und -Adresse
-- SWD-Geschwindigkeit
-- OpenOCD Target-Konfiguration
-
-Häufige MCUs in E-Scooter-Dashboards:
-| MCU | Flash | SRAM | Hinweis |
-|-----|-------|------|---------|
-| STM32F103C8 | 64KB @ 0x08000000 | 20KB | "Blue Pill" |
-| STM32F103CB | 128KB @ 0x08000000 | 20KB | Medium-density |
-| STM32F103RB | 128KB @ 0x08000000 | 20KB | 64-Pin |
-| GD32F103xx | 64-128KB @ 0x08000000 | 20KB | STM32-Clone |
-| GD32F303xx | 256KB @ 0x08000000 | 48KB | Enhanced |
-| MM32F103xx | 128KB @ 0x08000000 | 20KB | MindMotion Clone |
-
-> **Hinweis:** Die Firmware-Datei ist 138240 Bytes (~135 KB). Das erfordert
-> mindestens 256KB Flash — oder die Firmware wird komprimiert/ohne Bootloader
-> gespeichert. Die MCU-Bezeichnung klärt das.
+> Nach dem Booten im Download-Modus kann der Jumper von P0_3 entfernt werden.
 
 ---
 
-## Software
+## Software Setup
 
-### Installation
-
-```bash
-# macOS
-brew install open-ocd
-
-# Linux
-sudo apt install openocd
-
-# Verifizieren
-openocd --version
-```
-
-### OpenOCD Konfiguration
-
-Erstelle `tools/openocd_meter.cfg`:
-
-```tcl
-# ST-Link V2 Interface
-source [find interface/stlink.cfg]
-
-# Transport: SWD (nicht JTAG)
-transport select hla_swd
-
-# Target MCU — ANPASSEN nach MCU-Identifikation!
-# Für STM32F1xx:
-source [find target/stm32f1x.cfg]
-
-# Für GD32F1xx (STM32-kompatibel):
-# source [find target/stm32f1x.cfg]
-
-# SWD Geschwindigkeit (1000 kHz ist sicher)
-adapter speed 1000
-```
-
----
-
-## Ablauf
-
-### Schritt 1: Verbindung testen
+### rtltool installieren
 
 ```bash
-# Scooter AUS, nur SWD-Kabel angeschlossen
-# ST-Link an USB, dann:
-openocd -f tools/openocd_meter.cfg
+# Repository klonen
+git clone https://github.com/cyber-murmel/rtltool.git
+cd rtltool
+
+# Dependencies
+pip3 install pyserial crccheck coloredlogs
+
+# Realtek MP Tool herunterladen (enthält firmware0.bin für Handshake)
+# Von: https://www.realmcu.com/en/Home/Product/93cc0582-3a3f-4ea8-82ea-76c6504e478a
+# ZIP in rtl8762c/ Verzeichnis legen
+# Kompatible Versionen: v1.0.5.8 oder v1.0.6.2
+```
+
+### Verbindung testen
+
+```bash
+# Scooter einschalten MIT P0_3 auf GND → Download-Modus
+# USB-UART Adapter einstecken
+
+# Port finden
+ls /dev/tty.usbserial* /dev/tty.wchusbserial* /dev/cu.* 2>/dev/null
+
+# Test: Chip-Info lesen
+python3 rtltool.py -p /dev/tty.usbserial-XXX -vv read_mac
 ```
 
 Erwartete Ausgabe:
 ```
-Info : STLINK V2J37S7 (API v2) VID:PID 0483:3748
-Info : Target voltage: 3.3V
-Info : stm32f1x.cpu: hardware has 6 breakpoints, 4 watchpoints
-Info : Listening on port 3333 for gdb connections
+## Performing Handshake
+## Writing firmware0
+Flash Size: XXX kiB
+MAC: XX:XX:XX:XX:XX:XX
 ```
 
-Falls "Error: init mode failed" → Pinout prüfen, GND sicherstellen.
+---
 
-### Schritt 2: Flash auslesen (BACKUP!)
+## Flash-Prozedur
+
+### Schritt 1: Full Flash Backup (KRITISCH!)
 
 ```bash
-# In einem zweiten Terminal (OpenOCD läuft noch):
-telnet localhost 4444
+# Gesamten Flash auslesen (512 KB typisch, kann bis 1 MB sein)
+python3 rtltool.py -p /dev/PORT read_flash 0x800000 0x80000 backup_full_512k.bin
 
-# Flash-Größe ermitteln
-> flash info 0
-
-# GESAMTEN Flash dumpen (Backup!)
-> flash read_image backup_meter_full.bin 0x08000000
-
-# Oder mit openocd direkt:
-openocd -f tools/openocd_meter.cfg \
-  -c "init" \
-  -c "reset halt" \
-  -c "flash read_image tools/firmware/backup_meter_FULL.bin 0x08000000" \
-  -c "shutdown"
+# SHA-256 für Backup-Verifizierung
+shasum -a 256 backup_full_512k.bin > backup_full_512k.sha256
+cat backup_full_512k.sha256
 ```
 
-> **KRITISCH:** Das Backup enthält BOOTLOADER + APPLICATION.
-> Ohne Backup kein Recovery bei Problemen!
+> **OHNE BACKUP NICHT WEITERMACHEN!** Das Backup enthält Bootloader, BLE-Stack,
+> App-Firmware, Konfiguration und MAC-Adresse. Ohne Backup kein Recovery.
 
-### Schritt 3: Backup verifizieren
+### Schritt 2: Firmware im Flash lokalisieren
 
 ```bash
 python3 -c "
-import hashlib
-data = open('tools/firmware/backup_meter_FULL.bin', 'rb').read()
-print(f'Backup-Größe: {len(data)} Bytes ({len(data)/1024:.0f} KB)')
-print(f'SHA-256: {hashlib.sha256(data).hexdigest()}')
-print(f'Erste 16 Bytes: {data[:16].hex()}')
-
-# Vergleiche mit unserer heruntergeladenen Firmware
+data = open('backup_full_512k.bin', 'rb').read()
 orig = open('tools/firmware/navee_meter_v2.0.3.1_ORIGINAL.bin', 'rb').read()
-# Die heruntergeladene FW hat 16 Bytes Header
-# Im Flash steht die FW ab einem bestimmten Offset (nach dem Bootloader)
-# Suche die Original-FW im Backup
-idx = data.find(orig[16:16+64])
+
+# Suche die OTA-Firmware im Flash-Dump
+idx = data.find(orig[:64])  # Suche nach den ersten 64 Bytes
 if idx >= 0:
-    print(f'Original-FW Code im Backup gefunden bei Offset 0x{idx:04X}')
-    print(f'  → Bootloader-Größe: {idx} Bytes ({idx/1024:.0f} KB)')
-    print(f'  → Application Start: 0x{0x08000000 + idx:08X}')
+    flash_addr = 0x800000 + idx
+    print(f'Firmware gefunden bei Flash-Offset 0x{idx:05X}')
+    print(f'Flash-Adresse: 0x{flash_addr:08X}')
+    print(f'Patch-Adresse: 0x{flash_addr + 0xF848:08X}')
+
+    # Verifiziere den Patch-Punkt
+    patch_off = idx + 0xF848
+    print(f'Bytes an Patch-Stelle: 0x{data[patch_off]:02X} 0x{data[patch_off+1]:02X}')
+    if data[patch_off] == 0x02 and data[patch_off+1] == 0xD9:
+        print('→ Bestätigt: 02 D9 (bls) — bereit zum Patchen!')
+    else:
+        print('→ WARNUNG: Unerwartete Bytes! Patch-Offset prüfen!')
 else:
-    print('Original-FW nicht im Backup gefunden')
-    print('Manuell vergleichen oder MCU-Datenblatt konsultieren')
+    print('Firmware NICHT im Flash gefunden!')
+    print('Header-Suche...')
+    idx2 = data.find(b'T2202')
+    if idx2 >= 0:
+        print(f'  T2202 Header bei Flash-Offset 0x{idx2:05X} (0x{0x800000+idx2:08X})')
 "
 ```
 
-Aus dem Backup ergibt sich:
-- **Bootloader-Größe** (Offset wo die Application beginnt)
-- **Application Base-Adresse** (z.B. 0x08004000, 0x08008000)
-- Ob die Firmware mit oder ohne Header gespeichert ist
-
-### Schritt 4: Gepatchte Firmware flashen
+### Schritt 3: Nur den Patch schreiben (minimal-invasiv)
 
 ```bash
-# VARIANTE A: Nur den Application-Bereich überschreiben
-# (Bootloader bleibt intakt → Recovery über OTA möglich!)
-# APP_START = Adresse aus Schritt 3 (z.B. 0x08008000)
-
-openocd -f tools/openocd_meter.cfg \
-  -c "init" \
-  -c "reset halt" \
-  -c "flash write_image erase tools/firmware/navee_meter_v2.0.3.1_PATCHED.bin APP_START" \
-  -c "reset run" \
-  -c "shutdown"
-
-# VARIANTE B: Nur den Patch schreiben (1 Word an einer Adresse)
-# Offset 0xF848 im File → Flash-Adresse = APP_START + 0xF848 - 16
-# (Falls die 16-Byte Header nicht im Flash stehen)
-
-openocd -f tools/openocd_meter.cfg \
-  -c "init" \
-  -c "reset halt" \
-  -c "flash write_image erase patch.bin PATCH_ADDRESS" \
-  -c "reset run" \
-  -c "shutdown"
-```
-
-> **VARIANTE A ist sicherer** — flasht die komplette Application.
-> **VARIANTE B ist minimal** — ändert nur 2 Bytes, weniger Risiko.
-
-### Schritt 5: Verifizieren
-
-```bash
-# Flash zurücklesen und mit Patched-Binary vergleichen
-openocd -f tools/openocd_meter.cfg \
-  -c "init" \
-  -c "reset halt" \
-  -c "flash read_image verify_after_flash.bin APP_START SIZE" \
-  -c "shutdown"
-
+# Erstelle eine 4-Byte Patch-Datei (2 Bytes Patch + 2 Bytes Kontext für Alignment)
 python3 -c "
-patched = open('tools/firmware/navee_meter_v2.0.3.1_PATCHED.bin', 'rb').read()
-flashed = open('verify_after_flash.bin', 'rb').read()
-if patched[16:] == flashed:  # Ohne Header vergleichen
-    print('VERIFIZIERT — Patch ist im Flash!')
-else:
-    print('MISMATCH — Prüfen!')
+# Patch: 02 D9 → 00 BF (NOP statt bls)
+# Die Patch-Stelle muss 4KB-aligned geschrieben werden (Flash-Sektor)
+# Daher: ganzen 4KB-Sektor lesen, patchen, zurückschreiben
+
+import struct
+PATCH_FILE_OFFSET = 0xF848
+SECTOR_SIZE = 0x1000  # 4 KB
+
+# Sektor-Nummer und Offset innerhalb des Sektors
+sector_num = PATCH_FILE_OFFSET // SECTOR_SIZE  # = 15 (0xF)
+offset_in_sector = PATCH_FILE_OFFSET % SECTOR_SIZE  # = 0x848
+
+print(f'Patch bei File-Offset 0x{PATCH_FILE_OFFSET:04X}')
+print(f'Sektor {sector_num} (0x{sector_num:X}), Offset im Sektor: 0x{offset_in_sector:03X}')
+print(f'Flash-Sektor-Adresse: FW_BASE + 0x{sector_num * SECTOR_SIZE:05X}')
+print()
+print('Nutze den vollen Sector-Read/Modify/Write Ansatz:')
+print('1. Sektor lesen: rtltool read_flash ADDR 0x1000 sector.bin')
+print('2. Patch: Bytes 0x848-0x849 ändern (02 D9 → 00 BF)')
+print('3. Sektor schreiben: rtltool write_flash ADDR sector.bin')
 "
 ```
 
-### Schritt 6: Testen
+Dann ausführen:
 
-1. SWD-Kabel abziehen
-2. Scooter einschalten
+```bash
+# FW_BASE = Flash-Adresse aus Schritt 2 (z.B. 0x820000)
+# SECTOR_ADDR = FW_BASE + 0xF000 (Sektor 15)
+
+# 1. Sektor lesen
+python3 rtltool.py -p /dev/PORT read_flash SECTOR_ADDR 0x1000 sector_backup.bin
+
+# 2. Patch anwenden
+python3 -c "
+data = bytearray(open('sector_backup.bin','rb').read())
+print(f'Vor Patch: 0x{data[0x848]:02X} 0x{data[0x849]:02X}')
+assert data[0x848] == 0x02 and data[0x849] == 0xD9, 'FALSCHE BYTES! Abbruch!'
+data[0x848] = 0x00  # NOP high byte
+data[0x849] = 0xBF  # NOP low byte
+print(f'Nach Patch: 0x{data[0x848]:02X} 0x{data[0x849]:02X}')
+open('sector_patched.bin','wb').write(data)
+print('sector_patched.bin erstellt')
+"
+
+# 3. Gepatchten Sektor zurückschreiben
+python3 rtltool.py -p /dev/PORT write_flash SECTOR_ADDR sector_patched.bin
+
+# 4. Verifizieren
+python3 rtltool.py -p /dev/PORT verify_flash SECTOR_ADDR sector_patched.bin
+```
+
+### Schritt 4: Neustart und Test
+
+1. P0_3 Jumper entfernen (falls noch verbunden)
+2. Scooter aus/ein (normaler Boot, nicht Download-Modus)
 3. Mit Android-App verbinden
-4. CMD `0x6E` senden (Max Speed auf 30 km/h setzen)
-5. Testfahrt
+4. CMD `0x6E` senden: Max Speed auf 30 km/h
+5. Testfahrt!
 
 ---
 
 ## Recovery
 
-### Bei Problemen nach dem Flash
+### Original-Firmware wiederherstellen
 
 ```bash
-# Original-Firmware zurückspielen:
-openocd -f tools/openocd_meter.cfg \
-  -c "init" \
-  -c "reset halt" \
-  -c "flash write_image erase tools/firmware/backup_meter_FULL.bin 0x08000000" \
-  -c "reset run" \
-  -c "shutdown"
+# Option A: Nur den gepatchten Sektor zurücksetzen
+python3 rtltool.py -p /dev/PORT write_flash SECTOR_ADDR sector_backup.bin
+
+# Option B: Gesamtes Flash-Backup wiederherstellen
+python3 rtltool.py -p /dev/PORT write_flash 0x800000 backup_full_512k.bin
 ```
 
-### Read-Protection (RDP)
+### OTA-Rollback
 
-Manche MCUs haben Read-Out Protection aktiviert. Falls OpenOCD meldet:
-```
-Error: flash read protected
-```
-
-Dann ist das Flash geschützt. Optionen:
-- **Level 0:** Kein Schutz → normal lesen/schreiben
-- **Level 1:** Lesen von außen gesperrt, aber über SWD unlockbar (löscht Flash!)
-- **Level 2:** Permanent gesperrt → KEIN Zugang möglich
-
-```bash
-# RDP Level prüfen:
-openocd -f tools/openocd_meter.cfg \
-  -c "init" \
-  -c "reset halt" \
-  -c "stm32f1x options_read 0" \
-  -c "shutdown"
-
-# RDP Level 1 → Level 0 (ACHTUNG: Löscht den gesamten Flash!)
-# Nur machen wenn die Original-Firmware als Datei vorliegt!
-openocd -f tools/openocd_meter.cfg \
-  -c "init" \
-  -c "reset halt" \
-  -c "stm32f1x unlock 0" \
-  -c "reset halt" \
-  -c "flash write_image erase tools/firmware/navee_meter_v2.0.3.1_PATCHED.bin APP_START" \
-  -c "reset run" \
-  -c "shutdown"
-```
+Nach dem direkten Patch funktioniert OTA weiterhin — der Bootloader ist unverändert. Die offizielle Navee-App kann jederzeit ein reguläres Firmware-Update installieren das den Patch überschreibt.
 
 ---
 
@@ -289,24 +253,34 @@ openocd -f tools/openocd_meter.cfg \
 
 | Risiko | Wahrscheinlichkeit | Auswirkung | Mitigation |
 |--------|-------------------|------------|------------|
-| Falsches Pinout | Mittel | MCU-Beschädigung | Multimeter, Datenblatt |
-| Flash-Löschung (RDP) | Niedrig | Bootloader weg | Backup VOR dem Unlock |
-| Patch funktioniert nicht | Niedrig | Kein Speed-Limit-Change | Backup einspielen |
-| Scooter bootet nicht | Niedrig | Nicht fahrbar | Full-Backup einspielen |
-
-**Wichtigste Regel:** IMMER zuerst das Backup machen (Schritt 2) bevor irgendetwas geschrieben wird!
+| Falscher Sektor gepatcht | Niedrig | Firmware defekt | Sektor-Backup VOR Patch |
+| Flash-Backup unvollständig | Niedrig | Kein Recovery | SHA-256 Verify |
+| P0_3 falsch identifiziert | Mittel | Download-Modus startet nicht | Datenblatt/Traces prüfen |
+| 5V statt 3.3V UART | Mittel | Chip-Beschädigung | **NUR 3.3V Adapter!** |
+| Scooter bootet nicht | Niedrig | Nicht fahrbar | Full Backup einspielen |
 
 ---
 
 ## Checkliste
 
-- [ ] ST-Link V2 bestellt/vorhanden
-- [ ] Dashboard geöffnet, SWD-Pads identifiziert
-- [ ] MCU-Bezeichnung notiert
-- [ ] OpenOCD installiert und Konfiguration angepasst
-- [ ] SWD-Verbindung getestet
-- [ ] **Full Flash Backup erstellt und SHA-256 gespeichert**
-- [ ] Application-Adresse bestimmt
-- [ ] Gepatchte Firmware geflasht
-- [ ] Verify nach Flash
-- [ ] Testfahrt mit CMD 0x6E
+- [ ] USB-UART Adapter (3.3V!) vorhanden
+- [ ] Dashboard geöffnet, UART-Pads identifiziert
+- [ ] P0_3 Pin identifiziert
+- [ ] rtltool installiert + MP Tool ZIP heruntergeladen
+- [ ] Download-Modus funktioniert (read_mac erfolgreich)
+- [ ] **Full Flash Backup erstellt + SHA-256 gespeichert**
+- [ ] Firmware im Flash lokalisiert (T2202 Header gefunden)
+- [ ] Patch-Stelle verifiziert (02 D9 an erwartetem Offset)
+- [ ] Sektor-Backup erstellt
+- [ ] Patch geschrieben + verifiziert
+- [ ] Normaler Boot erfolgreich
+- [ ] CMD 0x6E → Speed-Limit geändert
+- [ ] Testfahrt
+
+---
+
+## Referenzen
+
+- [rtltool](https://github.com/cyber-murmel/rtltool) — RTL8762C Flash-Tool
+- [RTL8762C Datenblatt](https://www.realmcu.com/en/Home/Product/93cc0582-3a3f-4ea8-82ea-76c6504e478a) — Realtek
+- [Realtek BeeBee2 SDK](https://github.com/nicka101/RTL8762C-SDK-GCC) — Inoffizielle SDK-Portierung
