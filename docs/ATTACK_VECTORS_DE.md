@@ -76,7 +76,7 @@ CRC-16/XMODEM, CRC-16/CCITT, CRC-16/ARC, CRC-16/MODBUS, CRC-32 (Standard), CRC-3
 ### 5. SPI Flash Direkt — rtltool via UART
 **Status: Verifiziert**
 
-Der Dashboard-MCU ist ein Realtek RTL8762C, der via UART programmiert werden kann, wenn Pin P0_3 beim Boot auf LOW gehalten wird. Mit [rtltool](https://github.com/cyber-murmel/rtltool) kann der gesamte SPI Flash gelesen und geschrieben werden, wobei die Integritätsprüfung des OTA-Bootloaders vollständig umgangen wird.
+Der Dashboard-MCU ist ein Realtek RTL8762C, der via UART programmiert werden kann, wenn Pin P0_3 beim Boot auf LOW gehalten wird. Mit [rtltool](https://github.com/wuwbobo2021/rtltool) kann der gesamte SPI Flash gelesen und geschrieben werden, wobei die Integritätsprüfung des OTA-Bootloaders vollständig umgangen wird.
 
 **Verifizierte Ergebnisse:**
 - Vollständiger 512-KB-Flash-Dump erfolgreich via rtltool abgeschlossen

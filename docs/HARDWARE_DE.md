@@ -126,7 +126,7 @@ Der RTL8762C unterstützt einen UART-basierten Download-Modus, der das vollstän
 | Aktivierung | Pin P0_3 beim Boot auf LOW halten |
 | Download-Baudrate | 115200 |
 | Normalbetrieb-Baudrate | 19200 |
-| Tool | [rtltool](https://github.com/cyber-murmel/rtltool) |
+| Tool | [rtltool](https://github.com/wuwbobo2021/rtltool) |
 | Logikpegel | **3,3 V — KEINEN 5-V-UART-Adapter verwenden** |
 | Benötigte Hardware | USB-UART-Adapter (3,3 V), Zugang zum P0_3-Pad auf der Platine, GND |
 

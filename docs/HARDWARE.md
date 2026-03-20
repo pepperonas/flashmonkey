@@ -126,7 +126,7 @@ The RTL8762C supports a UART-based download mode that allows reading and writing
 | Activation | Hold pin P0_3 LOW during boot |
 | Download baud rate | 115200 |
 | Normal operation baud rate | 19200 |
-| Tool | [rtltool](https://github.com/cyber-murmel/rtltool) |
+| Tool | [rtltool](https://github.com/wuwbobo2021/rtltool) |
 | Logic level | **3.3 V — do NOT use a 5 V UART adapter** |
 | Required hardware | USB-UART adapter (3.3 V), access to P0_3 pad on PCB, GND |
 
