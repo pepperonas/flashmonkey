@@ -335,34 +335,73 @@ Die offizielle APK (DFUProcessor.java) verwendet eine strikte State Machine die 
 | 6 | PATCHED + CRC-16 BE am Ende | 1080/1080 ✅ | ❌ | ❌ |
 | 7 | PATCHED + CRC-16 LE am Ende | 1080/1080 ✅ | ❌ | ❌ |
 
-**Schlussfolgerung: Bootloader-Integritätsprüfung**
+**Schlussfolgerung: Bootloader-Integritätsprüfung via SHA-256**
 
-Der Bootloader (separater Flash-Bereich, nicht in der Firmware-Datei) prüft eine Checksumme über die empfangene Firmware. **Jede** Änderung — auch ein einzelnes Byte im 0xFF-Padding — wird abgelehnt.
+Der RTL8762C Bootloader verifiziert OTA-Images über einen **SHA-256 Hash** der im 1024-Byte Image Header bei Offset 0x174 gespeichert ist. Der exakte Berechnungsbereich konnte bisher nicht reproduziert werden — die Verifikationsfunktion liegt im **Mask-ROM** des RTL8762C (nicht im Flash, nicht auslesbar).
 
-Durchgeführte Checksummen-Analyse (alle KEIN Match):
-- CRC-16/XMODEM, CRC-16/CCITT (alle Polynome)
+**RTL8762C Image Header Format (1024 Bytes = 0x400):**
+
+| Offset | Größe | Feld | Beispielwert |
+|--------|-------|------|-------------|
+| 0x000 | 1 | `ic_type` | 0x05 |
+| 0x001 | 1 | `secure_version` | 0x00 |
+| 0x002 | 2 | `ctrl_flag` (Bitfeld, KEINE Checksumme!) | 0x0981 |
+| 0x004 | 2 | `image_id` (0x2793=App, 0x2792=Patch) | 0x2793 |
+| 0x006 | 2 | `crc16` (0x0000 = SHA-256 statt CRC) | 0x0000 |
+| 0x008 | 4 | `payload_len` | 135836 |
+| 0x00C | 16 | UUID | `6d67def1...` |
+| 0x01C | 4 | `exe_addr` | 0x0080E400 |
+| 0x060 | 16 | SDK Version String | `sdk#####` |
+| 0x174 | 32 | **SHA-256 Hash** | `aa98ec4c...` |
+| 0x1D4 | 4 | Signature Magic | 0x0E85D101 |
+
+Quelle: Realtek Bee2 SDK (`patch_header_check.h`, `silent_dfu_flash.c`)
+
+**ctrl_flag Bitfeld (Bytes 2-3, fälschlicherweise als "Checksumme" vermutet):**
+- Bit 0: `xip` (execute in place)
+- Bit 1: `enc` (encrypted)
+- Bit 2: `load_when_boot`
+- Bit 7: `not_ready`
+- Bit 8: `not_obsolete`
+- Bit 9: `integrity_check_en_in_boot`
+
+**Durchgeführte Checksummen-Analyse (alle KEIN Match):**
+- SHA-256 über diverse Payload-Bereiche (Header+Payload, nur Payload, verschiedene Offsets)
+- CRC-16 Brute-Force über 65536 Init-Werte × 8 Polynome × 4 Konfigurationen
+- CRC-16/XMODEM, CRC-16/CCITT, CRC-16/ARC, CRC-16/MODBUS (alle Varianten)
 - CRC-32, STM32-Hardware-CRC (Polynomial 0x04C11DB7)
-- Additionschecksumme (8/16/32 Bit)
-- XOR-Checksumme
+- Additionschecksumme (8/16/32 Bit, mit und ohne Complement)
+- XOR-Checksumme (8/16/32 Bit, mit Ausgleichsbyte)
 - Fletcher-16, Fletcher-32, Adler-32
-- MD5, SHA-1, SHA-256
+- MD5, SHA-1, SHA-224, HMAC-MD5 (mit allen 5 AES-Keys)
 - Brute-Force: CRC-32 an jeder 4-Byte Position im Binary
 - Brute-Force: CRC-16 an jeder 2-Byte Position im Binary
-- CRC-16 am Dateiende (BE und LE)
-- Checksumme nur über Code-Bereich (ohne Padding)
-
-Die APK sendet KEINE Checksumme im DFU-Protokoll. Der Bootloader muss den erwarteten Wert intern gespeichert haben.
 
 **Firmware-Disassembly (radare2):**
-- Die Firmware enthält DFU-Strings (`rsq dfu_ok`, `rsq dfu_error`, `down dfu_start`)
-- CRC-16/XMODEM Routine bei 0x113E8 (Polynomial 0x1021)
-- Flash-Write Funktion bei 0xBC76 (1024-Byte Seiten)
-- CRC-Verifikation bei 0xBCF4 (Double-Check: CRC zweimal berechnen)
-- DFU-Handler bei 0xFC76 (XMODEM Block/EOT Dispatch)
-- **Diese DFU-Logik ist für Sub-MCU Updates** (BMS/BLDC), nicht für die eigene Firmware
-- Der Meter-MCU Bootloader ist in einem separaten Flash-Bereich
+- `Boot Check image chksum fail` — Boot-Verifikation bei 0x80D522
+- `wrong signature! Read %8X != Requried %8X` — Magic Check 0x8721BEE2 bei 0x8293AC
+- `add8CheckSump 0x%x` — 8-Bit Additionschecksumme (für interne Zwecke)
+- `[OTA] upgrade verify ok, restarting....` — OTA-Erfolgs-String bei 0x8213D0
+- SHA-256 Konstanten (`SHA224`, `SHA256` Strings) im Code
+- Boot-Check ruft ROM-Funktion bei 0x601B9C auf (Flash-Mirror, zeigt auf Config-Daten)
 
-**OTA-Patching ist nicht möglich** ohne Kenntnis des Bootloader-Algorithmus. → **SWD/JTAG Direct Flash**
+**Flash-Layout (verifiziert aus 512 KB Dump):**
+
+| Dump-Offset | Flash-Adresse | Inhalt |
+|-------------|---------------|--------|
+| 0x00000 | 0x800000 | Reserved (0xFF) |
+| 0x01000 | 0x801000 | OTA Config Header (image_id 0x278D) |
+| 0x02000 | 0x802000 | System Config (image_id 0x2790) |
+| 0x03000 | 0x803000 | Patch Image (BLE Stack, 39 KB, image_id 0x2792) |
+| 0x04000-0x0D000 | 0x804000 | Patch Code (aktiv) |
+| 0x0E000-0x2F000 | 0x80E000 | **App Firmware (aktiv, 135 KB)** |
+| 0x40000 | 0x840000 | OTA Header Area |
+| 0x44000 | 0x844000 | OTA Staging Bank B (empfangene FW) |
+| 0x76000 | 0x876000 | Additional Config |
+
+**Kritische Erkenntnis:** Die OTA-Firmware wird **UNVERSCHLÜSSELT** im Flash gespeichert (99.99% Byte-Match zwischen OTA-Staging und aktivem Flash, einzige Differenz = unser Patch). Die Verifikation findet VOR dem Kopieren von Bank B nach Bank A statt.
+
+**OTA-Patching bleibt blockiert** — der SHA-256 Berechnungsbereich im ROM ist unbekannt. **Direkter Flash-Patch via rtltool funktioniert** und umgeht die Verifikation komplett.
 
 **Key Exchange — Lösung gefunden (18. März 2026):**
 
