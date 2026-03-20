@@ -1,4 +1,4 @@
-[English](AUTHENTICATION.md) | [Deutsch](AUTHENTICATION.md)
+[English](AUTHENTICATION.md) | [Deutsch](AUTHENTICATION_DE.md)
 
 # Authentifizierung — Navee ST3 Pro
 

@@ -1,4 +1,4 @@
-[English](INTERNAL_UART_PROTOCOL.md) | [Deutsch](INTERNAL_UART_PROTOCOL.md)
+[English](INTERNAL_UART_PROTOCOL.md) | [Deutsch](INTERNAL_UART_PROTOCOL_DE.md)
 
 # Internal UART Protocol — Dashboard ↔ Controller
 

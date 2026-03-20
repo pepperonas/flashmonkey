@@ -35,10 +35,10 @@ Anleitung zum direkten Flashen der Meter-Firmware über den UART Download-Modus 
          │                               │
     UART TX/RX                      SPI Flash
     (grüne Ader                     Memory Map:
-     vom Stecker)                   0x800000 - Bootloader
-                                    0x820000 - App FW ←── HIER PATCHEN
-                                    0x80E000 - FTL Data
-                                    0x80E400 - Config
+     vom Stecker)                   0x800000 - Bootloader/System
+                                    0x803000 - BLE Stack (Patch)
+                                    0x80E000 - App FW Bank A ←── PATCHEN
+                                    0x844000 - OTA Staging Bank B
 ```
 
 ---

@@ -1,4 +1,4 @@
-[English](PROTOCOL.md) | [Deutsch](PROTOCOL.md)
+[English](PROTOCOL.md) | [Deutsch](PROTOCOL_DE.md)
 
 # BLE-Protokoll Dokumentation — Navee ST3 Pro
 

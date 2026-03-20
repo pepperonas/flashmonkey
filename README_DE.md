@@ -108,13 +108,13 @@ python3 rtltool.py -p /dev/cu.usbserial-0001 -b 115200 \
 SPI-Flash (512 KB, memory-mapped ab 0x00800000)
 +------------------+---------------------------------------------------+
 | 0x800000         | Reserviert (0xFF)                                 |
-| 0x801000-0x802FFF| System-Config, Boot-Parameter                    |
-| 0x803000-0x803FFF| Patch-Image-Header (BLE-Stack-Patches)            |
-| 0x804000-0x82FFFF| Aktive Firmware (Bank A) -- 176 KB                |
-|   0x81D448       |   *** PATCH-STELLE: 02 D9 -> 00 BF ***           |
+| 0x801000-0x802FFF| System-Config, Boot-Parameter                     |
+| 0x803000-0x80DFFF| BLE-Stack Patch-Code                              |
+| 0x80E000-0x82FFFF| Aktive Firmware (Bank A) -- 136 KB                |
+|   0x81D448       |   *** PATCH-STELLE: 02 D9 -> 00 BF ***            |
 | 0x840000-0x841FFF| OTA-Header-Bereich                                |
-| 0x844000-0x865FFF| OTA-Staging (Bank B) -- empfangt OTA-Ubertragungen|
-| 0x876000         | Zusatzliche Konfiguration                         |
+| 0x844000-0x865FFF| OTA-Staging (Bank B) -- empfängt OTA-Übertragungen|
+| 0x876000         | Zusätzliche Konfiguration                         |
 +------------------+---------------------------------------------------+
 ```
 

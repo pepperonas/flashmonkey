@@ -109,8 +109,8 @@ SPI Flash (512 KB, memory-mapped at 0x00800000)
 +------------------+---------------------------------------------------+
 | 0x800000         | Reserved (0xFF)                                   |
 | 0x801000-0x802FFF| System config, boot parameters                   |
-| 0x803000-0x803FFF| Patch image header (BLE stack patches)            |
-| 0x804000-0x82FFFF| Active firmware (Bank A) -- 176 KB                |
+| 0x803000-0x80DFFF| BLE stack patch code                              |
+| 0x80E000-0x82FFFF| Active firmware (Bank A) -- 136 KB                |
 |   0x81D448       |   *** PATCH LOCATION: 02 D9 -> 00 BF ***         |
 | 0x840000-0x841FFF| OTA header area                                   |
 | 0x844000-0x865FFF| OTA staging (Bank B) -- receives OTA transfers    |

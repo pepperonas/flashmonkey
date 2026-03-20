@@ -482,18 +482,29 @@ Das Dashboard-Gehäuse wurde geöffnet (verklebt + Niete). Der Chip ist:
 - SRAM bei 0x00200000 (nicht 0x20000000 wie bei STM32)
 - Flash bei 0x00800000 (SPI Flash, nicht interner Flash)
 - OTA-Header "T2202" ist Realtek OTA Format
-- Firmware wird bei ~0x00820000 im Flash gespeichert
+- Aktive App-Firmware bei 0x0080E000-0x0082FFFF (Bank A, 136 KB)
+- OTA-Staging bei 0x00844000-0x00865FFF (Bank B)
 - Download-Modus über **Pin P0_3** auf GND beim Boot (kein SWD nötig!)
-- **rtltool** (github.com/cyber-murmel/rtltool) kann den Flash direkt lesen/schreiben
+- **rtltool** ([wuwbobo2021 Fork](https://github.com/wuwbobo2021/rtltool)) kann den Flash direkt lesen/schreiben
 
-**Flash-Layout (rekonstruiert):**
+**Flash-Layout (verifiziert aus 512 KB Dump, 20. März 2026):**
 
 | Adressbereich | Inhalt |
 |---------------|--------|
-| 0x00800000 - 0x0081FFFF | Bootloader + BLE Stack (128 KB) |
-| 0x00820000 - 0x00841BFF | Application Firmware (135 KB, unser Binary) |
-| 0x0080E000 - 0x0080E3FF | FTL (Flash Translation Layer) |
-| 0x0080E400 - 0x0080EFFF | Configuration Data |
+| 0x00800000 | Reserviert (0xFF) |
+| 0x00801000 - 0x00802FFF | System Config, Boot-Parameter |
+| 0x00803000 - 0x0080DFFF | BLE Stack Patch-Code |
+| 0x0080E000 - 0x0082FFFF | **App Firmware Bank A (aktiv, 136 KB)** — Patch bei 0x0081D448 |
+| 0x00840000 - 0x00841FFF | OTA Header Area |
+| 0x00844000 - 0x00865FFF | OTA Staging Bank B (empfängt OTA-Transfers) |
+| 0x00876000 | Zusätzliche Konfiguration |
+
+**Drei Offset-Kontexte (wichtig für die Orientierung):**
+| Kontext | Patch-Position | Bedeutung |
+|---------|---------------|-----------|
+| Flash-Adresse | `0x0081D448` | Absolute Adresse im SPI Flash |
+| Dump-Offset | `0x1D448` | Position im 512 KB Backup-File |
+| Firmware-Datei-Offset | `0xF848` | Position in der OTA-Firmware (.bin) |
 
 #### Dashboard-Kurzschluss (19. März 2026, Abend)
 
