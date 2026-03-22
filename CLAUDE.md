@@ -10,69 +10,70 @@ Navee ST3 Pro Scooter Toolkit - Custom Android app and reverse-engineered BLE/UA
 
 ### Android App
 ```bash
-# Build debug APK
 cd android/
-./gradlew assembleDebug
 
-# Install on connected device
-adb install app/build/outputs/apk/debug/app-debug.apk
-
-# Build release APK
-./gradlew assembleRelease
-
-# Clean build
-./gradlew clean
+./gradlew assembleDebug                                    # Debug APK
+./gradlew assembleRelease                                  # Release APK (ProGuard enabled)
+adb install app/build/outputs/apk/debug/app-debug.apk     # Install on device
+./gradlew clean                                            # Clean build
 ```
+
+### Python Tools (no venv needed)
+```bash
+python3 tools/firmware_grabber.py      # Download OTA firmware
+python3 tools/ota_flasher.py           # Flash firmware via BLE OTA
+python3 tools/patch_firmware.py        # Patch firmware binary
+python3 tools/test_speed_set.py        # Protocol test: speed setting
+```
+
+No automated test suite exists — protocol tests in `tools/test_*.py` are manual BLE integration scripts.
 
 ## Architecture
 
-### Android App Structure
-- **Kotlin + Jetpack Compose** - Modern Android stack with Material Design 3
-- **BLE Communication** - Located in `android/app/src/main/java/de/pepperonas/navee/ble/`
-  - `NaveeBleManager.kt`: Handles BLE scanning, connection, and data exchange
-  - `NaveeProtocol.kt`: Protocol constants, frame building/parsing, command definitions
-  - `NaveeAuth.kt`: AES-128-ECB authentication implementation
-- **UI Layer** - `android/app/src/main/java/de/pepperonas/navee/ui/`
-  - `DashboardScreen.kt`: Main UI with real-time telemetry display
-- **ViewModel** - `ScooterViewModel.kt`: State management and business logic
+### Data Flow
+```
+Scooter ←BLE→ NaveeBleManager → ScooterViewModel (StateFlow) → DashboardScreen (Compose)
+```
 
-### Protocol Documentation
-- `docs/PROTOCOL.md`: Complete BLE protocol reference (commands, responses, frame format)
-- `docs/INTERNAL_UART_PROTOCOL.md`: Internal UART protocol between dashboard and controller
-- `docs/AUTHENTICATION.md`: Authentication flow details
-- `docs/REVERSE_ENGINEERING.md`: Hardware analysis and findings
+- `NaveeApp` initializes `NaveeAuth` on startup (AES keys from SharedPreferences)
+- `MainActivity` requests BLE permissions, creates `ScooterViewModel` via `by viewModels()`
+- `NaveeBleManager` handles scanning, GATT connection, notification subscription, and frame reassembly
+- `NaveeProtocol` builds/parses binary frames — all parsers account for `data[0]` being a version byte (payload at `data[1]+`)
+- `ScooterViewModel` exposes `StateFlow<ScooterState>` and `StateFlow<ScooterTelemetry>` consumed by Compose UI
+- Screen stays awake (`FLAG_KEEP_SCREEN_ON`) while the app is visible
+
+### PID-Dependent Behavior
+The scooter's Product ID (PID), extracted from BLE scan record bytes 6-8, determines available speed options and firmware-enforced limits. `ScooterViewModel.getMaxSpeedOptionsForPID()` maps known PIDs to their allowed speed lists. Unknown PIDs get a generic fallback.
 
 ### Key Protocol Details
 - **BLE Service UUID**: `0000d0ff-3c17-d293-8e48-14fe2e4da212`
+- **Write Char**: `0000b002-...`, **Notify Char**: `0000b003-...`
 - **Frame Format**: `[55 AA] [Flag] [CMD] [LEN] [DATA...] [Checksum] [FE FD]`
-- **Authentication**: AES-128-ECB with 5 rotating keys
-- **UART**: 19200 baud, 8N1, 3.3V logic level
+- **Authentication**: AES-128-ECB with 5 rotating keys, device ID from BT capture
+- **UART** (internal, dashboard↔controller): 19200 baud, 8N1, 3.3V logic
 
-## Development Notes
+### Protocol Documentation
+- `docs/PROTOCOL.md` — BLE command reference (all docs have `_DE.md` German translations)
+- `docs/INTERNAL_UART_PROTOCOL.md` — Internal UART between dashboard and motor controller
+- `docs/AUTHENTICATION.md` — Auth flow and key rotation
+- `docs/REVERSE_ENGINEERING.md` — Hardware teardown findings
 
-### Android Requirements
-- Min SDK 26 (Android 8.0)
-- Target SDK 35
-- Kotlin 2.1.0
-- Jetpack Compose BOM 2024.12.01
+### Tools Directory (`tools/`)
+- `firmware_grabber.py` / `ota_flasher.py` / `patch_firmware.py` — Firmware download, OTA flash, binary patching
+- `ghidra_area_code.py` — Ghidra script for firmware analysis
+- `rtl_rom_dump.py` / `rtl_flash_dump.py` — RTL chipset memory dumping
+- `test_speed_set.py` / `test_speed_raw.py` / `test_eot.py` — Manual BLE protocol tests
+- `tools/arduino/` — Arduino/ESP32 sketches for hardware interfacing
 
-### BLE Permissions Required
-- `BLUETOOTH_SCAN`
-- `BLUETOOTH_CONNECT` 
-- `ACCESS_FINE_LOCATION` (for BLE scanning on Android 12+)
+### Critical Implementation Notes
+- Response `data[0]` is a version/type byte — actual payload starts at `data[1]`
+- Checksum: sum of all bytes from header to data end, modulo 256
+- Auth credentials (device ID, post-auth params) must be extracted from a BT capture and entered manually on first run
+- **UART danger**: Red/Blue wires on dashboard connector carry **53V/52V battery voltage** — never connect to microcontroller
 
-### Critical Protocol Implementation Details
-- Response data contains a leading version/type byte at `data[0]`
-- Actual payload starts at `data[1]` - all byte indices in documentation account for this
-- Checksum calculation: sum of all bytes from header to data, modulo 256
-- Device ID for auth obtained from BT capture (see `NaveeAuth.kt`)
-
-### Hardware Interfacing
-- **UART Pinout** (Dashboard connector):
-  - Black: GND
-  - Yellow/Green: UART signals (3.3V)
-  - Red/Blue: **53V/52V battery lines - DO NOT CONNECT to microcontroller**
-- ESP32/Arduino implementations planned in `microcontroller/` directory
+## Android Requirements
+- Min SDK 26, Target SDK 35, Java 17, Kotlin 2.1.0, Compose BOM 2024.12.01
+- Release builds use ProGuard minification
 
 ## Legal Compliance Note
 The Navee ST3 Pro has a firmware-enforced speed limit of 22 km/h (Germany/EU regulation). This limit is PID-dependent and cannot be bypassed via BLE commands. This project focuses on documenting the protocol and providing server-independent access to existing scooter functions.
