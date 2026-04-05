@@ -1,0 +1,5580 @@
+{
+  "run_ts": "2026-04-05T05:19:42.376814",
+  "models_checked": 64,
+  "bldc_found": 32,
+  "hunt_results": [
+    {
+      "model_id": 3801,
+      "model_name": "ST3 PRO (DE 22km/h, pid=23452)",
+      "versions_sent": {
+        "vehicleModelId": "3801",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:50.830129",
+      "populated_lists": [
+        "meterList",
+        "bldcList",
+        "bmsList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.3.1",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/12/12/f707bb8837044fdc9e2c604483977b5b.bin",
+          "notes": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+          "id": "",
+          "raw": {
+            "vn": "2.0.3.1",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/12/f707bb8837044fdc9e2c604483977b5b.bin",
+            "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.1.5",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/09/01/a0692ba787074c208c3530f45af516ab.bin",
+          "notes": "1. Optimize speed experience;\nThis update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+          "id": "",
+          "raw": {
+            "vn": "0.0.1.5",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/09/01/a0692ba787074c208c3530f45af516ab.bin",
+            "context": "1. Optimize speed experience;\nThis update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bms",
+          "component_full": "BMS (Battery)",
+          "version": "1.0.0.4",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/24/0a47df2acdc8419a8db1ff78af3bfeea.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "1.0.0.4",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/24/0a47df2acdc8419a8db1ff78af3bfeea.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 3701,
+      "model_name": "ST3 (Global, pid=24012)",
+      "versions_sent": {
+        "vehicleModelId": "3701",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:51.375966",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.3.1",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/12/12/5f17310a55f34938ba8cac18b0cdec05.bin",
+          "notes": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+          "id": "",
+          "raw": {
+            "vn": "2.0.3.1",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/12/5f17310a55f34938ba8cac18b0cdec05.bin",
+            "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.1.1",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/09/01/f45e6237f7e24d3ab88efd038632f919.bin",
+          "notes": "1. Optimize speed experience;\n2. Fix known issues.",
+          "id": "",
+          "raw": {
+            "vn": "0.0.1.1",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/09/01/f45e6237f7e24d3ab88efd038632f919.bin",
+            "context": "1. Optimize speed experience;\n2. Fix known issues.",
+            "reminder": 0
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 4901,
+      "model_name": "ST5 Pro (, pid=24412)",
+      "versions_sent": {
+        "vehicleModelId": "4901",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:51.932569",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 12701,
+      "model_name": "NT3 Max (pid=27452)",
+      "versions_sent": {
+        "vehicleModelId": "12701",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:52.452912",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 10801,
+      "model_name": "GT5 Max (pid=25463)",
+      "versions_sent": {
+        "vehicleModelId": "10801",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:52.949979",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 10701,
+      "model_name": "N65i II (pid=25093)",
+      "versions_sent": {
+        "vehicleModelId": "10701",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:53.443390",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.5.8",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/02/06/8db0776cc34c491e8dff4409e2f998cc.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "2.0.5.8",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/02/06/8db0776cc34c491e8dff4409e2f998cc.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.0.5",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/12/01/5590cb2e456d4d39a687b5c808c6c91e.bin",
+          "notes": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.5",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/01/5590cb2e456d4d39a687b5c808c6c91e.bin",
+            "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 10601,
+      "model_name": "E60 Pro (pid=26432)",
+      "versions_sent": {
+        "vehicleModelId": "10601",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:53.966264",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 10501,
+      "model_name": "UT3 Max (pid=26202)",
+      "versions_sent": {
+        "vehicleModelId": "10501",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:54.493006",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "0.0.0.4",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/01/27/b911abaf99db4132bc4963c0a2fe6119.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.4",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/01/27/b911abaf99db4132bc4963c0a2fe6119.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.0.5",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/01/07/1ee29a5241ed49739463288107557ade.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.5",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/01/07/1ee29a5241ed49739463288107557ade.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 10401,
+      "model_name": "UT3 Pro (pid=26192)",
+      "versions_sent": {
+        "vehicleModelId": "10401",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:55.009119",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 10301,
+      "model_name": "E60 Pro (pid=26122)",
+      "versions_sent": {
+        "vehicleModelId": "10301",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:55.540498",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 10201,
+      "model_name": "V45i (pid=26232)",
+      "versions_sent": {
+        "vehicleModelId": "10201",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:56.064444",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 10101,
+      "model_name": "E20 Lite (pid=26342)",
+      "versions_sent": {
+        "vehicleModelId": "10101",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:56.591384",
+      "populated_lists": [
+        "meterList",
+        "bldcList",
+        "bmsList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "0.0.0.5",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/28/c7c0bdacf276419083d7a8dc779bd23e.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.5",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/28/c7c0bdacf276419083d7a8dc779bd23e.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.0.3",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/28/f30769e8908a46fdbbbcbf0b510f3a2e.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.3",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/28/f30769e8908a46fdbbbcbf0b510f3a2e.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bms",
+          "component_full": "BMS (Battery)",
+          "version": "4.0.0.0",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/29/e25b48f32108456ebe34e3b88542e2f4.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "4.0.0.0",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/29/e25b48f32108456ebe34e3b88542e2f4.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 10001,
+      "model_name": "E45 Pro (pid=26112)",
+      "versions_sent": {
+        "vehicleModelId": "10001",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:57.125527",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 9901,
+      "model_name": "S2 (pid=26142)",
+      "versions_sent": {
+        "vehicleModelId": "9901",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:57.653286",
+      "populated_lists": [
+        "meterList",
+        "bmsList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.0.1",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/27/97d5ace5dbab4ad690187ce1907dc913.bin",
+          "notes": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+          "id": "",
+          "raw": {
+            "vn": "2.0.0.1",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/27/97d5ace5dbab4ad690187ce1907dc913.bin",
+            "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bms",
+          "component_full": "BMS (Battery)",
+          "version": "3.0.0.0",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/27/0f20ca9c759a45189655db55cc47e7a6.bin",
+          "notes": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+          "id": "",
+          "raw": {
+            "vn": "3.0.0.0",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/27/0f20ca9c759a45189655db55cc47e7a6.bin",
+            "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 9701,
+      "model_name": "NT5 Max (pid=25431)",
+      "versions_sent": {
+        "vehicleModelId": "9701",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:58.339607",
+      "populated_lists": [
+        "meterList",
+        "bmsList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "3.0.1.6",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/02/02/ea89ca649d28464892615b123510a97c.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "3.0.1.6",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/02/02/ea89ca649d28464892615b123510a97c.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bms",
+          "component_full": "BMS (Battery)",
+          "version": "3.3.1.7",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/11/11/36866969618744f69309cf63d8b9a4e7.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "3.3.1.7",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/11/11/36866969618744f69309cf63d8b9a4e7.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 9601,
+      "model_name": "UT5 Ultra X (pid=25852)",
+      "versions_sent": {
+        "vehicleModelId": "9601",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:58.868033",
+      "populated_lists": [
+        "meterList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "0.0.2.4",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/12/24/10131826d0e54438bd370e23942201e1.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.2.4",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/24/10131826d0e54438bd370e23942201e1.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 9501,
+      "model_name": "NT5 Ultra X (pid=24492)",
+      "versions_sent": {
+        "vehicleModelId": "9501",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:18:59.372591",
+      "populated_lists": [
+        "meterList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "3.0.1.6",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/02/02/fd0f8a9f3d0c4aa69d5213c830922fbe.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "3.0.1.6",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/02/02/fd0f8a9f3d0c4aa69d5213c830922fbe.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 9401,
+      "model_name": "NT5 Ultra (pid=26582)",
+      "versions_sent": {
+        "vehicleModelId": "9401",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:00.151956",
+      "populated_lists": [
+        "meterList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "3.0.1.7",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/03/02/44d48b1047034771a0ac07dec9551623.bin",
+          "notes": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+          "id": "",
+          "raw": {
+            "vn": "3.0.1.7",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/03/02/44d48b1047034771a0ac07dec9551623.bin",
+            "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 9301,
+      "model_name": "NT5 Max (pid=25432)",
+      "versions_sent": {
+        "vehicleModelId": "9301",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:00.680993",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 9201,
+      "model_name": "NT5 Max+ (pid=26572)",
+      "versions_sent": {
+        "vehicleModelId": "9201",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:01.201010",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 9101,
+      "model_name": "E25 Go (pid=25732)",
+      "versions_sent": {
+        "vehicleModelId": "9101",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:01.703084",
+      "populated_lists": [
+        "meterList",
+        "bldcList",
+        "bmsList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "0.0.0.5",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/20/952798f5ae904aa1930b407e983f2059.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.5",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/20/952798f5ae904aa1930b407e983f2059.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.0.3",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/10/d58ff5c881d24a029b667d9484ac43b6.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.3",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/10/d58ff5c881d24a029b667d9484ac43b6.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bms",
+          "component_full": "BMS (Battery)",
+          "version": "3.0.0.5",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/08/08/157a147d6ec348a699f0ea975affe9b0.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "3.0.0.5",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/08/08/157a147d6ec348a699f0ea975affe9b0.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 9001,
+      "model_name": "UT5 UItra (pid=25472)",
+      "versions_sent": {
+        "vehicleModelId": "9001",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:02.266151",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 8901,
+      "model_name": "UT5 Max (pid=25382)",
+      "versions_sent": {
+        "vehicleModelId": "8901",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:02.796545",
+      "populated_lists": [
+        "meterList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "0.0.2.8",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/03/24/a8e853b7ea9e446b90e5287e82b7b323.bin",
+          "notes": "This update brings refined improvements and enhanced experience.\nUpdate to enjoy the vehicle at its best.",
+          "id": "",
+          "raw": {
+            "vn": "0.0.2.8",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/03/24/a8e853b7ea9e446b90e5287e82b7b323.bin",
+            "context": "This update brings refined improvements and enhanced experience.\nUpdate to enjoy the vehicle at its best.",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 8501,
+      "model_name": "GT5 Max (pid=25462)",
+      "versions_sent": {
+        "vehicleModelId": "8501",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:03.334365",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "1.0.0.4",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/01/30/02e1dcd86ede426694544adb0165932a.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "1.0.0.4",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/01/30/02e1dcd86ede426694544adb0165932a.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.1.1",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/28/2e661dfc59f2443e9ac253f80e6fa33a.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.1.1",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/28/2e661dfc59f2443e9ac253f80e6fa33a.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 8401,
+      "model_name": "GT5 Pro (pid=25452)",
+      "versions_sent": {
+        "vehicleModelId": "8401",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:03.830413",
+      "populated_lists": [
+        "meterList",
+        "bmsList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "1.0.0.4",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/01/30/b2abae129b0846edb4e724da8ca4e85f.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "1.0.0.4",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/01/30/b2abae129b0846edb4e724da8ca4e85f.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bms",
+          "component_full": "BMS (Battery)",
+          "version": "1.0.1.4",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/12/18/218edf76bde6441b8a313d3fd5e9794f.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "1.0.1.4",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/18/218edf76bde6441b8a313d3fd5e9794f.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 7801,
+      "model_name": "ST5 Max (pid=25172)",
+      "versions_sent": {
+        "vehicleModelId": "7801",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:04.363327",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 6101,
+      "model_name": "S2 (pid=25362)",
+      "versions_sent": {
+        "vehicleModelId": "6101",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:04.888858",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 6001,
+      "model_name": "N65i II (pid=25092)",
+      "versions_sent": {
+        "vehicleModelId": "6001",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:05.398357",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.5.8",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/03/06/9243fc99295b4aa595427b628c53f690.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "2.0.5.8",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/03/06/9243fc99295b4aa595427b628c53f690.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.0.5",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/20/5b7b49a19e5b43d196b3f792a4344a4d.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.5",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/20/5b7b49a19e5b43d196b3f792a4344a4d.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 5901,
+      "model_name": "XT5 Max (pid=25292)",
+      "versions_sent": {
+        "vehicleModelId": "5901",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:05.902842",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "3.0.0.9",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/01/05/e5f4ed26106a4629b49700619aac9e01.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "3.0.0.9",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/01/05/e5f4ed26106a4629b49700619aac9e01.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.1.0",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/11/10/62f16f401189432fb05f0eaf3cfa1d35.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.1.0",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/11/10/62f16f401189432fb05f0eaf3cfa1d35.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 5801,
+      "model_name": "XT5 Ultra (pid=24432)",
+      "versions_sent": {
+        "vehicleModelId": "5801",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:06.429237",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "3.0.0.9",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/01/05/e0e05be4ada740c3a098042d52bdca00.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "3.0.0.9",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/01/05/e0e05be4ada740c3a098042d52bdca00.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.2.7",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/01/06/bbab982cc4b64d1694db1e7737fdc030.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.2.7",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/01/06/bbab982cc4b64d1694db1e7737fdc030.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 5701,
+      "model_name": "G5 Max (pid=25192)",
+      "versions_sent": {
+        "vehicleModelId": "5701",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:06.938470",
+      "populated_lists": [
+        "meterList",
+        "bldcList",
+        "bmsList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.5.7",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/02/06/87dd2a6d847044bb9031bec9640f01a9.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "2.0.5.7",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/02/06/87dd2a6d847044bb9031bec9640f01a9.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.0.5",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/07/05/375628672694484c970ffbf9d2fc92ef.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.5",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/07/05/375628672694484c970ffbf9d2fc92ef.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bms",
+          "component_full": "BMS (Battery)",
+          "version": "3.1.0.1",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/06/26/ae518f52581b44188d28b4cbe2546b20.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "3.1.0.1",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/06/26/ae518f52581b44188d28b4cbe2546b20.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 5601,
+      "model_name": "G5 pro (pid=25182)",
+      "versions_sent": {
+        "vehicleModelId": "5601",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:07.443711",
+      "populated_lists": [
+        "meterList",
+        "bldcList",
+        "bmsList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.5.7",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/02/06/11842375f15e4184a5ba80915a0fb3e8.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "2.0.5.7",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/02/06/11842375f15e4184a5ba80915a0fb3e8.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.0.3",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/07/05/d02d169308b34bd28c7f46ed764d2c2f.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.3",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/07/05/d02d169308b34bd28c7f46ed764d2c2f.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bms",
+          "component_full": "BMS (Battery)",
+          "version": "3.1.0.1",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/06/26/e4527f229f0348f88e901d38746e94d8.bin",
+          "notes": "",
+          "id": "",
+          "raw": {
+            "vn": "3.1.0.1",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/06/26/e4527f229f0348f88e901d38746e94d8.bin",
+            "context": "",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 5501,
+      "model_name": "Birdie 3x (pid=25152)",
+      "versions_sent": {
+        "vehicleModelId": "5501",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:07.952957",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.1.2",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/22/e0f22d1b576c44738b8a0bf6c4737834.bin",
+          "notes": "optimize the display of the pause-following mode instrument",
+          "id": "",
+          "raw": {
+            "vn": "2.0.1.2",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/22/e0f22d1b576c44738b8a0bf6c4737834.bin",
+            "context": "optimize the display of the pause-following mode instrument",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.2.8",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/15/b95acccda4b046cb926dbb8ff06d5b54.bin",
+          "notes": "Optimize the user experience of the implementation mode",
+          "id": "",
+          "raw": {
+            "vn": "0.0.2.8",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/15/b95acccda4b046cb926dbb8ff06d5b54.bin",
+            "context": "Optimize the user experience of the implementation mode",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 5401,
+      "model_name": "G5 (pid=24422)",
+      "versions_sent": {
+        "vehicleModelId": "5401",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:08.487454",
+      "populated_lists": [
+        "meterList",
+        "bldcList",
+        "bmsList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.5.7",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/02/06/6ae8a85e1e7a48b6b413b6007283ce69.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "2.0.5.7",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/02/06/6ae8a85e1e7a48b6b413b6007283ce69.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.0.5",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/12/04/e926cfa03d084bf695d6a8da1f46fa9e.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.5",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/04/e926cfa03d084bf695d6a8da1f46fa9e.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bms",
+          "component_full": "BMS (Battery)",
+          "version": "3.0.0.5",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/27/ecf82145ba514c9cab30e5add5df8e91.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "3.0.0.5",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/27/ecf82145ba514c9cab30e5add5df8e91.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 5301,
+      "model_name": "XT5 Pro (pid=24162)",
+      "versions_sent": {
+        "vehicleModelId": "5301",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:08.993641",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "3.0.0.9",
+          "url": "https://myusnavee.s3.amazonaws.com/2026/01/05/76ad5f526340466caec5d44b80ba2bb2.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "3.0.0.9",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/01/05/76ad5f526340466caec5d44b80ba2bb2.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.1.0",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/10/e25c25af3f5445caa7c3c58224745dfb.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.1.0",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/10/e25c25af3f5445caa7c3c58224745dfb.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 5201,
+      "model_name": "K100 (pid=25042)",
+      "versions_sent": {
+        "vehicleModelId": "5201",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:09.507794",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "0.0.1.2",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/11/24/bff45a95ee41452b843a4d0cbdd65146.bin",
+          "notes": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+          "id": "",
+          "raw": {
+            "vn": "0.0.1.2",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/11/24/bff45a95ee41452b843a4d0cbdd65146.bin",
+            "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.3.2",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/23/1bf40729b98f4cb3903baed37fc02b00.bin",
+          "notes": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+          "id": "",
+          "raw": {
+            "vn": "0.0.3.2",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/23/1bf40729b98f4cb3903baed37fc02b00.bin",
+            "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 5101,
+      "model_name": "K100 Pro (pid=25052)",
+      "versions_sent": {
+        "vehicleModelId": "5101",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:10.018086",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "0.0.1.2",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/11/24/0e2ebccc8432435b88a7084b1606a5ab.bin",
+          "notes": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+          "id": "",
+          "raw": {
+            "vn": "0.0.1.2",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/11/24/0e2ebccc8432435b88a7084b1606a5ab.bin",
+            "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.3.2",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/10/1bb10dd7e5144f9e936d79a4bc6a3ef0.bin",
+          "notes": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+          "id": "",
+          "raw": {
+            "vn": "0.0.3.2",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/10/1bb10dd7e5144f9e936d79a4bc6a3ef0.bin",
+            "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 5001,
+      "model_name": "K100 Max (pid=25062)",
+      "versions_sent": {
+        "vehicleModelId": "5001",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:10.544760",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "0.0.1.2",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/11/19/8084274491504301adff7cda1fb98e59.bin",
+          "notes": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+          "id": "",
+          "raw": {
+            "vn": "0.0.1.2",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/11/19/8084274491504301adff7cda1fb98e59.bin",
+            "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.3.3",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/09/30/f1af25b72e0841a596c9e1586d9182ea.bin",
+          "notes": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+          "id": "",
+          "raw": {
+            "vn": "0.0.3.3",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/09/30/f1af25b72e0841a596c9e1586d9182ea.bin",
+            "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 4801,
+      "model_name": "Birdie 3 (pid=24352)",
+      "versions_sent": {
+        "vehicleModelId": "4801",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:11.073710",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.1.2",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/31/be8f842f15854e69b2397529d0b5a7c4.bin",
+          "notes": "Optimize the user experience of the display",
+          "id": "",
+          "raw": {
+            "vn": "2.0.1.2",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/31/be8f842f15854e69b2397529d0b5a7c4.bin",
+            "context": "Optimize the user experience of the display",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.2.8",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/31/9906e936689a4cd2b8ccc93db22d00e6.bin",
+          "notes": "Optimize the user experience of the implementation mode",
+          "id": "",
+          "raw": {
+            "vn": "0.0.2.8",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/31/9906e936689a4cd2b8ccc93db22d00e6.bin",
+            "context": "Optimize the user experience of the implementation mode",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 4501,
+      "model_name": "V50i Pro II (pid=24382)",
+      "versions_sent": {
+        "vehicleModelId": "4501",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:11.579163",
+      "populated_lists": [
+        "meterList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.0.8",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/04/02/421482cec26644bcb8eaada487effc14.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "2.0.0.8",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/04/02/421482cec26644bcb8eaada487effc14.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 4401,
+      "model_name": "V40i Pro II (pid=24372)",
+      "versions_sent": {
+        "vehicleModelId": "4401",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:12.084795",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.0.8",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/04/02/c43dd63e791c4f2897878d35ce0192b9.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "2.0.0.8",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/04/02/c43dd63e791c4f2897878d35ce0192b9.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.0.2",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/03/31/5a4a17e49d89472f88e514feb2d592c2.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.2",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/03/31/5a4a17e49d89472f88e514feb2d592c2.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 4301,
+      "model_name": "V25i Pro II (pid=24362)",
+      "versions_sent": {
+        "vehicleModelId": "4301",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:12.591393",
+      "populated_lists": [
+        "meterList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.0.8",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/04/08/0d496a6e54704d2ea98a00d2b1ad7992.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "2.0.0.8",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/04/08/0d496a6e54704d2ea98a00d2b1ad7992.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 4201,
+      "model_name": "V3 Pro (pid=23263)",
+      "versions_sent": {
+        "vehicleModelId": "4201",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:13.104608",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.0.1",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/12/03/9c6102e4ec384941983914703c112a1f.bin",
+          "notes": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+          "id": "",
+          "raw": {
+            "vn": "2.0.0.1",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/12/03/9c6102e4ec384941983914703c112a1f.bin",
+            "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.2.0",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/12/04/78a895dd0c984a81871bbd604ca06bc6.bin",
+          "notes": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+          "id": "",
+          "raw": {
+            "vn": "0.0.2.0",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/12/04/78a895dd0c984a81871bbd604ca06bc6.bin",
+            "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 4101,
+      "model_name": "E25 (pid=24222)",
+      "versions_sent": {
+        "vehicleModelId": "4101",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:13.634355",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.0.5",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/11/27/3775b85577e747879a33cb3d35efc6c6.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "2.0.0.5",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/11/27/3775b85577e747879a33cb3d35efc6c6.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.0.6",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/11/27/dd052697b8974bb1a698e3c064179385.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.6",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/11/27/dd052697b8974bb1a698e3c064179385.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 4001,
+      "model_name": "E20 (pid=24172)",
+      "versions_sent": {
+        "vehicleModelId": "4001",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:14.164437",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.0.5",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/11/27/6d1e4bc9556c48859611ba85232efc21.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "2.0.0.5",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/11/27/6d1e4bc9556c48859611ba85232efc21.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.0.6",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/11/27/dfebc887d0c74757a8618ec16de1131e.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.6",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/11/27/dfebc887d0c74757a8618ec16de1131e.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 3601,
+      "model_name": "GT3 Max (pid=24182)",
+      "versions_sent": {
+        "vehicleModelId": "3601",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:14.674221",
+      "populated_lists": [
+        "meterList",
+        "bldcList",
+        "bmsList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.3.1",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/12/12/0841b15d3e214ba0bf80849d5ac5a460.bin",
+          "notes": "Fix known issues",
+          "id": "",
+          "raw": {
+            "vn": "2.0.3.1",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/12/0841b15d3e214ba0bf80849d5ac5a460.bin",
+            "context": "Fix known issues",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.1.1",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/09/01/07f3246ce4854df7a0799495969c6795.bin",
+          "notes": "1. Optimize speed experience;\n2. Fix known issues.",
+          "id": "",
+          "raw": {
+            "vn": "0.0.1.1",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/09/01/07f3246ce4854df7a0799495969c6795.bin",
+            "context": "1. Optimize speed experience;\n2. Fix known issues.",
+            "reminder": 0
+          }
+        },
+        {
+          "component": "bms",
+          "component_full": "BMS (Battery)",
+          "version": "1.0.0.4",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/10/24/695907cdf9c04812baba3c93056a1af3.bin",
+          "notes": "1. Optimized system performance\n2. Improved system stability",
+          "id": "",
+          "raw": {
+            "vn": "1.0.0.4",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/24/695907cdf9c04812baba3c93056a1af3.bin",
+            "context": "1. Optimized system performance\n2. Improved system stability",
+            "reminder": 1
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 3501,
+      "model_name": "GT3 (pid=24022)",
+      "versions_sent": {
+        "vehicleModelId": "3501",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:15.199728",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.3.1",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/12/12/f01cdef227474d24951b45f9d714d64e.bin",
+          "notes": "Fix known issues",
+          "id": "",
+          "raw": {
+            "vn": "2.0.3.1",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/12/f01cdef227474d24951b45f9d714d64e.bin",
+            "context": "Fix known issues",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.1.1",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/09/01/c17f7c77c4c245dabec9d00bced37717.bin",
+          "notes": "1. Optimize speed experience;\n2. Fix known issues.",
+          "id": "",
+          "raw": {
+            "vn": "0.0.1.1",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/09/01/c17f7c77c4c245dabec9d00bced37717.bin",
+            "context": "1. Optimize speed experience;\n2. Fix known issues.",
+            "reminder": 0
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 3401,
+      "model_name": "GT3 Pro (pid=24032)",
+      "versions_sent": {
+        "vehicleModelId": "3401",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:15.697713",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.3.1",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/12/12/2e0fb8f7b1e349b199a723d5e89e20af.bin",
+          "notes": "Fix known issues",
+          "id": "",
+          "raw": {
+            "vn": "2.0.3.1",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/12/2e0fb8f7b1e349b199a723d5e89e20af.bin",
+            "context": "Fix known issues",
+            "reminder": 1
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.1.1",
+          "url": "https://myusnavee.s3.amazonaws.com/2025/09/01/3342bc959b094bdcbf1ea6dc20c52f32.bin",
+          "notes": "1. Optimize speed experience;\n2. Fix known issues.",
+          "id": "",
+          "raw": {
+            "vn": "0.0.1.1",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/09/01/3342bc959b094bdcbf1ea6dc20c52f32.bin",
+            "context": "1. Optimize speed experience;\n2. Fix known issues.",
+            "reminder": 0
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 2301,
+      "model_name": "P50 (pid=23531)",
+      "versions_sent": {
+        "vehicleModelId": "2301",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:16.220649",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 2891,
+      "model_name": "V60i Pro (pid=23262)",
+      "versions_sent": {
+        "vehicleModelId": "2891",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:16.755239",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 2801,
+      "model_name": "V60i Pro (pid=23261)",
+      "versions_sent": {
+        "vehicleModelId": "2801",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:17.278733",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 2591,
+      "model_name": "S60 (pid=23342)",
+      "versions_sent": {
+        "vehicleModelId": "2591",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:17.774442",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 2501,
+      "model_name": "S60 (pid=23341)",
+      "versions_sent": {
+        "vehicleModelId": "2501",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:18.298416",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "1.0.1.0",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/05/10/19d699bf7c544e42b7a9bdc3e98c1986.bin",
+          "notes": "null",
+          "id": "",
+          "raw": {
+            "vn": "1.0.1.0",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/05/10/19d699bf7c544e42b7a9bdc3e98c1986.bin",
+            "context": "null",
+            "reminder": 0
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.0.6",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/02/21/991f3ba1f03446eaa3d62ad4a5311716.bin",
+          "notes": "null",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.6",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/02/21/991f3ba1f03446eaa3d62ad4a5311716.bin",
+            "context": "null",
+            "reminder": 0
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 1691,
+      "model_name": "S40 (pid=23222)",
+      "versions_sent": {
+        "vehicleModelId": "1691",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:18.821894",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 1601,
+      "model_name": "S40 (pid=23221)",
+      "versions_sent": {
+        "vehicleModelId": "1601",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:19.326528",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "1.0.1.0",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/05/10/ccab906ba09947ff896f724c59eb9449.bin",
+          "notes": "null",
+          "id": "",
+          "raw": {
+            "vn": "1.0.1.0",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/05/10/ccab906ba09947ff896f724c59eb9449.bin",
+            "context": "null",
+            "reminder": 0
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.0.5",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/02/21/f05dd98bf8fb45aa8eb832e13484561f.bin",
+          "notes": "null",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.5",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/02/21/f05dd98bf8fb45aa8eb832e13484561f.bin",
+            "context": "null",
+            "reminder": 0
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 1491,
+      "model_name": "V25 Pro/V25i Pro (pid=23272)",
+      "versions_sent": {
+        "vehicleModelId": "1491",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:19.850569",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 1401,
+      "model_name": "V25 Pro/V25i Pro (pid=23271)",
+      "versions_sent": {
+        "vehicleModelId": "1401",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:20.371689",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 1391,
+      "model_name": "V40i/V40i  Pro (pid=23282)",
+      "versions_sent": {
+        "vehicleModelId": "1391",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:20.906157",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 1301,
+      "model_name": "V40i/V40i  Pro (pid=23281)",
+      "versions_sent": {
+        "vehicleModelId": "1301",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:21.439988",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "0.0.0.6",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/02/26/20915c0b19b84ba99af8903eeac0e701.bin",
+          "notes": "null",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.6",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/02/26/20915c0b19b84ba99af8903eeac0e701.bin",
+            "context": "null",
+            "reminder": 0
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.0.8",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/02/21/dec2237b2b624fee99086ff9dee4d5be.bin",
+          "notes": "null",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.8",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/02/21/dec2237b2b624fee99086ff9dee4d5be.bin",
+            "context": "null",
+            "reminder": 0
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 1291,
+      "model_name": "V50i  Pro (pid=23292)",
+      "versions_sent": {
+        "vehicleModelId": "1291",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:21.961392",
+      "populated_lists": [
+        "meterList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "2.0.0.8",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/06/21/66fc2479c82841a9b66d6bcf3e6507f9.bin",
+          "notes": "null",
+          "id": "",
+          "raw": {
+            "vn": "2.0.0.8",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/06/21/66fc2479c82841a9b66d6bcf3e6507f9.bin",
+            "context": "null",
+            "reminder": 0
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 1201,
+      "model_name": "V50i  Pro (pid=23291)",
+      "versions_sent": {
+        "vehicleModelId": "1201",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:22.482420",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "0.0.0.6",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/01/05/31e131425b204406bb10fb125bf8a6a1.bin",
+          "notes": "null",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.6",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/01/05/31e131425b204406bb10fb125bf8a6a1.bin",
+            "context": "null",
+            "reminder": 0
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.0.7",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/01/29/dad1c2691b1144218e8d5864d3a1610a.bin",
+          "notes": "null",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.7",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/01/29/dad1c2691b1144218e8d5864d3a1610a.bin",
+            "context": "null",
+            "reminder": 0
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 1101,
+      "model_name": "N65i (pid=22131)",
+      "versions_sent": {
+        "vehicleModelId": "1101",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:23.018413",
+      "populated_lists": [
+        "meterList",
+        "bldcList",
+        "bmsList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "0.0.0.5",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/02/26/c3dd6f8a80b94bc1a1c50d4ec7e3e99c.bin",
+          "notes": "null",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.5",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/02/26/c3dd6f8a80b94bc1a1c50d4ec7e3e99c.bin",
+            "context": "null",
+            "reminder": 0
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.1.1",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/02/21/7bcd756aa5be49a49d7cd0ca1966c523.bin",
+          "notes": "null",
+          "id": "",
+          "raw": {
+            "vn": "0.0.1.1",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/02/21/7bcd756aa5be49a49d7cd0ca1966c523.bin",
+            "context": "null",
+            "reminder": 0
+          }
+        },
+        {
+          "component": "bms",
+          "component_full": "BMS (Battery)",
+          "version": "0.1.0.7",
+          "url": "https://myusnavee.s3.amazonaws.com/2023/12/19/3792d8846e01406e8bf92b5a81915fc2.bin",
+          "notes": "null",
+          "id": "",
+          "raw": {
+            "vn": "0.1.0.7",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2023/12/19/3792d8846e01406e8bf92b5a81915fc2.bin",
+            "context": "null",
+            "reminder": 0
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 701,
+      "model_name": "V25/V25i (pid=23141)",
+      "versions_sent": {
+        "vehicleModelId": "701",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:23.542821",
+      "populated_lists": [
+        "meterList",
+        "bldcList"
+      ],
+      "firmware": [
+        {
+          "component": "meter",
+          "component_full": "Meter (Dashboard)",
+          "version": "0.0.0.6",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/02/26/a01d2028b5d94b7282521705dc2daaa0.bin",
+          "notes": "null",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.6",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/02/26/a01d2028b5d94b7282521705dc2daaa0.bin",
+            "context": "null",
+            "reminder": 0
+          }
+        },
+        {
+          "component": "bldc",
+          "component_full": "BLDC (Motor Controller)",
+          "version": "0.0.0.9",
+          "url": "https://myusnavee.s3.amazonaws.com/2024/02/21/1732f3e3d9e64962981cfa1433e1baba.bin",
+          "notes": "null",
+          "id": "",
+          "raw": {
+            "vn": "0.0.0.9",
+            "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/02/21/1732f3e3d9e64962981cfa1433e1baba.bin",
+            "context": "null",
+            "reminder": 0
+          }
+        }
+      ],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    },
+    {
+      "model_id": 791,
+      "model_name": "V25/V25i (pid=23142)",
+      "versions_sent": {
+        "vehicleModelId": "791",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "ts": "2026-04-05T05:19:24.082978",
+      "populated_lists": [],
+      "firmware": [],
+      "api_code": 200,
+      "api_msg": "操作成功"
+    }
+  ],
+  "api_log": [
+    {
+      "ts": "2026-04-05T05:18:49.624344",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/loginByOther",
+      "body": {
+        "loginType": "2",
+        "uid": "1276260019345",
+        "raw": "{\"id\": \"1276260019345\", \"nickname\": \"Martin Pfeffer\", \"email\": \"\", \"picture\": \"\", \"family_name\": \"\", \"given_name\": \"Martin Pfeffer\", \"requestedScopes\": \"\", \"isSigin\": \"true\", \"token\": \"\", \"idToken\": \"\", \"content\": \"Martin Pfeffer\"}",
+        "nickName": "Martin Pfeffer"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "userId": 44255701,
+          "token": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpblR5cGUiOiJsb2dpbiIsImxvZ2luSWQiOiJhcHBfdXNlcjo0NDI1NTcwMSIsInJuU3RyIjoicHd3aXZld0hLNHZaclhOaG1MUHI2OXJZaW04NENFYnYiLCJ1c2VySWQiOjQ0MjU1NzAxfQ.6CxpdcXGKaPOyyUtydaJUV6knpzder4bNvhviCrLP3Y"
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:50.329471",
+      "method": "GET",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/model",
+      "body": null,
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": [
+          {
+            "id": 12701,
+            "language": null,
+            "name": null,
+            "subtitle": null,
+            "type": "NT3 Max",
+            "category": "1",
+            "series": "NT3",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/03/25/4348b4d1308043d29905c2e582c4bf0a.pdf",
+            "guideType": 1,
+            "video": null,
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2026/03/25/614447979d9844ec8d0d917ff0aee10b.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2026/03/25/d5fc1c9cbb3443c687d31cb6e38efa65.png",
+            "pid": "27452"
+          },
+          {
+            "id": 10801,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "GT5 Max",
+            "category": "1",
+            "series": "GT5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/20/112e462f76ca4993bd9354696fd085e9.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/12/05/051603cda7c447b783fcc229c643efb0.mp4",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/12/05/d1cce833f4e24c79930406733f323b09.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/12/05/8f70ab22543043d5aa3cd19e2542e957.png",
+            "pid": "25463"
+          },
+          {
+            "id": 10701,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "N65i II",
+            "category": "1",
+            "series": "N65系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/19/1b6c5f0647df4a7898a0a6e94923c447.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/12/01/37f022ba74a64c418b66ac34bfdde115.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/12/01/2593e9bc06ea46878ab122507ef3862b.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/12/01/80e9278cce6443aea76a54b0889342d2.png",
+            "pid": "25093"
+          },
+          {
+            "id": 10601,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "E60 Pro",
+            "category": "1",
+            "series": "E系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/20/546501bb4f8f49ff9ba9595b0ea315e2.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/11/07/c25ba9052ea24e8dac6547892264d694.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/11/19/da1927079f754bae84eafd1c681fe9cc.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/11/19/f7ec92b841ce4a748b1d075c2fc0df27.png",
+            "pid": "26432"
+          },
+          {
+            "id": 10501,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "UT3 Max",
+            "category": "1",
+            "series": "UT3系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/26/9da5e2e8dea947d78c0db338d60c551b.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/10/30/698094c79eed490d884d767b98a8ec43.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2026/02/03/334f89a00b10478883dd1812e69b8be5.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2026/02/03/97e89630b9da4eb6abf9293bda84867a.png",
+            "pid": "26202"
+          },
+          {
+            "id": 10401,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "UT3 Pro",
+            "category": "1",
+            "series": "UT3系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/26/9046fe4cd8f34b8eaf569e3f67a26181.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/10/30/241caf95fe9b45268a15bae6e909977b.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2026/02/03/95aac7855a284349a8bbff164c4f9ddb.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2026/02/03/b00647fa4cdf4393b78d368acdacca4e.png",
+            "pid": "26192"
+          },
+          {
+            "id": 10301,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "E60 Pro",
+            "category": "1",
+            "series": "E系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/20/a013905ad1704bd3a7d3cf2cf5c52691.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/10/30/86be7da016ba4b0a8810de014b7796b2.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/11/18/1839812effd54f2f901ba63a670c85a3.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/11/18/eddfc1d846b546c4825205ad9f1cafd0.png",
+            "pid": "26122"
+          },
+          {
+            "id": 10201,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "V45i",
+            "category": "1",
+            "series": "V系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/20/3692e6df30e34040b2a2db7ca50b358a.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/10/28/cb0ebfe3c153425bb88244bbd617c71a.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/11/28/5c0ea739db574097b7d9c681877258e0.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/11/27/efcf399c885f43b3a0661eaa89bdcca2.png",
+            "pid": "26232"
+          },
+          {
+            "id": 10101,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "E20 Lite",
+            "category": "1",
+            "series": "E系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/20/b6e9298d5d0f4808a64b6f7ea3e21d36.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/10/28/5310773744064c379339c0233afa43a2.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/11/14/164c936542544ccba52bb6bc6d81c0a3.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/11/14/51d5d3061fc0402e97c49eee262c49ad.png",
+            "pid": "26342"
+          },
+          {
+            "id": 10001,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "E45 Pro",
+            "category": "1",
+            "series": "E系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/20/c4498965ba234f1d85ba44a0c6b4f160.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/10/17/13e4c42355e4422493605e22da4e43ec.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/11/18/70acc2ecff7c4ccfb7b1e18c005d6c68.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/11/18/08ae0ed8fde74cf7829d52668e0054a7.png",
+            "pid": "26112"
+          },
+          {
+            "id": 9901,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "S2",
+            "category": "1",
+            "series": "S2系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/10/11/80eeb8a84be849c7b86a58a790fb9fa4.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/10/11/1f215ad120934e0d953a13e2e3352e3f.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/10/11/f24bd5026f01454ba87d23f8e3fa8cf0.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/10/11/4e7626d97c30454db8cfda47d443683b.png",
+            "pid": "26142"
+          },
+          {
+            "id": 9701,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "NT5 Max",
+            "category": "1",
+            "series": "NT5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/19/614db6aab193408f8c905f4d89ce1a3f.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/09/19/ecb4d62fb4e44820843ddd03a6a446cb.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/11/14/4653f115c9a44750b7a60838208412a6.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/11/14/3606b61454f14a16a7377d92ab121c7b.png",
+            "pid": "25431"
+          },
+          {
+            "id": 9601,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "UT5 Ultra X",
+            "category": "1",
+            "series": "UT5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/19/84df76abbfe847c9b5a00db57c8a26ea.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/09/15/fc2980727a744e5392467d86600c690a.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/11/24/94833bb0cca549209df6057e9b835902.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/11/24/333c9ff3c04046eb982ddad22b877cf7.png",
+            "pid": "25852"
+          },
+          {
+            "id": 9501,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "NT5 Ultra X",
+            "category": "1",
+            "series": "NT5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/19/7e79c7504e2141bd9296ad73c359f67e.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/09/10/fc929f49c18743a98ba05a7b1acac89f.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/11/14/8fd483c997f14cdbb72a9ea0596ec44d.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/11/14/a1749fe08e0a4b4faf178dc0b754f1cb.png",
+            "pid": "24492"
+          },
+          {
+            "id": 9401,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "NT5 Ultra",
+            "category": "1",
+            "series": "NT5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/19/57c57ae87c504984a9313796db62baff.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/09/10/dbed3889f4e747329bd366984fb5d421.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2026/04/02/5fb723d9957d4c5b9fc9f060da8ef7e2.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2026/04/02/fbb3a01f3ca9497595ec0d5eeaba3931.png",
+            "pid": "26582"
+          },
+          {
+            "id": 9301,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "NT5 Max",
+            "category": "1",
+            "series": "NT5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/19/3b81d35b98214db28043b756516c970e.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/09/10/4e4984d3c58144c381f312aca80225d8.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/11/14/8e6fa5931ac74e6f82157a75fb65c0ef.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/11/14/0655eb3c9f8c4c14838d36599e2a7e7f.png",
+            "pid": "25432"
+          },
+          {
+            "id": 9201,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "NT5 Max+",
+            "category": "1",
+            "series": "NT5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/19/5fc61be73fa3417ebff05045e49d3cd5.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/09/10/c6252b0961794cfca8c9896e371fff21.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2026/04/02/e357634315b14e7d9355e185735251df.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2026/04/02/78e7ae8d061940498f45dd667fc16717.png",
+            "pid": "26572"
+          },
+          {
+            "id": 9101,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "E25 Go",
+            "category": "1",
+            "series": "E系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/20/2941c493dadf4a2c82d74984d3b8e5fc.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/07/31/defb686284144199badfbf9729a6a292.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/11/14/fe6e7e93418b4703855900c2afcc2e2b.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/11/14/f3a9d1e8777541c5a9ea113cf34f9002.png",
+            "pid": "25732"
+          },
+          {
+            "id": 9001,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "UT5 UItra",
+            "category": "1",
+            "series": "UT5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/07/25/2a86917121af471b89d31a018c7896fd.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/07/25/807a7073732240e08798fe6e2b435d72.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/07/25/c5e5f9e514c74720987a04c1a255d5af.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/07/25/bcbe3bdcf3194fa9a9f2f09e51464c86.png",
+            "pid": "25472"
+          },
+          {
+            "id": 8901,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "UT5 Max",
+            "category": "1",
+            "series": "UT5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/19/83f209a5b34a449dac57f16df0b86dfa.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/07/25/c7db310f0c2c476e80dc5c7f080a5779.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/11/24/f03a49b91a88435792d2c70a2331887c.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/11/24/4cdcdc09a8354524b6216245b42463ec.png",
+            "pid": "25382"
+          },
+          {
+            "id": 8501,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "GT5 Max",
+            "category": "1",
+            "series": "GT5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/20/35e6ff4d6a594e0b92d3d2409b37add2.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/07/23/60e5e6a7800a4789960ccf730ff6b115.mp4",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/11/20/1431516176ba4666834fb3172f063854.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/11/20/78da1c035e874624ab45b276cdbac7fd.png",
+            "pid": "25462"
+          },
+          {
+            "id": 8401,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "GT5 Pro",
+            "category": "1",
+            "series": "GT5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2026/01/20/ed3d55e040814b39adcdfced002d4273.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/07/23/f96576869a8c4a7b8180c393f500ab04.mp4",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/11/20/b65d9490d17b45209066049d325a7013.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/11/20/beaad6b8907c4a7b9d5be95caeca9b71.png",
+            "pid": "25452"
+          },
+          {
+            "id": 7801,
+            "language": null,
+            "name": null,
+            "subtitle": null,
+            "type": "ST5 Max",
+            "category": "1",
+            "series": "ST5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/10/20/a5c0528d14e0470ab953ea3863e5a72e.pdf",
+            "guideType": 1,
+            "video": null,
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/08/13/2166d5c928ff414db78f015beff05dba.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/08/13/09b289b924814bddb0959755014ed422.png",
+            "pid": "25172"
+          },
+          {
+            "id": 6101,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "S2",
+            "category": "1",
+            "series": "S2系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/05/26/372073e3882f4281916098a8f107763d.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/05/26/1b11bdd0d9d141868365a7a24331bc27.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/05/26/63b4be6136764c72b4c6ae311fa30965.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/05/26/eb35b2bd95ac4194a6f89df1d2451c7f.png",
+            "pid": "25362"
+          },
+          {
+            "id": 6001,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "N65i II",
+            "category": "1",
+            "series": "N65系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/10/14/598d844af0074ab1950bc46ceec4dc8f.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/05/19/750ccad271ca47edbceafe567211355b.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/07/09/4126da9f0abf4b0b9291ac19e60486f3.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/07/09/856ae7abb0df4a29a77e9fc4eee8395f.png",
+            "pid": "25092"
+          },
+          {
+            "id": 5901,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "XT5 Max",
+            "category": "1",
+            "series": "XT5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/10/20/f48a8cccc6f14d3a9c8d64ca0cfbff8a.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/05/14/c53acffe27e6471d85e8e9ead9866258.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/08/19/73c9f78b2e384e17abf911e20f98e430.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/08/19/076d7434b8124a96b00f69aaf52516cc.png",
+            "pid": "25292"
+          },
+          {
+            "id": 5801,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "XT5 Ultra",
+            "category": "1",
+            "series": "XT5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/10/20/a7e1b949717f448a8829b7b62479a6ed.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/05/09/7a9dbf72f3184258a2658e3a5bc5a140.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/08/19/e28a71d8abbb48b69c5493d0d46fdc8b.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/08/19/97bf4bb76483410b963b4ec80c4e5939.png",
+            "pid": "24432"
+          },
+          {
+            "id": 5701,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "G5 Max",
+            "category": "1",
+            "series": "G5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/09/15/1ddcdb5d82ca4260959b936a52ae6d8b.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/04/29/97d0ab01e77b47fa8a96e0f50020e122.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/07/10/565f14a69b794d9bbe70d47283c0478c.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/07/10/1f3dab682ae34631a6be413fb7b2986e.png",
+            "pid": "25192"
+          },
+          {
+            "id": 5601,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "G5 pro",
+            "category": "1",
+            "series": "G5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/09/15/2bc68bad5cd945d8bac2daabe7740d3f.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/04/29/0c9d58845b984d3e88861d338c097c29.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/07/10/012b0d993940459ba11353b6f0c3ca72.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/07/10/ae02f804dc154ecbb3c24072aedcc7d2.png",
+            "pid": "25182"
+          },
+          {
+            "id": 5501,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "Birdie 3x",
+            "category": "4",
+            "series": "Birdie系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/06/13/5003e8b44f5740d68f2c868e04b04011.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/07/22/d351a56c751843848a26f5b85bf15fc0.mp4",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/04/27/af6af81e7e744d9987e31568b8d93f3d.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/04/27/79f389fa2a3f47248f24645edece3a80.png",
+            "pid": "25152"
+          },
+          {
+            "id": 5401,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "G5",
+            "category": "1",
+            "series": "G5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/09/15/b16e48b6d4c24e949b439de37007ec89.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/04/23/1d52c79945944f5cb2d43da9792d9319.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/07/10/73ccb6a5556247e7ba4c28c7f26b7c2c.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/07/10/46783a31bcdc47b890301d2244662f50.png",
+            "pid": "24422"
+          },
+          {
+            "id": 5301,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "XT5 Pro",
+            "category": "1",
+            "series": "XT5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/10/20/e5583f55f31f442488dda058b5576153.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/04/17/97f045fdcd4d4e16abb75880d2a004a6.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/08/19/a03a6cea89654930bb6772eb3320a37f.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/08/19/63e05cbdd7c348cabb2924f9a70d7f72.png",
+            "pid": "24162"
+          },
+          {
+            "id": 5201,
+            "language": "en_US",
+            "name": "K100",
+            "subtitle": "",
+            "type": "K100",
+            "category": "0",
+            "series": "K100系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/09/15/b2f6485ce6d2450297928435a9fea207.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/04/08/2510eb77a2254ff08b648cfac0461466.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/07/08/f0f59c5d755b4744b670caba0e3c8df9.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/07/08/725659fa74b745b0ac04f9151cf891b6.png",
+            "pid": "25042"
+          },
+          {
+            "id": 5101,
+            "language": "en_US",
+            "name": "K100 Pro",
+            "subtitle": "",
+            "type": "K100 Pro",
+            "category": "0",
+            "series": "K100系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/09/15/b671ae9c888a41c883649901a0e7e135.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/04/08/e90976e92edb428a8209c2aa2db7bd69.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/07/08/91d463ffbac04d3cb7826c94e7cb5bcf.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/07/08/629445ce8b7446699102a61c762a6592.png",
+            "pid": "25052"
+          },
+          {
+            "id": 5001,
+            "language": "en_US",
+            "name": "K100 Max",
+            "subtitle": "",
+            "type": "K100 Max",
+            "category": "0",
+            "series": "K100系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/09/15/3ed8fa5f4c39445dab05ae75d88727c1.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/04/08/023f42e3cb8945c2860a0ec79f22a638.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/07/08/d6745e0f5d144ff6a017733bb105f805.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/07/08/dfb69958035748e8822919e1137091a5.png",
+            "pid": "25062"
+          },
+          {
+            "id": 4901,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "ST5 Pro",
+            "category": "1",
+            "series": "ST5系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/10/20/559c1a0e1c164ec899e663625aefe9a6.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/03/19/20780a11ad3443d1ba25d2a5fcde4b02.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/08/13/15864de4e99145858a44ac22df43813b.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/08/13/aaa972b574594d0ab74b6e7c7d4c0943.png",
+            "pid": "24412"
+          },
+          {
+            "id": 4801,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "Birdie 3",
+            "category": "4",
+            "series": "Birdie系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/06/13/53212ddbbde4416fa4f1cc8a89e0ada6.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/07/22/aaf14db358d54007a238fec9ad36384d.mp4",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/04/27/425966bd1af6477887ac5859d8e578e0.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/04/27/516e80ef39814f1cb39a07ffb53b4e20.png",
+            "pid": "24352"
+          },
+          {
+            "id": 4501,
+            "language": "en_US",
+            "name": "NAVEE V50i Pro II",
+            "subtitle": "",
+            "type": "V50i Pro II",
+            "category": "1",
+            "series": "V系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/09/16/9573f0b3dbb74624b57c9876516beadf.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2024/12/13/9709350f777746978250d63a8a289325.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/03/05/351595413d954c0ab6761f9af2e2998f.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/03/05/59797a8b024d4a86b939936ce2e141a2.png",
+            "pid": "24382"
+          },
+          {
+            "id": 4401,
+            "language": "en_US",
+            "name": "NAVEE V40i Pro II",
+            "subtitle": "",
+            "type": "V40i Pro II",
+            "category": "1",
+            "series": "V系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/09/16/444fdcb29cee4c97b4a02892d14f4fa8.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2024/12/13/dc60ad3928d14fb39b612e0f242106c9.mp4",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/07/21/db85e96b9a2745c1a6e9e0f3d214fc75.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/07/21/7749d4b5fb8241efa098c11774df5156.png",
+            "pid": "24372"
+          },
+          {
+            "id": 4301,
+            "language": "en_US",
+            "name": "NAVEE V25i Pro II",
+            "subtitle": "",
+            "type": "V25i Pro II",
+            "category": "1",
+            "series": "V系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/09/16/981b2cf956ba4b1fa5f5c6cc8a8536ae.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2024/12/13/0743d5d4a4d8478faf1bc608f7e57d8c.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2025/03/04/c30f153e501541a790d874f8f5dd6314.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/03/04/86e0d3c34b6b48bdab2d93018df35017.png",
+            "pid": "24362"
+          },
+          {
+            "id": 4201,
+            "language": "en_US",
+            "name": "NAVEE V3 Pro",
+            "subtitle": "",
+            "type": "V3 Pro",
+            "category": "1",
+            "series": "V系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2024/12/03/8479da3a501b4f4fa0bc7445ac5dace0.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2024/12/03/e623501eccf545f98d061ff7b3539258.mp4",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2024/12/03/27965e9e5ad84e0396709b0738c7719e.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2024/12/03/848b6c95c129496f8dbefc338c9d2ad5.png",
+            "pid": "23263"
+          },
+          {
+            "id": 4101,
+            "language": "en_US",
+            "name": "NAVEE EasyRide 25 Pro",
+            "subtitle": "",
+            "type": "E25",
+            "category": "1",
+            "series": "E系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/03/03/c964140850614045a78d5b0a0d3e33e1.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2024/09/11/42bcfa0bd2af4f8aab7ff7682ef5a51b.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2024/12/19/647583b58b9b4b79ab0cb56f671b65c1.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2024/12/19/b08fabc8746948de9a16c179f29f01b3.png",
+            "pid": "24222"
+          },
+          {
+            "id": 4001,
+            "language": "en_US",
+            "name": "NAVEE EasyRide 20",
+            "subtitle": "",
+            "type": "E20",
+            "category": "1",
+            "series": "E系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/03/03/038a00bd51cf45eaa1fa32f38da94cbe.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2024/08/31/05bf5b4b4fdc40bda7032f4d1ece71df.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2024/12/19/69c35a0641c1490580f69ed7eb161422.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2024/12/19/6ef8999bc85d44298e8bda83fb47e2eb.png",
+            "pid": "24172"
+          },
+          {
+            "id": 3801,
+            "language": "en_US",
+            "name": "ST3 PRO",
+            "subtitle": "",
+            "type": "ST3 PRO",
+            "category": "1",
+            "series": "ST3系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2024/12/20/8608571cdcd44497be3637fe7a35bb2f.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2024/07/08/63e6b3ef022e4d43a0ca0c8edd41e5c1.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2024/09/24/4afa27a93aab4ff488cfacc414363660.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/08/13/4631638d553848f9b5ab78f6e9a617d6.png",
+            "pid": "23452"
+          },
+          {
+            "id": 3701,
+            "language": "en_US",
+            "name": "ST3",
+            "subtitle": "",
+            "type": "ST3",
+            "category": "1",
+            "series": "ST3系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2024/12/20/f27b7708c5054729b623a65bb9508842.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2024/07/04/c804d7df8709439684387efda522b0c4.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2024/09/24/f860f82cffc84b5b8fcffee3be15a72b.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/08/13/f732ac3892484394b3e807a263ba6e90.png",
+            "pid": "24012"
+          },
+          {
+            "id": 3601,
+            "language": "en_US",
+            "name": "GT3 Max",
+            "subtitle": "",
+            "type": "GT3 Max",
+            "category": "1",
+            "series": "GT3系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2024/12/20/992a5a5c31dd4e7b938d58cc6a03e191.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2024/07/03/3d4190678e014de4be663449468fd26b.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2024/09/24/70f63bfdd752489dad29abcb9f820b55.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/08/13/0945a633db6d4588be2e6f7383fc0e03.png",
+            "pid": "24182"
+          },
+          {
+            "id": 3501,
+            "language": "en_US",
+            "name": "GT3",
+            "subtitle": "",
+            "type": "GT3",
+            "category": "1",
+            "series": "GT3系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2024/12/20/7959b6332a834095b13fea502099a746.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2024/07/03/c823cbe4456245b1bbe8c32d6f90086c.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2024/09/24/f3a8604a8068403b9f33f76af7299f50.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/08/13/4faafbf8d76642dd9f9433d98ae80aba.png",
+            "pid": "24022"
+          },
+          {
+            "id": 3401,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "GT3 Pro",
+            "category": "1",
+            "series": "GT3系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2024/12/20/4b694eb35d7b407aa4dd13ea69c8ada1.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2025/09/25/8b3ba85e6d5f4fe4bbaea657243ebf8f.m4v",
+            "imgTxt": "https://myusnavee.s3.amazonaws.com/2025/09/25/5ae3da2660de412eb9ac92f2087171b1.html",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2024/09/24/667468ef2fbb466c87b8b7c75c00b752.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2025/08/13/a8edad9dbf9e4e8e97b916adc694cbb7.png",
+            "pid": "24032"
+          },
+          {
+            "id": 2301,
+            "language": "en_US",
+            "name": null,
+            "subtitle": "",
+            "type": "P50",
+            "category": "1",
+            "series": "P系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2023/12/06/b5f350554bd149009d2b35217bae7572.pdf",
+            "guideType": 1,
+            "video": "https://myusnavee.s3.amazonaws.com/2023/12/06/a7015e5df22a4d95803fc336cd138f16.mp4",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2023/12/06/ca7e12d6e5cd4be5a1d3ca6232530217.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2023/12/06/934c552c6b674cee95c3e62168a3c817.png",
+            "pid": "23531"
+          },
+          {
+            "id": 2891,
+            "language": "en_US",
+            "name": "V60i Pro",
+            "subtitle": "",
+            "type": "V60i Pro",
+            "category": "1",
+            "series": "V系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/09/15/3ba5b5a9db3049a1a62a11f714d306e2.pdf",
+            "guideType": 1,
+            "video": "https://lj.naveetech.com/upload/2023/09/28/0fc5188c3ada4872924892bd3f4259a6.m4v",
+            "imgTxt": "",
+            "maxImg": "https://lj.naveetech.com/upload/2023/09/28/8877f99609754f4f973555311dc4c0f2.png",
+            "minImg": "https://lj.naveetech.com/upload/2023/09/28/02b768bbda2b47fcb348e184b1f6bdba.png",
+            "pid": "23262"
+          },
+          {
+            "id": 2801,
+            "language": "en_US",
+            "name": "V60i Pro",
+            "subtitle": "",
+            "type": "V60i Pro",
+            "category": "1",
+            "series": "V系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2025/09/15/367dec7553c64e16b960db94fb81e3be.pdf",
+            "guideType": 1,
+            "video": "https://lj.naveetech.com/upload/2023/09/28/0fc5188c3ada4872924892bd3f4259a6.m4v",
+            "imgTxt": "",
+            "maxImg": "https://lj.naveetech.com/upload/2023/09/28/8877f99609754f4f973555311dc4c0f2.png",
+            "minImg": "https://lj.naveetech.com/upload/2023/09/28/02b768bbda2b47fcb348e184b1f6bdba.png",
+            "pid": "23261"
+          },
+          {
+            "id": 2591,
+            "language": "en_US",
+            "name": "S60",
+            "subtitle": "",
+            "type": "S60",
+            "category": "1",
+            "series": "S系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2024/01/24/11b3a77c72224524b510197bcb54dacf.pdf",
+            "guideType": 1,
+            "video": "https://lj.naveetech.com/upload/2023/09/28/9a891dcb434647c9bba018c522fbd00d.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2024/01/24/5e20deb6def64fbabff5c47b5e5630f9.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2024/01/24/79257b2a6e9143f09c99959287416331.png",
+            "pid": "23342"
+          },
+          {
+            "id": 2501,
+            "language": "en_US",
+            "name": "S60",
+            "subtitle": "",
+            "type": "S60",
+            "category": "1",
+            "series": "S系列",
+            "model": null,
+            "book": "https://myusnavee.s3.amazonaws.com/2024/01/24/11b3a77c72224524b510197bcb54dacf.pdf",
+            "guideType": 1,
+            "video": "https://lj.naveetech.com/upload/2023/09/28/9a891dcb434647c9bba018c522fbd00d.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2024/01/24/5e20deb6def64fbabff5c47b5e5630f9.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2024/01/24/79257b2a6e9143f09c99959287416331.png",
+            "pid": "23341"
+          },
+          {
+            "id": 1691,
+            "language": "en_US",
+            "name": "S40",
+            "subtitle": "",
+            "type": "S40",
+            "category": "1",
+            "series": "S系列",
+            "model": "",
+            "book": "https://myusnavee.s3.amazonaws.com/2024/02/21/d31acc86b8704304b353a6f5556fc2ad.pdf",
+            "guideType": 1,
+            "video": "https://lj.naveetech.com/upload/2023/08/30/c3c7b7809f1a4aeda931104490c84b15.m4v",
+            "imgTxt": "",
+            "maxImg": "https://lj.naveetech.com/upload/2023/08/30/60dafe0d9aa34c15ada36e869338f5e3.png",
+            "minImg": "https://lj.naveetech.com/upload/2023/08/30/80bda85276444506a5d7b92069438784.png",
+            "pid": "23222"
+          },
+          {
+            "id": 1601,
+            "language": "en_US",
+            "name": "S40",
+            "subtitle": "",
+            "type": "S40",
+            "category": "1",
+            "series": "S系列",
+            "model": "",
+            "book": "https://myusnavee.s3.amazonaws.com/2024/02/21/d31acc86b8704304b353a6f5556fc2ad.pdf",
+            "guideType": 1,
+            "video": "https://lj.naveetech.com/upload/2023/08/30/c3c7b7809f1a4aeda931104490c84b15.m4v",
+            "imgTxt": "",
+            "maxImg": "https://lj.naveetech.com/upload/2023/08/30/60dafe0d9aa34c15ada36e869338f5e3.png",
+            "minImg": "https://lj.naveetech.com/upload/2023/08/30/80bda85276444506a5d7b92069438784.png",
+            "pid": "23221"
+          },
+          {
+            "id": 1491,
+            "language": "en_US",
+            "name": "NAVEE V25 Pro Series",
+            "subtitle": "",
+            "type": "V25 Pro/V25i Pro",
+            "category": "1",
+            "series": "V系列",
+            "model": "",
+            "book": "https://myusnavee.s3.amazonaws.com/2023/11/29/b751368e43c84059a11f7910fb26ac69.pdf",
+            "guideType": 1,
+            "video": "https://lj.naveetech.com/upload/2023/08/17/6c3ad77632204fd387deb8eebbccd3cf.m4v",
+            "imgTxt": "",
+            "maxImg": "https://lj.naveetech.com/upload/2023/08/17/89ff36df19574d0998f9a43015a72bf4.png",
+            "minImg": "https://lj.naveetech.com/upload/2023/08/17/9ecf66dfd3b843cfbc256c09fba9896b.png",
+            "pid": "23272"
+          },
+          {
+            "id": 1401,
+            "language": "en_US",
+            "name": "NAVEE V25 Pro Series",
+            "subtitle": "",
+            "type": "V25 Pro/V25i Pro",
+            "category": "1",
+            "series": "V系列",
+            "model": "V25 Pro/V25i Pro",
+            "book": "https://myusnavee.s3.amazonaws.com/2023/11/29/b751368e43c84059a11f7910fb26ac69.pdf",
+            "guideType": 1,
+            "video": "https://lj.naveetech.com/upload/2023/08/17/6c3ad77632204fd387deb8eebbccd3cf.m4v",
+            "imgTxt": "",
+            "maxImg": "https://lj.naveetech.com/upload/2023/08/17/89ff36df19574d0998f9a43015a72bf4.png",
+            "minImg": "https://lj.naveetech.com/upload/2023/08/17/9ecf66dfd3b843cfbc256c09fba9896b.png",
+            "pid": "23271"
+          },
+          {
+            "id": 1391,
+            "language": "en_US",
+            "name": "NAVEE V40 Series",
+            "subtitle": "",
+            "type": "V40i/V40i  Pro",
+            "category": "1",
+            "series": "V系列",
+            "model": "",
+            "book": "https://myusnavee.s3.amazonaws.com/2023/11/29/2bdc6b8b335f4b46b15d4af70ab4f84b.pdf",
+            "guideType": 1,
+            "video": "https://lj.naveetech.com/upload/2023/08/17/ac08d88cf7f44a0c84587b4a1ae5e26c.m4v",
+            "imgTxt": "",
+            "maxImg": "https://lj.naveetech.com/upload/2023/08/17/c4e9bdaa012449688731561ae7100e80.png",
+            "minImg": "https://lj.naveetech.com/upload/2023/08/17/34f464b5a1b34ff3a8f42176c8b3d175.png",
+            "pid": "23282"
+          },
+          {
+            "id": 1301,
+            "language": "en_US",
+            "name": "NAVEE V40 Series",
+            "subtitle": "",
+            "type": "V40i/V40i  Pro",
+            "category": "1",
+            "series": "V系列",
+            "model": "V40i/V40i  Pro",
+            "book": "https://myusnavee.s3.amazonaws.com/2023/11/29/2bdc6b8b335f4b46b15d4af70ab4f84b.pdf",
+            "guideType": 1,
+            "video": "https://lj.naveetech.com/upload/2023/08/17/ac08d88cf7f44a0c84587b4a1ae5e26c.m4v",
+            "imgTxt": "",
+            "maxImg": "https://lj.naveetech.com/upload/2023/08/17/c4e9bdaa012449688731561ae7100e80.png",
+            "minImg": "https://lj.naveetech.com/upload/2023/08/17/34f464b5a1b34ff3a8f42176c8b3d175.png",
+            "pid": "23281"
+          },
+          {
+            "id": 1291,
+            "language": "en_US",
+            "name": "NAVEE V50i Pro",
+            "subtitle": "",
+            "type": "V50i  Pro",
+            "category": "1",
+            "series": "V系列",
+            "model": "",
+            "book": "https://myusnavee.s3.amazonaws.com/2023/11/29/d878238e0d9a4ec4870edf7c3c2c8888.pdf",
+            "guideType": 1,
+            "video": "https://lj.naveetech.com/upload/2023/08/17/c2e65d7a84a24817b801f23855c5e7b4.m4v",
+            "imgTxt": "",
+            "maxImg": "https://lj.naveetech.com/upload/2023/08/17/95569c0ba2eb4ab287722db966b1b17c.png",
+            "minImg": "https://lj.naveetech.com/upload/2023/08/17/4808303814474138a1ed016298496f46.png",
+            "pid": "23292"
+          },
+          {
+            "id": 1201,
+            "language": "en_US",
+            "name": "NAVEE V50i Pro",
+            "subtitle": "",
+            "type": "V50i  Pro",
+            "category": "1",
+            "series": "V系列",
+            "model": "V50i  Pro",
+            "book": "https://myusnavee.s3.amazonaws.com/2023/11/29/d878238e0d9a4ec4870edf7c3c2c8888.pdf",
+            "guideType": 1,
+            "video": "https://lj.naveetech.com/upload/2023/08/17/c2e65d7a84a24817b801f23855c5e7b4.m4v",
+            "imgTxt": "",
+            "maxImg": "https://lj.naveetech.com/upload/2023/08/17/95569c0ba2eb4ab287722db966b1b17c.png",
+            "minImg": "https://lj.naveetech.com/upload/2023/08/17/4808303814474138a1ed016298496f46.png",
+            "pid": "23291"
+          },
+          {
+            "id": 1101,
+            "language": "en_US",
+            "name": "NAVEE N65i",
+            "subtitle": "",
+            "type": "N65i",
+            "category": "1",
+            "series": "N65系列",
+            "model": "N65i",
+            "book": "https://myusnavee.s3.amazonaws.com/2023/11/29/91f7ccbe434a40d99442a880f6abb24e.pdf",
+            "guideType": 1,
+            "video": "https://lj.naveetech.com/upload/2023/08/17/625a4beb307d4360bb082b0fa4d3cd1b.m4v",
+            "imgTxt": "",
+            "maxImg": "https://lj.naveetech.com/upload/2023/08/17/4af453a0e10947479ce068df1327aa30.png",
+            "minImg": "https://lj.naveetech.com/upload/2023/08/17/36ebf21f74f245419a831d175553dc94.png",
+            "pid": "22131"
+          },
+          {
+            "id": 701,
+            "language": "en_US",
+            "name": "NAVEE V25 Series",
+            "subtitle": "",
+            "type": "V25/V25i",
+            "category": "1",
+            "series": "V系列",
+            "model": "V25/V25i",
+            "book": "https://myusnavee.s3.amazonaws.com/2023/11/29/f60cbd2f59a84527bca2e2d9581d384f.pdf",
+            "guideType": 1,
+            "video": "https://lj.naveetech.com/upload/2023/08/17/1d93457655a94e089fee560727004640.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2024/02/23/b7ca40de4c2547a3b6fa9497addce8be.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2024/02/23/c173af47e5604476aa95d1627a2a04ef.png",
+            "pid": "23141"
+          },
+          {
+            "id": 791,
+            "language": "en_US",
+            "name": "NAVEE V25 Series",
+            "subtitle": "",
+            "type": "V25/V25i",
+            "category": "1",
+            "series": "V系列",
+            "model": "",
+            "book": "https://myusnavee.s3.amazonaws.com/2023/11/29/f60cbd2f59a84527bca2e2d9581d384f.pdf",
+            "guideType": 1,
+            "video": "https://lj.naveetech.com/upload/2023/08/17/1d93457655a94e089fee560727004640.m4v",
+            "imgTxt": "",
+            "maxImg": "https://myusnavee.s3.amazonaws.com/2024/02/23/b7ca40de4c2547a3b6fa9497addce8be.png",
+            "minImg": "https://myusnavee.s3.amazonaws.com/2024/02/23/c173af47e5604476aa95d1627a2a04ef.png",
+            "pid": "23142"
+          }
+        ]
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:50.828105",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "3801",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.3.1",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/12/f707bb8837044fdc9e2c604483977b5b.bin",
+              "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.1.5",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/09/01/a0692ba787074c208c3530f45af516ab.bin",
+              "context": "1. Optimize speed experience;\nThis update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [
+            {
+              "vn": "1.0.0.4",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/24/0a47df2acdc8419a8db1ff78af3bfeea.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:51.372498",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "3701",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.3.1",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/12/5f17310a55f34938ba8cac18b0cdec05.bin",
+              "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.1.1",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/09/01/f45e6237f7e24d3ab88efd038632f919.bin",
+              "context": "1. Optimize speed experience;\n2. Fix known issues.",
+              "reminder": 0
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:51.930230",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "4901",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:52.452358",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "12701",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:52.949338",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "10801",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:53.442241",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "10701",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.5.8",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/02/06/8db0776cc34c491e8dff4409e2f998cc.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.0.5",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/01/5590cb2e456d4d39a687b5c808c6c91e.bin",
+              "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:53.965616",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "10601",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:54.490732",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "10501",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "0.0.0.4",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/01/27/b911abaf99db4132bc4963c0a2fe6119.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.0.5",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/01/07/1ee29a5241ed49739463288107557ade.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:55.007840",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "10401",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:55.536261",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "10301",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:56.061578",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "10201",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:56.589690",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "10101",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "0.0.0.5",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/28/c7c0bdacf276419083d7a8dc779bd23e.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.0.3",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/28/f30769e8908a46fdbbbcbf0b510f3a2e.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [
+            {
+              "vn": "4.0.0.0",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/29/e25b48f32108456ebe34e3b88542e2f4.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:57.123206",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "10001",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:57.649933",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "9901",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.0.1",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/27/97d5ace5dbab4ad690187ce1907dc913.bin",
+              "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [],
+          "bmsList": [
+            {
+              "vn": "3.0.0.0",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/27/0f20ca9c759a45189655db55cc47e7a6.bin",
+              "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+              "reminder": 1
+            }
+          ],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:58.338930",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "9701",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "3.0.1.6",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/02/02/ea89ca649d28464892615b123510a97c.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [],
+          "bmsList": [
+            {
+              "vn": "3.3.1.7",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/11/11/36866969618744f69309cf63d8b9a4e7.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:58.865313",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "9601",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "0.0.2.4",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/24/10131826d0e54438bd370e23942201e1.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:18:59.371032",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "9501",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "3.0.1.6",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/02/02/fd0f8a9f3d0c4aa69d5213c830922fbe.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:00.149320",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "9401",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "3.0.1.7",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/03/02/44d48b1047034771a0ac07dec9551623.bin",
+              "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:00.680374",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "9301",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:01.200436",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "9201",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:01.702446",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "9101",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "0.0.0.5",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/20/952798f5ae904aa1930b407e983f2059.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.0.3",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/10/d58ff5c881d24a029b667d9484ac43b6.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [
+            {
+              "vn": "3.0.0.5",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/08/08/157a147d6ec348a699f0ea975affe9b0.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:02.261264",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "9001",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:02.793547",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "8901",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "0.0.2.8",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/03/24/a8e853b7ea9e446b90e5287e82b7b323.bin",
+              "context": "This update brings refined improvements and enhanced experience.\nUpdate to enjoy the vehicle at its best.",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:03.331834",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "8501",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "1.0.0.4",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/01/30/02e1dcd86ede426694544adb0165932a.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.1.1",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/28/2e661dfc59f2443e9ac253f80e6fa33a.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:03.829841",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "8401",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "1.0.0.4",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/01/30/b2abae129b0846edb4e724da8ca4e85f.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [],
+          "bmsList": [
+            {
+              "vn": "1.0.1.4",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/18/218edf76bde6441b8a313d3fd5e9794f.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:04.359741",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "7801",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:04.888288",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "6101",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:05.397041",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "6001",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.5.8",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/03/06/9243fc99295b4aa595427b628c53f690.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.0.5",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/20/5b7b49a19e5b43d196b3f792a4344a4d.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:05.902225",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "5901",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "3.0.0.9",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/01/05/e5f4ed26106a4629b49700619aac9e01.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.1.0",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/11/10/62f16f401189432fb05f0eaf3cfa1d35.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:06.428654",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "5801",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "3.0.0.9",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/01/05/e0e05be4ada740c3a098042d52bdca00.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.2.7",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/01/06/bbab982cc4b64d1694db1e7737fdc030.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:06.936584",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "5701",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.5.7",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/02/06/87dd2a6d847044bb9031bec9640f01a9.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.0.5",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/07/05/375628672694484c970ffbf9d2fc92ef.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [
+            {
+              "vn": "3.1.0.1",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/06/26/ae518f52581b44188d28b4cbe2546b20.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:07.441728",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "5601",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.5.7",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/02/06/11842375f15e4184a5ba80915a0fb3e8.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.0.3",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/07/05/d02d169308b34bd28c7f46ed764d2c2f.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [
+            {
+              "vn": "3.1.0.1",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/06/26/e4527f229f0348f88e901d38746e94d8.bin",
+              "context": "",
+              "reminder": 1
+            }
+          ],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:07.950374",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "5501",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.1.2",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/22/e0f22d1b576c44738b8a0bf6c4737834.bin",
+              "context": "optimize the display of the pause-following mode instrument",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.2.8",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/15/b95acccda4b046cb926dbb8ff06d5b54.bin",
+              "context": "Optimize the user experience of the implementation mode",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:08.485039",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "5401",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.5.7",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/02/06/6ae8a85e1e7a48b6b413b6007283ce69.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.0.5",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/04/e926cfa03d084bf695d6a8da1f46fa9e.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [
+            {
+              "vn": "3.0.0.5",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/27/ecf82145ba514c9cab30e5add5df8e91.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:08.992010",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "5301",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "3.0.0.9",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2026/01/05/76ad5f526340466caec5d44b80ba2bb2.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.1.0",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/10/e25c25af3f5445caa7c3c58224745dfb.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:09.505160",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "5201",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "0.0.1.2",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/11/24/bff45a95ee41452b843a4d0cbdd65146.bin",
+              "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.3.2",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/23/1bf40729b98f4cb3903baed37fc02b00.bin",
+              "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:10.012469",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "5101",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "0.0.1.2",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/11/24/0e2ebccc8432435b88a7084b1606a5ab.bin",
+              "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.3.2",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/10/1bb10dd7e5144f9e936d79a4bc6a3ef0.bin",
+              "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:10.541978",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "5001",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "0.0.1.2",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/11/19/8084274491504301adff7cda1fb98e59.bin",
+              "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.3.3",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/09/30/f1af25b72e0841a596c9e1586d9182ea.bin",
+              "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:11.071406",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "4801",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.1.2",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/31/be8f842f15854e69b2397529d0b5a7c4.bin",
+              "context": "Optimize the user experience of the display",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.2.8",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/31/9906e936689a4cd2b8ccc93db22d00e6.bin",
+              "context": "Optimize the user experience of the implementation mode",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:11.576568",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "4501",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.0.8",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/04/02/421482cec26644bcb8eaada487effc14.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:12.083462",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "4401",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.0.8",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/04/02/c43dd63e791c4f2897878d35ce0192b9.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.0.2",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/03/31/5a4a17e49d89472f88e514feb2d592c2.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:12.589304",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "4301",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.0.8",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/04/08/0d496a6e54704d2ea98a00d2b1ad7992.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:13.102340",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "4201",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.0.1",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/12/03/9c6102e4ec384941983914703c112a1f.bin",
+              "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.2.0",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/12/04/78a895dd0c984a81871bbd604ca06bc6.bin",
+              "context": "This update brings refined improvements and enhanced experience. Update to enjoy the vehicle at its best.",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:13.632309",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "4101",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.0.5",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/11/27/3775b85577e747879a33cb3d35efc6c6.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.0.6",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/11/27/dd052697b8974bb1a698e3c064179385.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:14.161347",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "4001",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.0.5",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/11/27/6d1e4bc9556c48859611ba85232efc21.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.0.6",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/11/27/dfebc887d0c74757a8618ec16de1131e.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:14.673639",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "3601",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.3.1",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/12/0841b15d3e214ba0bf80849d5ac5a460.bin",
+              "context": "Fix known issues",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.1.1",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/09/01/07f3246ce4854df7a0799495969c6795.bin",
+              "context": "1. Optimize speed experience;\n2. Fix known issues.",
+              "reminder": 0
+            }
+          ],
+          "bmsList": [
+            {
+              "vn": "1.0.0.4",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/10/24/695907cdf9c04812baba3c93056a1af3.bin",
+              "context": "1. Optimized system performance\n2. Improved system stability",
+              "reminder": 1
+            }
+          ],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:15.198469",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "3501",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.3.1",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/12/f01cdef227474d24951b45f9d714d64e.bin",
+              "context": "Fix known issues",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.1.1",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/09/01/c17f7c77c4c245dabec9d00bced37717.bin",
+              "context": "1. Optimize speed experience;\n2. Fix known issues.",
+              "reminder": 0
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:15.697100",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "3401",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.3.1",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/12/12/2e0fb8f7b1e349b199a723d5e89e20af.bin",
+              "context": "Fix known issues",
+              "reminder": 1
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.1.1",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2025/09/01/3342bc959b094bdcbf1ea6dc20c52f32.bin",
+              "context": "1. Optimize speed experience;\n2. Fix known issues.",
+              "reminder": 0
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:16.220033",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "2301",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:16.753404",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "2891",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:17.278170",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "2801",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:17.771799",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "2591",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:18.297807",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "2501",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "1.0.1.0",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/05/10/19d699bf7c544e42b7a9bdc3e98c1986.bin",
+              "context": "null",
+              "reminder": 0
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.0.6",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/02/21/991f3ba1f03446eaa3d62ad4a5311716.bin",
+              "context": "null",
+              "reminder": 0
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:18.821249",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "1691",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:19.325754",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "1601",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "1.0.1.0",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/05/10/ccab906ba09947ff896f724c59eb9449.bin",
+              "context": "null",
+              "reminder": 0
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.0.5",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/02/21/f05dd98bf8fb45aa8eb832e13484561f.bin",
+              "context": "null",
+              "reminder": 0
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:19.849375",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "1491",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:20.370461",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "1401",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:20.903121",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "1391",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:21.438105",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "1301",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "0.0.0.6",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/02/26/20915c0b19b84ba99af8903eeac0e701.bin",
+              "context": "null",
+              "reminder": 0
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.0.8",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/02/21/dec2237b2b624fee99086ff9dee4d5be.bin",
+              "context": "null",
+              "reminder": 0
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:21.959457",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "1291",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "2.0.0.8",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/06/21/66fc2479c82841a9b66d6bcf3e6507f9.bin",
+              "context": "null",
+              "reminder": 0
+            }
+          ],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:22.481329",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "1201",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "0.0.0.6",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/01/05/31e131425b204406bb10fb125bf8a6a1.bin",
+              "context": "null",
+              "reminder": 0
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.0.7",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/01/29/dad1c2691b1144218e8d5864d3a1610a.bin",
+              "context": "null",
+              "reminder": 0
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:23.017816",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "1101",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "0.0.0.5",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/02/26/c3dd6f8a80b94bc1a1c50d4ec7e3e99c.bin",
+              "context": "null",
+              "reminder": 0
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.1.1",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/02/21/7bcd756aa5be49a49d7cd0ca1966c523.bin",
+              "context": "null",
+              "reminder": 0
+            }
+          ],
+          "bmsList": [
+            {
+              "vn": "0.1.0.7",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2023/12/19/3792d8846e01406e8bf92b5a81915fc2.bin",
+              "context": "null",
+              "reminder": 0
+            }
+          ],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:23.542224",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "701",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [
+            {
+              "vn": "0.0.0.6",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/02/26/a01d2028b5d94b7282521705dc2daaa0.bin",
+              "context": "null",
+              "reminder": 0
+            }
+          ],
+          "bldcList": [
+            {
+              "vn": "0.0.0.9",
+              "fileUrl": "https://myusnavee.s3.amazonaws.com/2024/02/21/1732f3e3d9e64962981cfa1433e1baba.bin",
+              "context": "null",
+              "reminder": 0
+            }
+          ],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    },
+    {
+      "ts": "2026-04-05T05:19:24.079651",
+      "method": "POST",
+      "url": "https://lj.naveetech.com/tundra-api/vehicle/modelSoftware",
+      "body": {
+        "vehicleModelId": "791",
+        "meter": "0.0.0.1",
+        "bldc": "0.0.0.1",
+        "bms": "0.0.0.1",
+        "screen": "0.0.0.1"
+      },
+      "status": 200,
+      "response": {
+        "code": 200,
+        "msg": "操作成功",
+        "data": {
+          "meterList": [],
+          "bldcList": [],
+          "bmsList": [],
+          "screenList": []
+        }
+      }
+    }
+  ]
+}

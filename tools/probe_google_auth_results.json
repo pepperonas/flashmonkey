@@ -1,0 +1,55 @@
+[
+  {
+    "method": "POST",
+    "path": "/login",
+    "body": {
+      "type": 2,
+      "token": "probe",
+      "uuid": "navee-probe",
+      "imgCode": ""
+    },
+    "http_status": 200,
+    "api_code": 500,
+    "msg": "Password field is required.",
+    "full_response": {
+      "code": 500,
+      "msg": "Password field is required.",
+      "data": null
+    }
+  },
+  {
+    "method": "POST",
+    "path": "/login",
+    "body": {
+      "type": "google",
+      "token": "probe",
+      "uuid": "navee-probe",
+      "imgCode": ""
+    },
+    "http_status": 200,
+    "api_code": 500,
+    "msg": "Password field is required.",
+    "full_response": {
+      "code": 500,
+      "msg": "Password field is required.",
+      "data": null
+    }
+  },
+  {
+    "method": "POST",
+    "path": "/login",
+    "body": {
+      "loginType": "google",
+      "accessToken": "probe",
+      "uuid": "navee-probe"
+    },
+    "http_status": 200,
+    "api_code": 500,
+    "msg": "Captcha field is required",
+    "full_response": {
+      "code": 500,
+      "msg": "Captcha field is required",
+      "data": null
+    }
+  }
+]
