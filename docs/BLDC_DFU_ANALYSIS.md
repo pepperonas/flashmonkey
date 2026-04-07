@@ -1,109 +1,134 @@
-# BLDC DFU Analysis — Why It Fails
+# BLDC DFU Analysis — Complete Findings
 
-## Summary
+## Part 1: APK Analysis — No Hidden Commands
 
-BLDC DFU uses the **exact same protocol** as Meter DFU. The only difference is the command parameter (`dfu_start 2` vs `dfu_start 1`). There is no hidden relay-mode command, no separate BLE characteristic, no additional initialization step.
+### Conclusion
+The official Navee APK uses the **exact same DFU protocol** for all MCU types. There is no hidden relay command, no passthrough mode, no additional BLE initialization for BLDC DFU.
 
-## APK Analysis: BLDC vs Meter DFU
+### DFU Sequence (identical for all MCU types)
+| Step | Command | Response |
+|------|---------|----------|
+| 1 | CMD 0x30 (Auth) | Status 0x00 |
+| 2 | `"down dfu_start X\r"` (X=1,2,3,4) | `"ok\r"` |
+| 3 | `"down ble_rand\r"` | `"ok " + cipher` |
+| 4 | `"down ble_key " + decrypted + "\r"` | `"ok\r"` |
+| 5 | Wait for 0x43 ('C') | XMODEM ready |
+| 6 | XMODEM blocks (128 bytes + CRC-16) | ACK per block |
+| 7 | EOT (0x04) | `"rsq dfu_ok\r"` |
 
-### Identical Across All MCU Types
-| Component | Detail |
-|-----------|--------|
-| BLE Service | `0000d0ff-3c17-d293-8e48-14fe2e4da212` |
-| Write Characteristic | `0000b002-0000-1000-8000-00805f9b34fb` |
-| Write Type | `WRITE_NO_RESPONSE` (setWriteType(1)) |
-| Key Exchange | `ble_rand` + `ble_key` with XOR/AES |
-| XMODEM Format | SOH + seq + ~seq + 128 data + CRC-16 BE |
-| State Machine | sendStart → requestRand → sendRand → xmodemReady → xmodemSendPack → xmodemSendEOT → xmodemFinished |
+### Update Order (DeviceFirmwareUpdateActivity.o0())
+1. Screen (type 4) → 3.5s delay
+2. BMS (type 3) → 3.5s delay
+3. **BLDC (type 2)** → 3.5s delay
+4. Meter (type 1) — always last (reboots dashboard)
 
-### Only Difference
+### What Does NOT Exist (exhaustive search)
+- No "relay" / "passthrough" / "bridge" / "forward" commands
+- No UART mode switching
+- No pre-DFU initialization for specific MCU types
+- No separate BLE characteristic for BLDC
+- No firmware repackaging or header modification
+- No multi-phase DFU (single XMODEM session per MCU)
+- No BMS-specific filtering applies to BLDC
+
+## Part 2: BLDC Controller Firmware Analysis
+
+### Speed Limiter Architecture
+
+The BLDC controller uses a **three-layer speed limiting system**:
+
+#### Layer 1: Region Selector (Byte 0x0011)
+| Firmware | Value | Meaning |
+|----------|-------|---------|
+| DE (v0.0.1.5) | `0xCF` | German/EU restricted |
+| Global (v0.0.1.1) | `0xB7` | International/unrestricted |
+
+This single byte selects the regulatory region and determines which speed/PWM table is used.
+
+#### Layer 2: PWM Scaling Table
+| Offset (DE) | Offset (Global) | DE Value | Global Value | Diff |
+|-------------|-----------------|----------|--------------|------|
+| 0xC1F8 | 0xAEE8 | 50 | 45 | +5 |
+| 0xC1FC | 0xAEEC | 45 | 40 | +5 |
+| 0xC200 | 0xAEF0 | 44 | 39 | +5 |
+| 0xC204 | 0xAEF4 | 62 | 56 | +6 |
+| 0xC208 | 0xAEF8 | 59 | 53 | +6 |
+
+DE values are 5-6 points lower (10-12% reduction), resulting in lower max PWM duty cycle = lower top speed.
+
+#### Layer 3: Speed Progression Table (identical in both)
 ```
-Meter:  "down dfu_start 1\r"
-BLDC:   "down dfu_start 2\r"
-BMS:    "down dfu_start 3\r"
-Screen: "down dfu_start 4\r"
+Offset DE: 0x4DF4, Global: 0x464C
+Values: 15 17 19 21 23 25 27 29 31 33 35 (km/h, +2 increments)
 ```
 
-### DFU Update Order (from DeviceFirmwareUpdateActivity.o0())
-1. Screen (type 4) — if firmware available
-2. BMS (type 3) — if firmware available
-3. BLDC (type 2) — if firmware available
-4. Meter (type 1) — **always last** (reboots dashboard)
+Same mapping in both versions — the actual speed reduction comes from Layer 2 PWM scaling.
 
-3.5 second delay between each MCU update.
+#### Country Code Table
+```
+Offset DE: 0xC214, Global: 0xAF04
+Content: "CNESDEITAUEUUSJPFRNERUSEATNL..."
+```
+Maps region codes to speed/power configurations.
 
-### What Does NOT Exist (searched exhaustively)
-- No "relay mode" or "passthrough" command
-- No UART/serial mode switching
-- No prepare/init phase before `dfu_start`
-- No MCU-type-specific BLE commands
-- No separate characteristic for BLDC
-- No additional header or wrapper for BLDC firmware
+### Header Differences (Bytes 0x0000-0x001F)
+```
+DE:     54 32 33 32 34 00 02 30 30 31 35 31 30 31 30 00  T2324..00151010.
+        00 CF 80 83 C4 FF FF FF FF FF FF FF FF FF FF FF
 
-## UART Sniffer Results
+Global: 54 32 33 32 34 00 02 30 30 31 31 31 30 31 30 00  T2324..00111010.
+        00 B7 80 F8 54 FF FF FF FF FF FF FF FF FF FF FF
+```
 
-### During BLDC DFU (`dfu_start 2`)
-- Normal Frame A/B/C traffic continues **uninterrupted**
-- **Zero** XMODEM bytes appear on UART
-- Dashboard does NOT relay BLE data to UART
-- NAK received via BLE comes from **dashboard itself**, not BLDC controller
+Key bytes:
+- 0x000A: Version digit (0x35=5 vs 0x31=1)
+- **0x0011: Region byte (0xCF=DE vs 0xB7=Global)** ← THE KEY
+- 0x0013-0x0014: Config (0x83 0xC4 vs 0xF8 0x54)
 
-### During Meter DFU (`dfu_start 1`)
-- Dashboard sends `"ok\r"` on UART, then **reboots**
-- UART goes silent (dashboard in bootloader mode)
-- After reboot: new frames CMD 0x29 (serial), 0x24 (meter ver), 0x21 (BLDC ver)
+### MCU Identification
+- No vendor strings found (STM32/GD32/MM32 all absent)
+- Vector table doesn't follow standard ARM Cortex-M format
+- Likely uses custom bootloader with Navee-specific header
+- Firmware appears stripped/obfuscated
 
-## Root Cause Analysis
+## Part 3: Why BLDC DFU Fails
 
-The dashboard firmware (Navee app on RTL8762C) handles `dfu_start 2` by:
-1. Acknowledging with `"ok\r"` via BLE ✓
-2. Completing key exchange (`ble_rand`/`ble_key`) via BLE ✓
-3. Sending XMODEM 'C' ready signal via BLE ✓
-4. **Receiving XMODEM blocks via BLE** ✓
-5. **NOT forwarding them to UART** ✗
-6. **NAK'ing blocks** (validation fails internally) ✗
+### The Dashboard's Role
+When receiving `dfu_start 2`:
+1. Dashboard acknowledges (`"ok\r"`)
+2. Dashboard performs key exchange
+3. Dashboard sends XMODEM ready ('C')
+4. Dashboard receives XMODEM blocks
+5. **Dashboard validates firmware internally** (same undocumented check that blocks meter patches)
+6. Dashboard would then relay to BLDC via internal UART protocol
+7. **Step 5 fails** → NAK → firmware never reaches BLDC
 
-The dashboard tries to validate the XMODEM data itself (as if it were receiving its own firmware) instead of relaying it to the BLDC controller. The NAK on Block 1 is the dashboard rejecting the data because the firmware header says "BLDC" (type 0x02, model T2324) but the dashboard expects "Meter" (type 0x01, model T2202).
+### The Real Blocker
+The same undocumented integrity check that prevents meter firmware OTA patching also prevents BLDC firmware upload. The dashboard treats ALL firmware (meter and BLDC) the same way — validates with its own algorithm before accepting.
 
-## Hypothesis: Dashboard Stores, Then Relays
+## Part 4: Possible Approaches
 
-The official app probably works because:
-1. Dashboard receives BLDC firmware via XMODEM into **its own staging area**
-2. Dashboard validates (its own checksum algorithm — which we can't replicate via OTA)
-3. After validation, dashboard independently flashes the BLDC via internal UART protocol
-4. Dashboard sends `rsq dfu_ok` after BLDC confirms successful flash
+### Approach A: Single-Byte Region Patch on BLDC Controller
+Change byte 0x0011 from `0xCF` (DE) to `0xB7` (Global) directly on the BLDC controller's flash.
+- **Pro**: Minimal change, controller uses Global speed tables
+- **Con**: Requires physical access to BLDC controller (potted in resin), need to identify MCU and SWD pins
 
-This two-phase approach means:
-- Phase 1 (BLE → Dashboard): Uses the dashboard's OTA validation — **which rejects our modified firmware**
-- Phase 2 (Dashboard → BLDC via UART): Uses internal protocol we never see
+### Approach B: Flash Global BLDC Firmware via SWD
+Write the complete Global firmware (v0.0.1.1) to the BLDC controller via SWD debug interface.
+- **Pro**: Complete firmware replacement, proven compatible (same T2324 hardware)
+- **Con**: Same physical access problem as Approach A
 
-## Why Our OTA Patched Firmware Fails
+### Approach C: Dashboard SPI Flash Speed Byte Patch
+Change byte at flash 0x81CC74 from 0x16 (22) to 0x28 (40) on the dashboard.
+- **Pro**: Known working approach (rtltool), exact address verified
+- **Con**: UART MitM proved controller ignores dashboard speed commands. **This approach will NOT work.**
 
-The dashboard's OTA validation (Phase 1) has an **undocumented integrity check** beyond SHA-256. Even a 1-byte change with correctly recomputed SHA-256 is rejected. The Bee2 SDK `slient_dfu_check_sha256()` function matches our implementation, but the actual bootloader/app has additional validation.
+### Approach D: Navee Service Center
+Request BLDC firmware update from Navee's authorized service center.
+- **Pro**: Official process, no risk
+- **Con**: They may refuse or charge; may not offer Global firmware for DE market
 
-This same check blocks both:
-- Meter firmware patching (speed byte or NOP patch)
-- BLDC firmware upload (different firmware entirely)
-
-## Confirmed Attack Vectors Status
-
-| Vector | Status | Reason |
-|--------|--------|--------|
-| BLE CMD 0x6E | Failed | Dashboard ignores without firmware patch |
-| UART MitM | Failed | BLDC controller ignores manipulated frames (1168 frames tested) |
-| Meter OTA Patch | Failed | Undocumented bootloader check rejects modified firmware |
-| BLDC OTA Flash | Failed | Dashboard doesn't relay XMODEM to BLDC |
-| SPI Flash Direct | **Works** | Bypasses all validation, writes Bank A directly |
-| Controller Swap | **Works** | Physical replacement with international model |
-
-## Next Steps
-
-1. **SPI Flash Direct** on new dashboard (requires opening dashboard for P0_3 access)
-   - Patch speed byte at flash 0x81CC74: `0x16` → `0x28` (22 → 40 km/h)
-   - BUT: BLDC controller has its own speed limit (v0.0.1.5 DE firmware)
-   - UART MitM proved controller ignores dashboard speed commands
-   - **This may not work** because the speed limit is in the BLDC, not the dashboard
-
-2. **BLDC Controller Physical Swap** — buy international model from AliExpress
-
-3. **Navee Service Center** — ask for BLDC firmware update (email sent to support)
+### Approach E: Physical Controller Swap
+Buy international BLDC controller from AliExpress.
+- **Pro**: Guaranteed to work, no firmware hacking needed
+- **Con**: Cost (~30-50€), need to desolder/swap potted unit
