@@ -304,6 +304,7 @@ class NaveeOTAFlasher:
         self.response_queue: asyncio.Queue = asyncio.Queue()
         self.authenticated = False
         self.firmware_version: Optional[str] = None
+        self._mcu_override: Optional[int] = None
         self.serial_number: Optional[str] = None
         self.device_address: Optional[str] = None
         self._notification_buffer = bytearray()
@@ -1251,7 +1252,7 @@ class NaveeOTAFlasher:
 
             # --- Step 5: Enter DFU mode ---
             # APK MCU types: 1=Meter, 2=BLDC, 3=BMS, 4=Screen
-            mcu_type = fw_info.get("type_byte", 0x01)  # 0x01 = Meter
+            mcu_type = self._mcu_override if self._mcu_override is not None else fw_info.get("type_byte", 0x01)
             print(f"\n[Step 5] Entering DFU mode (MCU type {mcu_type})...")
             dfu_ok = await self.enter_ota_mode(mcu_type=mcu_type)
             if not dfu_ok:
@@ -1611,6 +1612,8 @@ WARNING: Flashing firmware can permanently brick your scooter!
                         help="Skip ble_rand/ble_key, go directly to XMODEM after dfu_start")
     parser.add_argument("--bldc-mode", action="store_true",
                         help="BLDC flash mode: skip auth, single key attempt, expect disconnect after ble_key")
+    parser.add_argument("--mcu-override", type=int, default=None,
+                        help="Override MCU type for dfu_start (1=meter, 2=bldc, 3=bms, 4=screen)")
     parser.add_argument("--test-key-exchange", action="store_true",
                         help="Test DFU key exchange with all 5 AES keys + skip option")
 
@@ -2020,6 +2023,9 @@ WARNING: Flashing firmware can permanently brick your scooter!
             device_id = b'\x00' * 6
 
         flasher = NaveeOTAFlasher(dry_run=args.dry_run)
+        if args.mcu_override is not None:
+            flasher._mcu_override = args.mcu_override
+            print(f"  MCU Override: dfu_start {args.mcu_override}")
         flasher.log.log("session_start", mode="flash", dry_run=args.dry_run,
                         firmware=str(fw_path))
 
