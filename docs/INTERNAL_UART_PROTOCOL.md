@@ -50,7 +50,12 @@ The UART is standard two-wire full-duplex, NOT single-wire half-duplex as origin
 
 **Implication:** All previous UART attempts (MitM, direct flash, hybrid) failed because we sent commands on Green — but the controller receives commands on Yellow. The controller never saw our data.
 
-**Challenge:** The Yellow wire operates at 3.8V logic level. Standard CP2102 adapters output 3.3V, which is too low. A 3.3V→5V level shifter or a 5V-capable UART adapter is needed to properly drive the Yellow wire.
+**Challenge:** The Yellow wire operates at 3.8V logic level. Standard CP2102 adapters output 3.3V, which is too low. Solutions:
+- **Arduino 5V + 1kΩ series resistor** on TX — simplest, lets controller pull-up set the level
+- **Voltage divider** (4.7kΩ + 15kΩ) for exact 3.8V from 5V
+- **Level shifter** (3.3V→5V) for CP2102
+
+**MitM v2 approach (planned):** Arduino Nano intercepts Yellow wire (Dashboard TX → Controller RX), modifies Frame A speed bytes, forwards to controller. Green wire stays connected. Later: ESP32 with BLE for permanent installation + Android app control.
 
 ---
 

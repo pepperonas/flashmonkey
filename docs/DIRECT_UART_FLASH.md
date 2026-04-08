@@ -27,9 +27,17 @@ The UART is standard **two-wire full-duplex**, NOT single-wire half-duplex:
 
 ### Voltage Level Problem
 The Yellow wire operates at **3.8V logic level**. Standard CP2102 adapters output only 3.3V, which is insufficient. Solutions:
-- Use a **3.3V→5V level shifter** between CP2102 TX and Yellow wire
-- Use a **5V-capable UART adapter** (some CP2102 boards have a 3.3V/5V jumper)
-- Use an **Arduino 5V** as UART bridge (Serial at 19200, pin-to-Yellow with voltage divider on RX)
+- **Arduino 5V + 1kΩ series resistor** on TX → simplest approach, current limiting lets controller's internal pull-up set the correct level
+- **Voltage divider** on TX: 4.7kΩ + 15kΩ → exactly 3.8V output from 5V Arduino
+- **3.3V→5V level shifter** between CP2102 TX and Yellow wire
+- **5V-capable UART adapter** (some CP2102 boards have a 3.3V/5V jumper)
+
+```
+Simplest wiring (Arduino as UART bridge):
+  Arduino D3 (TX) ──[1kΩ]──→ Yellow wire (Controller RX)
+  Arduino D2 (RX) ──────────→ Yellow wire (Dashboard side, for MitM)
+  Arduino GND ──────────────→ Black wire
+```
 
 ## Hardware Setup
 
