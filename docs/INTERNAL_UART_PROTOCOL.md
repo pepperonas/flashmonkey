@@ -55,7 +55,56 @@ The UART is standard two-wire full-duplex, NOT single-wire half-duplex as origin
 - **Voltage divider** (4.7kΩ + 15kΩ) for exact 3.8V from 5V
 - **Level shifter** (3.3V→5V) for CP2102
 
-**MitM v2 approach (planned):** Arduino Nano intercepts Yellow wire (Dashboard TX → Controller RX), modifies Frame A speed bytes, forwards to controller. Green wire stays connected. Later: ESP32 with BLE for permanent installation + Android app control.
+### Yellow Wire Protocol (discovered 2026-04-08)
+
+The Yellow wire uses a **completely different frame format** than Green:
+
+| | Green (Controller TX) | Yellow (Dashboard TX → Controller RX) |
+|---|---|---|
+| Header | `0x61` | `0x51` |
+| Footer | `0x9E` | `0xAE` |
+| Complement | `0x61 + 0x9E = 0xFF` | `0x51 + 0xAE = 0xFF` |
+| Frame Length | 15 bytes (Frame A) | 14 bytes |
+| CMD byte | `0x30` | `0x10` |
+
+#### Yellow Frame Format (14 bytes)
+
+```
+51 10 09 [MODE] [LIGHT] [88] [?] [?] [SPD1] [?] [SPEED] [?] [CHK] AE
+```
+
+| Offset | Field | Observed | Notes |
+|--------|-------|----------|-------|
+| 0 | Header | `0x51` | Yellow-wire specific |
+| 1 | Command | `0x10` | |
+| 2 | Data Length | `0x09` (9) | |
+| 3 | Drive Mode | `0x35`=ECO, `0x33`=SPORT | Same values as Green Frame A |
+| 4 | Headlight | `0x04`=ON, `0x00`=OFF | Same values as Green Frame A |
+| 5 | Constant | `0x88` | Same as Green Frame A |
+| 6 | Unknown | `0x00` | |
+| 7 | Unknown | `0x00` | |
+| 8 | Speed Value 1 | `0x1E` (30) | Purpose unclear — modifying to 40 caused controller error |
+| 9 | Unknown | `0x00` | |
+| 10 | **Speed Limit** | **`0x16` (22)** | **22 km/h — the speed limit value** |
+| 11 | Unknown | `0x03` | |
+| 12 | Checksum | SUM(bytes 0-11) & 0xFF | Verified ✓ |
+| 13 | Footer | `0xAE` | |
+
+Checksum verified: `0x51+0x10+0x09+0x35+0x00+0x88+0x00+0x00+0x1E+0x00+0x16+0x03 = 0x15E & 0xFF = 0x5E` ✓
+
+#### MitM Test Results (2026-04-08)
+
+Arduino Nano MitM on Yellow wire (D2=RX from Dashboard, D3=TX to Controller):
+
+| Test | Byte 8 | Byte 10 | Result |
+|------|--------|---------|--------|
+| Passthrough | 0x1E (30) | 0x16 (22) | Normal operation, 22 km/h |
+| Modify both | 0x28 (40) | 0x28 (40) | **Briefly faster**, then 0 km/h error, then 22 km/h |
+| Modify byte 10 only | 0x1E (30) | 0x19 (25) | No effect — SoftwareSerial frame detection failed (0 frames modified) |
+
+**Conclusion:** The controller briefly responded to modified speed bytes (suggesting the Yellow protocol DOES carry authoritative speed data), but then entered an error state — likely because byte 8 was set to an out-of-range value. The test with only byte 10 modified was inconclusive due to SoftwareSerial reliability issues (Arduino cannot do full-duplex SoftwareSerial at 19200 baud). A proper test requires ESP32 (hardware UART) or a fixed SoftwareSerial implementation.
+
+**However:** Even if UART speed bytes are accepted, the BLDC controller firmware has a hardcoded speed limit based on the region/country code byte (`0xCF` = DE = 22 km/h). The UART speed bytes may only set a temporary override that the firmware's internal limit still caps.
 
 ---
 

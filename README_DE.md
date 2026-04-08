@@ -39,9 +39,10 @@ Dieses Projekt hat das proprietäre BLE-Protokoll vollständig dekodiert, eine u
 | 8 | Direkter UART-Flash | Controller geht nicht in Bootloader — proprietärer DFU-Trigger unbekannt |
 | 9 | Hybrid BLE+UART Flash | Dashboard sendet "ok\r" auf UART nach dfu_start 2, Controller ignoriert es |
 | 10 | SWD-Flash (LKS32MC081) | MCU identifiziert, SWD ungeschützt — Controller-Board physisch nicht zugänglich ohne Ausbau |
-| 11 | Yellow-Wire-Injection | **Gelb = Controller RX bestätigt!** Trennung von Gelb verursacht Fehlerpiepen. CP2102 3,3V zu niedrig für 3,8V-Bus — Level-Shifter benötigt. Alle bisherigen UART-Versuche scheiterten, weil wir auf Grün (Controller TX) gesendet haben statt auf Gelb (Controller RX) |
+| 11 | Yellow-Wire-MitM | **Gelb = Controller RX bestätigt!** Neues Protokoll entdeckt (0x51/0xAE). Speed-Byte bei Offset 10 = 0x16 (22 km/h). MitM hat 795 Frames modifiziert — Controller fuhr kurz schneller, dann Fehler. Speed-Limit im BLDC-Firmware-Ländercode fest einprogrammiert |
+| 12 | UART-Bootloader-Trigger | Controller geht NICHT in Bootloader wenn Dashboard getrennt — kein 'C' (0x43)-Signal. Proprietärer Bootloader-Trigger unbekannt |
 
-**Aktueller Status:** Wichtiger Durchbruch — die gelbe Ader im Kabelbaum ist der **Controller-RX-Eingang** (3,8V-Logikpegel), bestätigt durch Fehlerpiepen bei Trennung und Bus-Störung bei falschem Spannungspegel. Alle bisherigen UART-Versuche (MitM, Direct Flash, Hybrid) sendeten Befehle auf der falschen Leitung (Grün = Controller TX). Ein Level-Shifter (3,3V→3,8V/5V) wird benötigt, um die gelbe Ader korrekt anzusteuern. **Nächster Schritt: UART-Flash mit korrekter Verkabelung wiederholen (TX→Gelb via Level-Shifter, RX←Grün).**
+**Aktueller Status:** Yellow-Wire-Protokoll vollständig dekodiert (Header 0x51, Footer 0xAE, 14-Byte-Frames). Speed-Limit-Byte bei Offset 10 identifiziert. Arduino-MitM bestätigte kurzzeitige Reaktion des Controllers auf modifizierte Speed-Bytes, aber BLDC-Firmware-Ländercode (`0xCF` = DE) erzwingt intern 22 km/h. Controller geht nicht in UART-Bootloader-Modus. **Speed-Limit kann nur durch Flashen der BLDC-Controller-Firmware (SWD) oder physischen Controller-Tausch geändert werden.**
 
 > Vollständige Analyse: [`docs/ATTACK_VECTORS.md`](docs/ATTACK_VECTORS.md)
 
@@ -364,6 +365,10 @@ navee/
 |   +-- patch_firmware.py             Automatischer Patcher + SHA-256-Neuberechnung
 |   +-- rtl_flash_dump.py             RTL8762C-Flash-Dump-Skript
 |   +-- yellow_wire_test.py           Yellow-Wire-Injektionstest (Controller-RX-Entdeckung)
+|   +-- arduino/
+|   |   +-- navee_uart_mitm_yellow.ino  MitM v2.4 (Yellow-Wire-Protokoll 0x51/0xAE)
+|   |   +-- navee_uart_mitm_nano.ino    MitM v1 (Grüne Ader, veraltet)
+|   |   +-- navee_uart_bridge.ino       USB-to-Yellow UART-Bridge zum Flashen
 |   +-- ghidra_analysis/              10 Ghidra-Headless-Skripte
 +-- reverse-engineering/
 |   +-- com.navee.ucaret.apk            Offizielle Navee-APK

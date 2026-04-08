@@ -39,9 +39,10 @@ This project has fully reverse-engineered the proprietary BLE protocol, develope
 | 8 | Direct UART Flash | Controller doesn't enter bootloader — proprietary DFU trigger unknown |
 | 9 | Hybrid BLE+UART Flash | Dashboard sends "ok\r" on UART after dfu_start 2, but controller ignores it |
 | 10 | SWD Flash (LKS32MC081) | MCU identified, SWD unprotected — but controller board physically inaccessible without removing unit |
-| 11 | Yellow Wire Injection | **Yellow = Controller RX confirmed!** Disconnecting Yellow causes error beeping. CP2102 3.3V too low for 3.8V bus — level shifter needed. All previous UART attempts failed because we sent on Green (Controller TX), not Yellow (Controller RX) |
+| 11 | Yellow Wire MitM | **Yellow = Controller RX confirmed!** New protocol discovered (0x51/0xAE). Speed byte at offset 10 = 0x16 (22 km/h). MitM modified 795 frames — controller briefly went faster then error. Speed limit hardcoded in BLDC firmware country code |
+| 12 | UART Bootloader Trigger | Controller does NOT enter bootloader when dashboard disconnected — no 'C' (0x43) signal. Proprietary bootloader trigger unknown |
 
-**Current status:** Major breakthrough — the Yellow wire in the cable harness is the **Controller RX input** (3.8V logic level), confirmed by error beeping when disconnected and bus disruption when driven at wrong voltage. All previous UART attempts (MitM, direct flash, hybrid) sent commands on the wrong wire (Green = Controller TX). A level shifter (3.3V→3.8V/5V) is needed to properly drive the Yellow wire. **Next step: Repeat UART flash with correct wiring (TX→Yellow via level shifter, RX←Green).**
+**Current status:** Yellow wire protocol fully decoded (header 0x51, footer 0xAE, 14-byte frames). Speed limit byte identified at offset 10. Arduino MitM confirmed controller briefly responds to modified speed bytes, but BLDC firmware country code (`0xCF` = DE) enforces 22 km/h internally. Controller does not enter UART bootloader mode. **Speed limit can only be changed by flashing the BLDC controller firmware (SWD) or physical controller swap.**
 
 > Full analysis: [`docs/ATTACK_VECTORS.md`](docs/ATTACK_VECTORS.md)
 
@@ -364,6 +365,10 @@ navee/
 |   +-- patch_firmware.py             Automatic patcher + SHA-256 recalculation
 |   +-- rtl_flash_dump.py             RTL8762C flash dump script
 |   +-- yellow_wire_test.py           Yellow wire injection test (Controller RX discovery)
+|   +-- arduino/
+|   |   +-- navee_uart_mitm_yellow.ino  MitM v2.4 (Yellow wire protocol 0x51/0xAE)
+|   |   +-- navee_uart_mitm_nano.ino    MitM v1 (Green wire, deprecated)
+|   |   +-- navee_uart_bridge.ino       USB-to-Yellow UART bridge for flashing
 |   +-- ghidra_analysis/              10 Ghidra headless scripts
 +-- reverse-engineering/
 |   +-- com.navee.ucaret.apk            Official Navee APK
