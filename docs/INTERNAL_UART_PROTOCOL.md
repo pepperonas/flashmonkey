@@ -16,7 +16,7 @@ Documentation of the internal UART communication protocol between the Navee ST3 
 | Red    | VCC (Battery)         | 53.04V   | WARNING: Do NOT connect to microcontroller    |
 | Blue   | VCC (Dashboard)       | 52.2V    | WARNING: Do NOT connect to microcontroller    |
 | Yellow | Controller RX         | 3.8V     | Dashboard → Controller data input (confirmed) |
-| Green  | Shared UART bus       | ~4.12V   | Both directions visible (half-duplex bus)     |
+| Green  | Controller TX         | ~4.12V   | Controller → Dashboard data output            |
 
 ### UART Parameters
 
@@ -32,12 +32,12 @@ The logic level of approximately 4V means direct connection to a 3.3V microcontr
 
 ### Two-Wire Architecture (discovered 2026-04-08)
 
-The UART is NOT single-wire half-duplex as originally assumed. There are two data lines:
+The UART is standard two-wire full-duplex, NOT single-wire half-duplex as originally assumed:
 
 | Wire   | Function           | Direction              | Voltage | Notes |
 |--------|--------------------|------------------------|---------|-------|
-| Green  | Shared UART bus    | Both directions        | 4.12V   | Controller TX + crosstalk from Yellow |
-| Yellow | Controller RX      | Dashboard → Controller | 3.8V    | Dedicated input to controller |
+| Yellow | Controller RX      | Dashboard → Controller | 3.8V    | Dashboard sends commands to controller |
+| Green  | Controller TX      | Controller → Dashboard | 4.12V   | Controller sends responses to dashboard |
 
 **Evidence:**
 1. **Disconnecting Yellow causes error beeping** — the controller expects data on Yellow and alarms when it stops
@@ -46,7 +46,7 @@ The UART is NOT single-wire half-duplex as originally assumed. There are two dat
 4. **Navee service technician video** shows USB-UART adapter connected to both Yellow AND Green wires
 5. **RoboCoffee documentation** describes "standard two-wire UART (TX+RX)" for Brightway scooters
 
-**Why Green shows both 0x61 and 0x64 frames:** Green carries Controller TX (0x64 frames) natively. The 0x61 frames visible on Green are likely electrical crosstalk from the Yellow wire within the cable harness, or an internal bus connection on the controller PCB.
+**Why Green shows both 0x61 and 0x64 frames:** Green is Controller TX (0x64 frames). The 0x61 frames visible on Green are the controller internally echoing/mirroring the received dashboard commands back on its TX line — a common pattern where the controller reflects its input state for debugging or protocol symmetry. This is NOT a shared bus.
 
 **Implication:** All previous UART attempts (MitM, direct flash, hybrid) failed because we sent commands on Green — but the controller receives commands on Yellow. The controller never saw our data.
 
@@ -295,7 +295,7 @@ The following fields have not been definitively identified and warrant further i
 ### Resolved Questions (2026-04-08)
 
 - **Yellow wire function: CONFIRMED as Controller RX** (Dashboard → Controller data input at 3.8V logic level). Evidence: disconnecting Yellow causes error beeping; CP2102 3.3V TX on Yellow disrupts all communication; Navee service video shows both Yellow and Green connected to UART adapter.
-- **UART topology: Two-Wire, NOT single-wire half-duplex.** Green carries Controller TX (0x64 frames) plus crosstalk of 0x61 frames from Yellow. The controller receives commands exclusively on Yellow.
+- **UART topology: Standard two-wire full-duplex.** Yellow = Controller RX (Dashboard → Controller), Green = Controller TX (Controller → Dashboard). The 0x61 frames visible on Green are controller-internal echo/mirroring, not a shared bus. The controller receives commands exclusively on Yellow.
 - **MitM test validity: QUESTIONABLE.** The Arduino MitM intercepted frames on Green only. The controller may have been reading unmodified dashboard frames on Yellow the entire time, rendering the MitM test inconclusive for speed limit modification via UART.
 
 ---

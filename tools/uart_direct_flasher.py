@@ -328,7 +328,7 @@ def main():
     parser.add_argument("--strip-header", action="store_true", help="Strip 16-byte Navee OTA header")
     parser.add_argument("--init", default=None, help="Init command to send before XMODEM (e.g. 'down dfu_start 2\\r')")
     parser.add_argument("--duration", type=float, default=30.0, help="Detection duration in seconds")
-    parser.add_argument("--half-duplex", action="store_true", help="Legacy mode: TX+RX on same wire (green)")
+    parser.add_argument("--legacy-green-only", action="store_true", help="Legacy mode: TX+RX both on green wire (deprecated)")
     args = parser.parse_args()
 
     port = args.port or find_port()

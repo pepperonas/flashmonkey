@@ -15,8 +15,8 @@ Dokumentation des internen UART-Kommunikationsprotokolls zwischen dem Navee ST3 
 | Schwarz | GND | 0 V | Bezugsmasse |
 | Rot | VCC (Akku) | 53,04 V | WARNUNG: NICHT an Mikrocontroller anschließen |
 | Blau | VCC (Dashboard) | 52,2 V | WARNUNG: NICHT an Mikrocontroller anschließen |
-| Gelb | Signal (unbekannt) | 3,76 V | Kein UART — unbekanntes Signal, nicht verwenden |
-| Grün | UART (bidirektional) | ~4,12 V | Datenleitung — 19200 Baud, beide Richtungen |
+| Gelb | Controller RX | 3,8 V | Dashboard → Controller Dateneingang (bestätigt) |
+| Grün | Controller TX | ~4,12 V | Controller → Dashboard Datenausgang |
 
 ### UART-Parameter
 

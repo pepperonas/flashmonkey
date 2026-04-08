@@ -219,7 +219,7 @@ The NOP removes the conditional branch, making the code always fall through to t
 - MAC: `10:A5:62:9A:BB:3E`
 - Identified March 19 during dashboard disassembly (short-circuit incident)
 
-**Internal wiring:** 5-wire cable (black=GND, red=53V, blue=52V, yellow=Controller RX 3.8V, green=Controller TX/shared bus 4.12V, both 19200 baud 8N1)
+**Internal wiring:** 5-wire cable (black=GND, red=53V, blue=52V, yellow=Controller RX 3.8V, green=Controller TX 4.12V) — standard two-wire full-duplex UART at 19200 baud 8N1
 
 > Full details: [`docs/HARDWARE.md`](docs/HARDWARE.md)
 

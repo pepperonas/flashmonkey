@@ -179,7 +179,7 @@ async def main():
             ser.write(packet)
             time.sleep(0.05)
 
-            # Read response (might include echo on half-duplex)
+            # Read response
             resp = ser.read(len(packet) + 10)
             if 0x06 in resp:  # ACK
                 block_ok = True

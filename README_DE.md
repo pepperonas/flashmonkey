@@ -219,7 +219,7 @@ Der NOP entfernt den bedingten Sprung, sodass der Code immer in den benutzerdefi
 - MAC: `10:A5:62:9A:BB:3E`
 - Identifiziert am 19. März beim Zerlegen des Displays (Kurzschluss-Vorfall)
 
-**Interne Verdrahtung:** 5-adriges Kabel (schwarz=GND, rot=53V, blau=52V, gelb=Controller RX 3,8V, grün=Controller TX/Shared Bus 4,12V, beide 19200 Baud 8N1)
+**Interne Verdrahtung:** 5-adriges Kabel (schwarz=GND, rot=53V, blau=52V, gelb=Controller RX 3,8V, grün=Controller TX 4,12V) — Standard-Zweidraht-Vollduplex-UART bei 19200 Baud 8N1
 
 > Vollständige Details: [`docs/HARDWARE.md`](docs/HARDWARE.md)
 

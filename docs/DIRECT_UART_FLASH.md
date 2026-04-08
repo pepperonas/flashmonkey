@@ -9,7 +9,7 @@ The BLDC controller has its own UART bootloader. The Navee service tool connects
 
 ## Critical Discovery: Two-Wire UART (2026-04-08)
 
-The UART between dashboard and controller uses **two separate wires**, not a single half-duplex line:
+The UART is standard **two-wire full-duplex**, NOT single-wire half-duplex:
 
 | Wire   | Function           | Direction              | Voltage | Role |
 |--------|--------------------|------------------------|---------|------|
@@ -21,7 +21,7 @@ The UART between dashboard and controller uses **two separate wires**, not a sin
 ### Evidence
 1. Disconnecting Yellow from dashboard → **controller beeps** (error: no dashboard signal)
 2. CP2102 TX (3.3V) on Yellow → **kills all communication** (voltage too low, controller confused)
-3. Only listening on Green → both 0x61 and 0x64 frames visible (crosstalk from Yellow in cable harness)
+3. 0x61 frames visible on Green are **controller-internal echo** (controller mirrors received commands on its TX line), not a shared bus
 4. Navee service technician video shows adapter connected to **both** Yellow and Green
 5. Different idle voltages: Green=4.12V, Yellow=3.8V (separate drivers)
 
@@ -44,9 +44,9 @@ CP2102 USB-UART          Scooter Cable Harness
   - Blue wire (52V battery!)
 ```
 
-**IMPORTANT:** The UART is 2-Wire (full-duplex), NOT half-duplex on a single wire!
-- **Green** = Controller TX (controller sends on this line)
-- **Yellow** = Controller RX (controller receives on this line)
+**IMPORTANT:** The UART is standard two-wire full-duplex:
+- **Yellow** = Controller RX (controller receives commands on this line)
+- **Green** = Controller TX (controller sends responses on this line)
 
 The dashboard stays connected for power, but disconnect the **Yellow wire** from the dashboard side so the CP2102 can send commands directly to the controller without interference.
 
@@ -130,7 +130,7 @@ The UART uses two separate wires (full-duplex):
 - **Green** = Controller TX → CP2102 RX (reading)
 - **Yellow** = Controller RX ← CP2102 TX (sending)
 
-No echo handling needed — TX and RX are on separate lines. This was previously assumed to be half-duplex (single wire), which caused all UART flash attempts to fail because the controller never received our commands on Green (it only transmits on Green and receives on Yellow).
+No echo handling needed — TX and RX are on separate lines. This was previously assumed to be half-duplex (single wire), which caused all UART flash attempts to fail because we sent on Green (Controller TX) instead of Yellow (Controller RX). The 0x61 frames visible on Green are controller-internal echo, not a shared bus.
 
 ## Baudrate
 
@@ -152,4 +152,4 @@ python3 tools/uart_direct_flasher.py --detect --baud 9600
 | 0 bytes received | CP2102 TX on Yellow disrupting bus | Check level shifter, ensure 3.8V+ output |
 | Controller beeping | Yellow wire disconnected | Dashboard Yellow must stay connected OR be properly driven |
 | NAK on blocks | Wrong baud or CRC | Check baud, try checksum mode |
-| Navee frames on Green | Normal operation | Green carries both directions (bus + crosstalk) |
+| 0x61 frames on Green | Normal — controller echo | Controller mirrors received commands on its TX line |

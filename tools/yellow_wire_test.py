@@ -300,7 +300,7 @@ def main():
             log_and_print(log, "  Yellow wire is likely NOT Controller RX (or controller ignores invalid frames).")
     elif has_baseline and not has_inject_response:
         log_and_print(log, "  RESULT: Lost 0x64 frames during injection — possible bus collision.")
-        log_and_print(log, "  Yellow wire might be connected to the same bus (half-duplex).")
+        log_and_print(log, "  Yellow wire TX may have disrupted Controller RX (voltage mismatch).")
     else:
         log_and_print(log, "  RESULT: Insufficient data for conclusion.")
 
