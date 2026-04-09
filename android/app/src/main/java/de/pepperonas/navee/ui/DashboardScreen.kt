@@ -459,6 +459,11 @@ private fun SpeedModeCard(state: ScooterState, viewModel: ScooterViewModel) {
 
 @Composable
 private fun MaxSpeedCard(state: ScooterState, options: List<Int>, viewModel: ScooterViewModel) {
+    // Manueller Slider-Wert, initialisiert aus aktuellem State
+    var sliderValue by remember(state.maxSpeed) {
+        mutableStateOf(if (state.maxSpeed > 0) state.maxSpeed.toFloat() else 20f)
+    }
+
     Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = NaveeCard)) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
@@ -474,7 +479,42 @@ private fun MaxSpeedCard(state: ScooterState, options: List<Int>, viewModel: Sco
                     repeat(4 - row.size) { Spacer(Modifier.weight(1f)) }
                 }
             }
+
+            // === DEBUG: Manueller Slider ===
+            Spacer(Modifier.height(8.dp))
+            HorizontalDivider(color = Color.Gray.copy(alpha = 0.3f))
+            Spacer(Modifier.height(12.dp))
+
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Text("DEBUG: Manuell", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = NaveeOrange)
+                Text("${sliderValue.toInt()} km/h", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = NaveeOrange)
+            }
+            Spacer(Modifier.height(4.dp))
+            Slider(
+                value = sliderValue,
+                onValueChange = { sliderValue = it },
+                valueRange = 5f..60f,
+                steps = 54,  // 5..60 = 55 Werte, 54 Steps
+                colors = SliderDefaults.colors(
+                    thumbColor = NaveeOrange,
+                    activeTrackColor = NaveeOrange,
+                    inactiveTrackColor = Color.Gray.copy(alpha = 0.3f)
+                )
+            )
+            Spacer(Modifier.height(4.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(
+                    onClick = { viewModel.setMaxSpeed(sliderValue.toInt()) },
+                    modifier = Modifier.weight(1f),
+                    colors = ButtonDefaults.buttonColors(containerColor = NaveeOrange)
+                ) {
+                    Text("Senden (${sliderValue.toInt()} km/h)", fontSize = 13.sp)
+                }
+            }
+
+            Spacer(Modifier.height(8.dp))
             Text("km/h — Werte > 20 nur auf Privatgelände", fontSize = 11.sp, color = Color.Gray.copy(alpha = 0.6f))
+            Text("Slider: beliebiger Wert 5-60 km/h (BLE CMD 0x6E)", fontSize = 10.sp, color = Color.Gray.copy(alpha = 0.5f))
         }
     }
 }
