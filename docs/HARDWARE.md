@@ -67,14 +67,27 @@ A 5-wire cable connects the dashboard unit to the motor controller inside the de
 | Black | GND | 0 V | Common ground |
 | Red | VCC Battery | 53.04 V | **DANGER — battery voltage, do NOT connect to MCU** |
 | Blue | VCC Dashboard | 52.2 V | **DANGER — battery voltage, do NOT connect to MCU** |
-| Yellow | Unknown signal | 3.76 V | Purpose unclear; possibly a wake or enable line |
-| Green | UART data | 4.12 V (idle) | 19200 baud, 8N1, bidirectional; this is the debug/communication line |
+| Yellow | **Controller RX** | 3.8 V (idle) | Dashboard → Controller data input. Protocol: `0x51`/`0xAE` frames, 14 bytes |
+| Green | **Controller TX** | 4.12 V (idle) | Controller → Dashboard data output. Echo `0x61`/`0x9E` + responses `0x64`/`0x9B` |
 
-**Warning:** The red and blue wires carry full battery voltage (50 V+). Connecting either of these to a microcontroller, USB-UART adapter, or any 3.3 V / 5 V logic device will destroy the device instantly. Always measure with a multimeter before making any connection. Only the green signal wire and black GND wire are safe to interface with external hardware.
+**Warning:** The red and blue wires carry full battery voltage (50 V+). Connecting either of these to a microcontroller, USB-UART adapter, or any 3.3 V / 5 V logic device will destroy the device instantly. Always measure with a multimeter before making any connection. Only the yellow, green, and black wires are safe to interface with external hardware (at appropriate voltage levels).
 
-The green wire is the active UART data line. In normal operation the dashboard transmits speed commands and status to the motor controller over this wire at 19200 baud, 8N1. The yellow wire has been measured and logged but its function has not been confirmed — it does not carry UART data.
+### Two-Wire Full-Duplex UART
 
-See [INTERNAL_UART_PROTOCOL.md](../archive/INTERNAL_UART_PROTOCOL.md) for the full frame format used on this wire.
+The UART is standard two-wire full-duplex, NOT single-wire half-duplex:
+
+| Wire | Direction | Protocol | Frame Format |
+|------|-----------|----------|--------------|
+| **Yellow** | Dashboard → Controller | `0x51`/`0xAE` (14 bytes) | `51 10 09 [MODE] [LIGHT] [88] [?] [?] [SPD1] [?] [SPEED] [?] [CHK] AE` |
+| **Green** | Controller → Dashboard | `0x61`/`0x9E` + `0x64`/`0x9B` | Same format as BLE internal UART frames |
+
+The dashboard sends command frames on the **Yellow** wire. The controller responds on the **Green** wire. The 0x61 frames visible on Green are controller-internal echo (the controller mirrors received commands on its TX line), not a shared bus.
+
+**Voltage levels:** Yellow operates at 3.8V, Green at 4.12V. Standard 3.3V USB-UART adapters (CP2102) are too low to drive Yellow. An Arduino Nano (5V) with the TX pin works, as the controller tolerates 5V input. Disconnecting Yellow from the dashboard causes the controller to beep (error: no dashboard signal).
+
+**Speed limit byte:** Yellow wire frame offset 10 contains the speed limit value (`0x16` = 22 km/h for DE). However, the controller ignores this value — the speed limit is enforced internally by the BLDC firmware country code (`0xCF` = DE).
+
+See [INTERNAL_UART_PROTOCOL.md](INTERNAL_UART_PROTOCOL.md) for the full frame format documentation including the Yellow wire protocol.
 
 ---
 
@@ -82,15 +95,34 @@ See [INTERNAL_UART_PROTOCOL.md](../archive/INTERNAL_UART_PROTOCOL.md) for the fu
 
 | Property | Value |
 |----------|-------|
+| MCU | **LKS32MC081C8T8** (Linkosemi) |
+| CPU core | ARM Cortex-M0 |
+| Flash | 64 KB |
+| RAM | 8 KB |
+| SWD | Unprotected — but physically inaccessible (potted in resin) |
 | Location | Inside the deck, potted in resin |
 | Accessibility | Not accessible without destructive disassembly |
-| Communication | UART at 19200 baud via the green wire |
-| Speed limit | Hardcoded in controller firmware |
-| SWD / JTAG | Not accessible due to potting compound |
+| Communication | UART at 19200 baud — receives on **Yellow**, sends on **Green** |
+| Speed limit | Hardcoded in firmware via region byte (`0xCF` = DE, `0xB7` = Global) |
+| Firmware (DE) | v0.0.1.5, 53,376 bytes, model T2324 |
+| Firmware (Global) | v0.0.1.1, 47,232 bytes, model T2324 |
 
-The motor controller is completely encapsulated in potting resin. Physical access to its internals requires destructive disassembly that cannot be reversed. The controller communicates with the dashboard over UART, but testing has shown that it does not take speed commands from the dashboard — the speed limit is enforced entirely within the controller's own firmware. Manipulating the dashboard's UART output (for example via an Arduino man-in-the-middle) does not affect the enforced top speed.
+The motor controller is completely encapsulated in potting resin. Physical access to its internals requires destructive disassembly that cannot be reversed.
 
-For the full account of UART man-in-the-middle testing, see [REVERSE_ENGINEERING.md](REVERSE_ENGINEERING.md#ansatz-2-uart-man-in-the-middle--gescheitert).
+### Speed Limit — Definitively Confirmed
+
+The speed limit is enforced entirely within the controller's own firmware. This was confirmed through 12 attack vectors tested over 4 weeks:
+
+1. **BLE CMD 0x6E** — ACK'd but ignored by firmware
+2. **UART MitM on Green** (v1) — Controller ignored manipulated frames (1168 frames tested, wrong wire)
+3. **UART MitM on Yellow** (v2) — Correct wire, 795 frames modified, controller still enforces 22 km/h
+4. **Dashboard Replacement** — Arduino generates own 0x51 frames with speed=40, controller echoes internal speed (22/21) regardless
+5. **Bootloader Probes** — STM32 sync, text commands, LKS32 patterns, Yellow DFU frames all failed at 19200 and 115200 baud
+6. **BLE OTA (dfu_start 2)** — Dashboard blocks BLDC firmware relay
+
+The controller's firmware uses a three-layer speed limiting system: region byte (0xCF=DE), PWM scaling table, and speed progression table. The UART speed bytes are telemetry only — the controller does not use them as commands.
+
+For the full account of all testing, see [REVERSE_ENGINEERING.md](REVERSE_ENGINEERING.md) and [BLDC_DFU_ANALYSIS.md](BLDC_DFU_ANALYSIS.md).
 
 ---
 

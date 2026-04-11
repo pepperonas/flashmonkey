@@ -67,14 +67,27 @@ Ein 5-adriges Kabel verbindet das Dashboard-Gerät mit dem Motorcontroller im De
 | Schwarz | GND | 0 V | Gemeinsame Masse |
 | Rot | VCC Akku | 53,04 V | **GEFAHR — Akkuspannung, NICHT an MCU anschließen** |
 | Blau | VCC Dashboard | 52,2 V | **GEFAHR — Akkuspannung, NICHT an MCU anschließen** |
-| Gelb | Unbekanntes Signal | 3,76 V | Zweck unklar; möglicherweise eine Wake- oder Enable-Leitung |
-| Grün | UART-Daten | 4,12 V (Idle) | 19200 Baud, 8N1, bidirektional; dies ist die Debug-/Kommunikationsleitung |
+| Gelb | **Controller RX** | 3,8 V (Idle) | Dashboard → Controller Dateneingang. Protokoll: `0x51`/`0xAE` Frames, 14 Bytes |
+| Grün | **Controller TX** | 4,12 V (Idle) | Controller → Dashboard Datenausgang. Echo `0x61`/`0x9E` + Antworten `0x64`/`0x9B` |
 
-**Warnung:** Die roten und blauen Adern führen volle Akkuspannung (50 V+). Das Anschließen einer dieser Leitungen an einen Mikrocontroller, USB-UART-Adapter oder ein 3,3-V-/5-V-Logikgerät zerstört das Gerät sofort. Vor jeder Verbindung immer mit einem Multimeter messen. Nur die grüne Signalader und die schwarze GND-Ader sind sicher für die Verbindung mit externer Hardware.
+**Warnung:** Die roten und blauen Adern führen volle Akkuspannung (50 V+). Das Anschließen einer dieser Leitungen an einen Mikrocontroller, USB-UART-Adapter oder ein 3,3-V-/5-V-Logikgerät zerstört das Gerät sofort. Vor jeder Verbindung immer mit einem Multimeter messen. Nur die gelbe, grüne und schwarze Ader sind sicher für die Verbindung mit externer Hardware (bei geeigneten Spannungspegeln).
 
-Die grüne Ader ist die aktive UART-Datenleitung. Im Normalbetrieb überträgt das Dashboard Geschwindigkeitsbefehle und Statusinformationen an den Motorcontroller über diese Leitung bei 19200 Baud, 8N1. Die gelbe Ader wurde gemessen und protokolliert, ihre Funktion wurde jedoch nicht bestätigt — sie führt keine UART-Daten.
+### Zweidraht-Vollduplex-UART
 
-Vollständiges Frame-Format für diese Leitung: [INTERNAL_UART_PROTOCOL.md](../archive/INTERNAL_UART_PROTOCOL.md).
+Der UART ist Standard-Zweidraht-Vollduplex, NICHT Eindraht-Halbduplex:
+
+| Ader | Richtung | Protokoll | Frame-Format |
+|------|----------|-----------|-------------|
+| **Gelb** | Dashboard → Controller | `0x51`/`0xAE` (14 Bytes) | `51 10 09 [MODE] [LIGHT] [88] [?] [?] [SPD1] [?] [SPEED] [?] [CHK] AE` |
+| **Grün** | Controller → Dashboard | `0x61`/`0x9E` + `0x64`/`0x9B` | Gleiches Format wie BLE-interne UART-Frames |
+
+Das Dashboard sendet Befehlsframes auf der **gelben** Ader. Der Controller antwortet auf der **grünen** Ader. Die 0x61-Frames auf Grün sind Controller-internes Echo (der Controller spiegelt empfangene Befehle auf seiner TX-Leitung), kein Shared Bus.
+
+**Spannungspegel:** Gelb arbeitet bei 3,8V, Grün bei 4,12V. Standard-3,3V-USB-UART-Adapter (CP2102) sind zu niedrig für Gelb. Ein Arduino Nano (5V) mit dem TX-Pin funktioniert, da der Controller 5V-Eingang toleriert. Das Trennen von Gelb vom Dashboard verursacht Fehlerpiepen (Fehler: kein Dashboard-Signal).
+
+**Speed-Limit-Byte:** Yellow-Wire-Frame Offset 10 enthält den Speed-Limit-Wert (`0x16` = 22 km/h für DE). Der Controller ignoriert diesen Wert jedoch — das Speed-Limit wird intern durch den BLDC-Firmware-Ländercode (`0xCF` = DE) durchgesetzt.
+
+Vollständiges Frame-Format: [INTERNAL_UART_PROTOCOL.md](INTERNAL_UART_PROTOCOL.md) inkl. Yellow-Wire-Protokoll.
 
 ---
 
@@ -82,15 +95,34 @@ Vollständiges Frame-Format für diese Leitung: [INTERNAL_UART_PROTOCOL.md](../a
 
 | Eigenschaft | Wert |
 |-------------|------|
+| MCU | **LKS32MC081C8T8** (Linkosemi) |
+| CPU-Kern | ARM Cortex-M0 |
+| Flash | 64 KB |
+| RAM | 8 KB |
+| SWD | Ungeschützt — aber physisch nicht zugänglich (vergossen) |
 | Standort | Im Deck, vergossen in Kunstharz |
 | Zugänglichkeit | Nicht ohne destruktive Demontage zugänglich |
-| Kommunikation | UART bei 19200 Baud über die grüne Ader |
-| Geschwindigkeitslimit | Hardcoded in der Controller-Firmware |
-| SWD / JTAG | Durch Vergussmasse nicht zugänglich |
+| Kommunikation | UART bei 19200 Baud — empfängt auf **Gelb**, sendet auf **Grün** |
+| Geschwindigkeitslimit | Hardcoded in Firmware via Region-Byte (`0xCF` = DE, `0xB7` = Global) |
+| Firmware (DE) | v0.0.1.5, 53.376 Bytes, Modell T2324 |
+| Firmware (Global) | v0.0.1.1, 47.232 Bytes, Modell T2324 |
 
-Der Motorcontroller ist vollständig in Vergussharz eingebettet. Der physische Zugang zu seinem Inneren erfordert eine destruktive Demontage, die nicht rückgängig gemacht werden kann. Der Controller kommuniziert mit dem Dashboard über UART, Tests haben jedoch gezeigt, dass er keine Geschwindigkeitsbefehle vom Dashboard entgegennimmt — das Geschwindigkeitslimit wird vollständig innerhalb der eigenen Firmware des Controllers durchgesetzt. Das Manipulieren der UART-Ausgabe des Dashboards (z. B. über einen Arduino als Man-in-the-Middle) beeinflusst die durchgesetzte Höchstgeschwindigkeit nicht.
+Der Motorcontroller ist vollständig in Vergussharz eingebettet. Der physische Zugang zu seinem Inneren erfordert eine destruktive Demontage, die nicht rückgängig gemacht werden kann.
 
-Vollständiger Bericht über UART-Man-in-the-Middle-Tests: [REVERSE_ENGINEERING.md](REVERSE_ENGINEERING.md#ansatz-2-uart-man-in-the-middle--gescheitert).
+### Speed-Limit — Endgültig bestätigt
+
+Das Speed-Limit wird vollständig innerhalb der eigenen Firmware des Controllers durchgesetzt. Dies wurde durch 12 Angriffsvektoren über 4 Wochen bestätigt:
+
+1. **BLE CMD 0x6E** — ACK erhalten, von Firmware ignoriert
+2. **UART MitM auf Grün** (v1) — Controller ignorierte manipulierte Frames (1168 Frames, falsche Leitung)
+3. **UART MitM auf Gelb** (v2) — Richtige Leitung, 795 Frames modifiziert, Controller bleibt bei 22 km/h
+4. **Dashboard-Ersatz** — Arduino generiert eigene 0x51-Frames mit Speed=40, Controller echot interne Speed-Werte (22/21)
+5. **Bootloader-Probes** — STM32-Sync, Text-Befehle, LKS32-Patterns, Yellow-DFU-Frames — alle gescheitert bei 19200 und 115200 Baud
+6. **BLE OTA (dfu_start 2)** — Dashboard blockiert BLDC-Firmware-Relay
+
+Die Controller-Firmware verwendet ein dreistufiges Speed-Limit-System: Region-Byte (0xCF=DE), PWM-Skalierungstabelle und Geschwindigkeitsprogressionstabelle. Die UART-Speed-Bytes sind nur Telemetrie — der Controller nutzt sie nicht als Befehle.
+
+Vollständige Berichte: [REVERSE_ENGINEERING.md](REVERSE_ENGINEERING.md) und [BLDC_DFU_ANALYSIS.md](BLDC_DFU_ANALYSIS.md).
 
 ---
 
