@@ -71,9 +71,13 @@ blocks to the BLDC controller.
    - Load the PATCH image (`tools/firmware/navee_full_flash_dump.bin` offset `0x003000-0x00CFFF`)
      into a separate Ghidra project at base `0x00803000` and decompile.
 
-3. **Can the LKS32MC081 be put into ROM bootloader mode via UART on the ESC board?**
-   - Needs hardware test: wire CP2102 to TX0/RX0 or TX2/RX2, power-cycle, send ISP
-     handshake per LKS32MC081 datasheet.
+3. ~~**Can the LKS32MC081 be put into ROM bootloader mode via UART on the ESC board?**~~
+   - **Answered: No** — the LKS32MC08x datasheet (v1.93, now in `docs/`) describes
+     no UART ISP bootloader. Flash programming is exclusively via SWD. UART probing
+     of TX0/RX0 or TX2/RX2 pads for bootloader entry would therefore fail.
+   - Replacement question: **Can we reach SWD (pins 47/48) + RSTN (pin 2) on the
+     PCB?** RoboCoffee did it on the same chip on Xiaomi 3 Lite (same OEM Brightway)
+     without protection bypass — factory left the two soft protections unused.
 
 ## Remaining attack paths (realistic)
 
@@ -81,7 +85,7 @@ blocks to the BLDC controller.
 |---|---|---|---|
 | **SPI-direct patch delivery** | 0 € | Arduino + CP2102 (already available) | ~2 h once a patch is designed |
 | **Decompile PATCH image** → understand OTA 2nd validator | 0 € | Ghidra (installed) | 4–10 h |
-| **LKS32MC081 UART ROM bootloader** | 0 € | CP2102 + level shifter | ~4 h hardware setup |
+| **LKS32MC081 SWD via ST-Link v2** | ~10 € ST-Link clone | Find SWD pads on ESC PCB (pins 47/48) | ~2-4 h hardware setup. Datasheet confirms no hardware RDP; RoboCoffee succeeded on same chip. |
 | **Physical BLDC controller swap** | ~30 € AliExpress | Soldering access to ESC PCB | ~2 h mechanical work |
 
 ## Tools in this repo (only the relevant ones)

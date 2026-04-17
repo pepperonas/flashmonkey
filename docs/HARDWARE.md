@@ -14,9 +14,18 @@
 
 | Component | Value | Source |
 |---|---|---|
-| MCU | LKS32MC081 (LinkSemi, ARM Cortex-M0) | Commit `29783b4`, FW header byte layout |
-| Flash | 64 KB internal | LKS datasheet |
-| SWD | **No pads accessible**, epoxy potting | Physical inspection |
+| MCU | LKS32MC081C8T8, ARM Cortex-M0 @ 96 MHz | Datasheet v1.93 + FW header byte layout |
+| Flash | 64 KB + 1 KB NVR | Datasheet §16.1 |
+| SRAM | 8 KB | Datasheet §16.2 |
+| Package | TQFP48 | Datasheet §3.1.3 |
+| RSTN pin | Pin 2 (P0.2) | Datasheet |
+| SWCLK | Pin 47 | Datasheet |
+| SWDIO | Pin 48 | Datasheet |
+| SWD traces on PCB | Not yet located (epoxy potted, need microscopy) | Physical |
+| Flash protection | Soft "last-word anti-theft" + optional SWD-GPIO-mux. **No hardware RDP fuse.** | Datasheet §16.1, §22 |
+| UART ISP bootloader | **None exists** — programming only via SWD | Datasheet (absence) |
+
+See `docs/LKS32MC081.md` for extracted datasheet facts and `docs/LKS32MC08x_Datasheet_EN_v1.93.pdf` for the source.
 
 ## Dashboard ↔ Controller cable (5-wire)
 
